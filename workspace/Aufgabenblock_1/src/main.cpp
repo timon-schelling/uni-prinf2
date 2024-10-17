@@ -1,3 +1,5 @@
+#define DEBUG 1
+
 #include <iostream>  // Für Output nach cout
 #include <memory>    // Für Smartpointer
 #include <vector>    // Für den Vektor
@@ -7,23 +9,32 @@
 
 // Funktion vAufgabe1
 void vAufgabe1() {
+    std::cout << "\n\nAufgabe 1:\n";
+
     std::cout << "Erzeuge statische Fahrzeuge:\n";
 
     // Statische Fahrzeuge
-    Fahrzeug f1("Auto");
-    Fahrzeug f2("Motorrad");
+    Fahrzeug f1("Auto 1");
+    Fahrzeug f2("Motorrad 1");
+    Fahrzeug f3("Auto 2");
+    Fahrzeug f4("Motorrad 2");
+
 
     std::cout << "\nErzeuge dynamische Fahrzeuge:\n";
 
     // Dynamische Fahrzeuge mit new
-    Fahrzeug* f3 = new Fahrzeug("LKW");
-    Fahrzeug* f4 = new Fahrzeug("Bus");
+    Fahrzeug* f5 = new Fahrzeug("LKW 1");
+    Fahrzeug* f6 = new Fahrzeug("Bus 1");
+    Fahrzeug* f7 = new Fahrzeug("LKW 2");
+    Fahrzeug* f8 = new Fahrzeug("Bus 2");
 
     std::cout << "\nLösche dynamische Fahrzeuge:\n";
 
-    // Löschen der dynamisch erzeugten Fahrzeuge
-    delete f3;
-    delete f4;
+    // Löschen der dynamisch erzeugten Fahrzeuge, f5-8 werden hier gelöscht (natürlich hier free gemeint)
+    delete f5;
+    delete f6;
+    delete f7;
+    delete f8;
 
     std::cout << "\nErzeuge Smartpointer-Fahrzeuge:\n";
 
@@ -51,6 +62,11 @@ void vAufgabe1() {
     // Vektor von unique_ptr
     std::vector<std::unique_ptr<Fahrzeug>> fahrzeugVector;
 
+    // Fahrzeuge in den Vektor speichern ohne move nicht möglich,
+    // weil "ownership" vom unique pointer übertragen werden muss
+    // fahrzeugVector.push_back(uniqueFahrzeug1);
+    // fahrzeugVector.push_back(uniqueFahrzeug2);
+
     // Fahrzeuge in den Vektor speichern
     fahrzeugVector.push_back(std::move(uniqueFahrzeug1));
     fahrzeugVector.push_back(std::move(uniqueFahrzeug2));
@@ -61,10 +77,62 @@ void vAufgabe1() {
         std::cout << "Fahrzeug im Vektor: Name = " << f->getName() << ", ID = " << f->getID() << "\n";
     }
 
-    // Smartpointer werden automatisch gelöscht, wenn sie aus dem Gültigkeitsbereich fallen
+    std::cout << "\nSpeichern der shared_ptr einen Vektor:\n";
+
+    // Vektor von shared_ptr
+    std::vector<std::shared_ptr<Fahrzeug>> sharedFahrzeugVector;
+
+    // Einfügen von shared_ptr-Fahrzeugen in den Vektor
+    std::cout << "use_count vor Zuweisung ohne move: " << sharedFahrzeug1.use_count() << "\n";
+    sharedFahrzeugVector.push_back(sharedFahrzeug1);  // Normales Einfügen
+    std::cout << "use_count vor Zuweisung ohne move: " << sharedFahrzeug1.use_count() << "\n";
+
+    std::cout << "use_count vor Zuweisung mit move: " << sharedFahrzeug1.use_count() << "\n";
+    sharedFahrzeugVector.push_back(std::move(sharedFahrzeug2));
+    std::cout << "use_count vor Zuweisung mit move: " << sharedFahrzeug1.use_count() << "\n";
+
+    // Ausgabe der Referenzanzahl für sharedFahrzeug1
+    std::cout << "use_count von sharedFahrzeug1 nach dem Einfügen: " << sharedFahrzeug1.use_count() << "\n";
+
+    // Smartpointer werden automatisch "gelöscht", wenn sie aus dem Gültigkeitsbereich fallen
+    // uniqueFahrzeug1, uniqueFahrzeug2, sharedFahrzeug1, sharedFahrzeug2 werden hier gelöscht (natürlich hier free gemeint)
+    // f1-4 werden hier gelöscht (natürlich hier free gemeint)
+    // wie im debugger zu sehen ist, werden daten im speicher zwar am ende des scopes als frei im allocator makiert,
+    // aber nicht wirklich gelöscht oder überschrieben
+    // besonders zu bedenken in verbindung mit use after free bugs
+}
+
+void vAufgabe2() {
+
+    std::cout << "\nAufgabe 2:\n";
+
+
+    // Fahrzeug Vector
+    std::vector<std::unique_ptr<Fahrzeug>> fahrzeugVector;
+
+    // Fahrzeuge erzeugen und in den Vektor speichern
+    fahrzeugVector.push_back(std::make_unique<Fahrzeug>("Auto 1", 100.0));
+    fahrzeugVector.push_back(std::make_unique<Fahrzeug>("Auto 2", 120.0));
+    fahrzeugVector.push_back(std::make_unique<Fahrzeug>("Auto 3", 115.0));
+    fahrzeugVector.push_back(std::make_unique<Fahrzeug>("Auto 4", 110.0));
+    fahrzeugVector.push_back(std::make_unique<Fahrzeug>("Auto 5", 180.0));
+    fahrzeugVector.push_back(std::make_unique<Fahrzeug>("Fahrrad 1", 30.0));
+    fahrzeugVector.push_back(std::make_unique<Fahrzeug>("Fahrrad 2", 25.0));
+    fahrzeugVector.push_back(std::make_unique<Fahrzeug>("Fahrrad 3", 20.0));
+    fahrzeugVector.push_back(std::make_unique<Fahrzeug>("Fahrrad 4", 15.0));
+    fahrzeugVector.push_back(std::make_unique<Fahrzeug>("Fahrrad 5", 18.0));
+
+    // Ausgabe der Fahrzeuge
+    std::cout << "\nFahrzeuge im Vektor:\n";
+    std::cout << Fahrzeug::vKopf();
+    for (const auto& f : fahrzeugVector) {
+        std::cout << f->vAusgabe() << "\n";
+    }
+    std::cout << "\n";
 }
 
 int main() {
     vAufgabe1();
+    vAufgabe2();
     return 0;
 }
