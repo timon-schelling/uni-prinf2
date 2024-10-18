@@ -7,8 +7,10 @@
 
 #include "Fahrzeug.h"
 
+extern double dGlobaleZeit;
+
 // Funktion vAufgabe1
-void vAufgabe1() {
+void vAufgabe_1() {
     std::cout << "\n\nAufgabe 1:\n";
 
     std::cout << "Erzeuge statische Fahrzeuge:\n";
@@ -102,7 +104,7 @@ void vAufgabe1() {
     // besonders zu bedenken in verbindung mit use after free bugs
 }
 
-void vAufgabe2() {
+void vAufgabe_1_test_table() {
 
     std::cout << "\nAufgabe 2:\n";
 
@@ -131,8 +133,51 @@ void vAufgabe2() {
     std::cout << "\n";
 }
 
+
+void vAufgabe_1a() {
+    std::vector<std::unique_ptr<Fahrzeug>> fahrzeuge;
+
+    // Daten für 3 Fahrzeuge von der Konsole einlesen
+    for (int i = 0; i < 3; ++i) {
+        std::string name;
+        double maxGeschwindigkeit;
+
+        std::cout << "Geben Sie den Namen des Fahrzeugs " << i + 1 << " ein: ";
+        std::cin >> name;
+        std::cout << "Geben Sie die Maximalgeschwindigkeit des Fahrzeugs " << i + 1 << " ein: ";
+        std::cin >> maxGeschwindigkeit;
+
+        // Fahrzeug mit make_unique erzeugen und in den Vektor einfügen
+        fahrzeuge.push_back(std::make_unique<Fahrzeug>(name, maxGeschwindigkeit));
+    }
+
+
+
+    // Simulation über eine Zeitspanne
+    double zeittakt = 0.1;  // Zeittakt von 0.5 Stunden
+    double endzeit = 100.0;   // Simuliere über 5 Stunden
+
+    while (dGlobaleZeit + zeittakt < endzeit) {
+        dGlobaleZeit += zeittakt;  // Globale Zeit erhöhen
+
+        // Simuliere jedes Fahrzeugs aus
+        for (auto& fahrzeug : fahrzeuge) {
+        	fahrzeug->vSimulieren();
+        }
+
+        // Aktuellen State ausgebens
+        std::cout << "Zeitpunkt " << dGlobaleZeit << ": " << std::endl;
+        std::cout << Fahrzeug::vKopf();
+        for (auto& fahrzeug : fahrzeuge) {
+        	std::cout << fahrzeug->vAusgabe() << std::endl;
+        }
+        std::cout << std::endl;
+    }
+}
+
 int main() {
-    vAufgabe1();
-    vAufgabe2();
+//    vAufgabe_1();
+//    vAufgabe_1_test_table();
+	vAufgabe_1a();
     return 0;
 }

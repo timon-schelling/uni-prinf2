@@ -24,6 +24,8 @@ public:
     // Destruktor
     ~Fahrzeug();
 
+    void vSimulieren();
+
     // Getter-Funktion für den Namen (const, da sie nichts verändert)
     std::string getName() const;
 

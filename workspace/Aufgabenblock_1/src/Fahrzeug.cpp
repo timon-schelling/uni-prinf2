@@ -3,6 +3,9 @@
 #include <iostream>  // Für Output nach cout
 #include <string>    // Für String
 #include <iomanip>   // Für setw etc.
+
+#include "global.h"
+
 #include "Fahrzeug.h"
 
 // Initialisierung der statischen Klassenvariable
@@ -37,6 +40,23 @@ Fahrzeug::~Fahrzeug() {
 #if _DEBUG
 	std::cout << "Fahrzeug \"" << p_sName << "\" mit ID " << p_iID << " wurde gelöscht.\n";
 #endif
+}
+
+void Fahrzeug::vSimulieren() {
+	// Überprüfen, ob es Zeit für einen neuen Simulationsschritt ist
+	if (p_dZeit < dGlobaleZeit) {
+		// Berechnen der verstrichenen Zeit seit dem letzten Simulationsschritt
+		double dDeltaZeit = dGlobaleZeit - p_dZeit;
+
+		// Erhöhe die Gesamtstrecke basierend auf der Geschwindigkeit und der verstrichenen Zeit
+		p_dGesamtStrecke += p_dMaxGeschwindigkeit * dDeltaZeit;
+
+		// Aktualisiere die gesamte Fahrzeit
+		p_dGesamtZeit += dDeltaZeit;
+
+		// Setze die letzte Abfertigungszeit auf die aktuelle globale Zeit
+		p_dZeit = dGlobaleZeit;
+	}
 }
 
 // Getter-Funktion für den Namen (const, da sie nichts verändert)
