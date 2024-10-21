@@ -38,6 +38,6 @@ std::string Fahrrad::sType() const {
     return "Fahrrad";
 }
 
-std::string Fahrrad::sAusgeben() {
-    return Fahrzeug::sAusgeben();
+void Fahrrad::vAusgeben(std::ostream& stream) {
+    return Fahrzeug::vAusgeben(stream);
 }

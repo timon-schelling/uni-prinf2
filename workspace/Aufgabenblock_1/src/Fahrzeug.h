@@ -13,6 +13,7 @@
 #include <optional>
 #include <string>
 #include <limits>
+#include <memory>
 
 class Fahrzeug {
 private:
@@ -67,7 +68,8 @@ public:
 
     // Statische Funktion, die die daten eines Fahrzeugs als formatierte Tabellenzeile ausgibt
     // Hauptzweck ist, vermeidung von doppeltem code in den abgeleiteten klassen
-    static std::string sZeile(
+    static void vZeile(
+        std::ostream& stream,
         std::optional<int> id,
         std::optional<std::string> type,
         std::optional<std::string> name,
@@ -78,7 +80,9 @@ public:
     );
 
     // Gibt die Daten des Fahrzeugs als formatierte Tabellenzeile aus
-    virtual std::string sAusgeben();
+    virtual void vAusgeben(std::ostream& stream);
 };
+
+std::ostream& operator<<(std::ostream& stream, const std::unique_ptr<Fahrzeug>& fahrzeug);
 
 #endif // FAHRZEUG_H

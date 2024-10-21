@@ -2,6 +2,7 @@
 #include <iostream>  // Für Output nach cout
 #include <string>    // Für String
 #include <iomanip>   // Für setw etc.
+#include <memory>    // Für smart pointer
 
 #include "Fahrzeug.h"
 
@@ -123,11 +124,12 @@ std::string Fahrzeug::sKopf() {
 	    	<< std::setw(MaxGeschwindigkeitLength) << "MaxGeschwindigkeit"
 	        << std::setw(GesamtstreckeLength) << "Gesamtstrecke"
 			<< std::setw(TankinhaltLength) << "Tankinhalt"
-	        << "\n" << std::setfill('-') << std::setw(TableLength) << "" << "\n";
+	        << std::endl << std::setfill('-') << std::setw(TableLength) << "" << std::endl;
 	return stringStream.str();
 }
 
-std::string Fahrzeug::sZeile(
+void Fahrzeug::vZeile(
+	std::ostream& stream,
 	std::optional<int> id = std::nullopt,
 	std::optional<std::string> type = std::nullopt,
 	std::optional<std::string> name = std::nullopt,
@@ -136,7 +138,6 @@ std::string Fahrzeug::sZeile(
 	std::optional<double> gesamtstrecke = std::nullopt,
 	std::optional<double> tankinhalt = std::nullopt
 ) {
-	std::ostringstream stream;
 	stream << std::resetiosflags(std::ios::left);
 	stream << std::setiosflags(std::ios::left);
 	stream << std::setfill(' ');
@@ -182,10 +183,13 @@ std::string Fahrzeug::sZeile(
 	} else {
 		stream << std::setw(TankinhaltLength) << "";
 	}
-
-	return stream.str();
 }
 
-std::string Fahrzeug::sAusgeben() {
-	return sZeile(p_iID, sType(), p_sName, p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke);
+std::ostream& operator<<(std::ostream& stream, const std::unique_ptr<Fahrzeug>& fahrzeug) {
+	fahrzeug->vAusgeben(stream);
+	return stream;
+}
+
+void Fahrzeug::vAusgeben(std::ostream& stream) {
+	return vZeile(stream, p_iID, sType(), p_sName, p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke);
 }

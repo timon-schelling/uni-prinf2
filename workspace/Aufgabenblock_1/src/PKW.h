@@ -31,7 +31,7 @@ public:
     virtual std::string sType() const override;
 
     // Überschreiben der Ausgabefunktion
-    virtual std::string sAusgeben() override;
+    virtual void vAusgeben(std::ostream& stream) override;
 };
 
 #endif // PKW_H

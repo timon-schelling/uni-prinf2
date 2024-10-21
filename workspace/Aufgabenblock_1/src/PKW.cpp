@@ -73,6 +73,6 @@ std::string PKW::sType() const {
     return "PKW";
 }
 
-std::string PKW::sAusgeben() {
-	return Fahrzeug::sZeile(p_iID, sType(), p_sName, p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke, p_dTankinhalt);
+void PKW::vAusgeben(std::ostream& stream) {
+	return Fahrzeug::vZeile(stream, p_iID, sType(), p_sName, p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke, p_dTankinhalt);
 }
