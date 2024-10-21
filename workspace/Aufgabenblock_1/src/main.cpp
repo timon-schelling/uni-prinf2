@@ -6,8 +6,10 @@
 #include <string>    // Für String
 
 #include "Fahrzeug.h"
+#include "PKW.h"
+#include "Fahrrad.h"
 
-extern double dGlobaleZeit;
+#include "global.h"
 
 // Funktion vAufgabe1
 void vAufgabe_1() {
@@ -126,9 +128,9 @@ void vAufgabe_1_test_table() {
 
     // Ausgabe der Fahrzeuge
     std::cout << "\nFahrzeuge im Vektor:\n";
-    std::cout << Fahrzeug::vKopf();
+    std::cout << Fahrzeug::sKopf();
     for (const auto& f : fahrzeugVector) {
-        std::cout << f->vAusgabe() << "\n";
+        std::cout << f->sAusgeben() << "\n";
     }
     std::cout << "\n";
 }
@@ -152,7 +154,6 @@ void vAufgabe_1a() {
     }
 
 
-
     // Simulation über eine Zeitspanne
     double zeittakt = 0.1;  // Zeittakt von 0.5 Stunden
     double endzeit = 100.0;   // Simuliere über 5 Stunden
@@ -167,17 +168,58 @@ void vAufgabe_1a() {
 
         // Aktuellen State ausgebens
         std::cout << "Zeitpunkt " << dGlobaleZeit << ": " << std::endl;
-        std::cout << Fahrzeug::vKopf();
+        std::cout << Fahrzeug::sKopf();
         for (auto& fahrzeug : fahrzeuge) {
-        	std::cout << fahrzeug->vAusgabe() << std::endl;
+        	std::cout << fahrzeug->sAusgeben() << std::endl;
         }
         std::cout << std::endl;
+    }
+}
+
+void vAktuellenStateAusgeben(const std::vector<std::unique_ptr<Fahrzeug>>& fahrzeuge) {
+    std::cout << "Zeitpunkt " << dGlobaleZeit << ": " << std::endl;
+    std::cout << Fahrzeug::sKopf();
+    for (auto& fahrzeug : fahrzeuge) {
+    	std::cout << fahrzeug->sAusgeben() << std::endl;
+    }
+    std::cout << std::endl;
+}
+
+void vAufgabe_1b() {
+    std::vector<std::unique_ptr<Fahrzeug>> fahrzeuge;
+
+    fahrzeuge.push_back(std::make_unique<PKW>("Auto 1", 100.0, 5.0, 160.0));
+    fahrzeuge.push_back(std::make_unique<PKW>("Auto 2", 120.0, 6.0, 180.0));
+    fahrzeuge.push_back(std::make_unique<PKW>("Auto 3", 115.0, 2.0, 280.0));
+    fahrzeuge.push_back(std::make_unique<PKW>("Auto 4", 110.0, 1.2));
+    fahrzeuge.push_back(std::make_unique<PKW>("Auto 5", 180.0, 3.3));
+    fahrzeuge.push_back(std::make_unique<Fahrrad>("Fahrrad 1", 30.0));
+    fahrzeuge.push_back(std::make_unique<Fahrrad>("Fahrrad 2", 25.0));
+    fahrzeuge.push_back(std::make_unique<Fahrrad>("Fahrrad 3", 20.0));
+    fahrzeuge.push_back(std::make_unique<Fahrrad>("Fahrrad 4", 15.0));
+    fahrzeuge.push_back(std::make_unique<Fahrrad>("Fahrrad 5", 18.0));
+
+    double zeittakt = 2.0;  // Zeittakt von 0.5 Stunden
+    double endzeit = 100.0;   // Simuliere über 5 Stunden
+
+    vAktuellenStateAusgeben(fahrzeuge);
+
+    while (dGlobaleZeit + zeittakt <= endzeit) {
+        dGlobaleZeit += zeittakt;  // Globale Zeit erhöhen
+
+        // Simuliere jedes Fahrzeugs aus
+        for (auto& fahrzeug : fahrzeuge) {
+        	fahrzeug->vSimulieren();
+        }
+
+        vAktuellenStateAusgeben(fahrzeuge);
     }
 }
 
 int main() {
 //    vAufgabe_1();
 //    vAufgabe_1_test_table();
-	vAufgabe_1a();
+//    vAufgabe_1a();
+    vAufgabe_1b();
     return 0;
 }
