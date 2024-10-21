@@ -317,11 +317,18 @@ void vAufgabe_2_withSimpleTestData() {
 }
 
 int main() {
-//    vAufgabe_1();
-//    vAufgabe_1_test_table();
-//    vAufgabe_1a();
-//    vAufgabe_1b();
+    // vAufgabe_1();
+    // vAufgabe_1_test_table();
+    // vAufgabe_1a();
+    // vAufgabe_1b();
     vAufgabe_2_withSimpleTestData();
+
+    // muss hier zurückgesetzt werden, da global
+    // vereinfachen könnte hier simulieren von allen fahrzeugen mit parameter delta zeit,
+    // anstatt die globale zeit zu erhöhen und danach zu simulieren
+    // nicht angegebene seiteneffekte etc. (aber wir machen ja cpp also who cares I guess)
+    dGlobaleZeit = 0.0;
+
     vAufgabe_2();
     return 0;
 }
