@@ -4,6 +4,7 @@
 #include <memory>    // Für Smartpointer
 #include <vector>    // Für den Vektor
 #include <string>    // Für String
+#include <algorithm>  // Für sorting
 
 #include "Fahrzeug.h"
 #include "PKW.h"
@@ -182,7 +183,7 @@ void vAktuellenStateAusgeben(const std::vector<std::unique_ptr<Fahrzeug>>& fahrz
     std::cout << "Zeitpunkt " << dGlobaleZeit << ": " << std::endl;
     std::cout << Fahrzeug::sKopf();
     for (auto& fahrzeug : fahrzeuge) {
-    	std::cout << fahrzeug << std::endl;
+    	std::cout << *fahrzeug << std::endl;
     }
     std::cout << std::endl;
 }
@@ -222,7 +223,7 @@ void vAufgabe_2_runSimulation(std::vector<std::unique_ptr<Fahrzeug>>& fahrzeuge,
     vAktuellenStateAusgeben(fahrzeuge);
 
     // Simulation über mehrere Zeitschritte
-    while (dGlobaleZeit < dDauer) {  // Simuliere bis 10 Stunden
+    while (dGlobaleZeit < dDauer) {  // Simuliere bis dDauer
         dGlobaleZeit += zeittakt;
 
         if (dGlobaleZeit >= dDauer) {
@@ -316,19 +317,110 @@ void vAufgabe_2_withSimpleTestData() {
     vAufgabe_2_runSimulation(fahrzeuge, 10.0, 0.3);
 }
 
+void vAufgabe_3_runSimulation(std::vector<std::unique_ptr<Fahrzeug>>& fahrzeuge, double dDauer, double zeittakt) {
+    double dDauerAbsolut = dGlobaleZeit + dDauer;
+    while (dGlobaleZeit < dDauerAbsolut) {
+        dGlobaleZeit += zeittakt;
+        if (dGlobaleZeit >= dDauerAbsolut) {
+            dGlobaleZeit = dDauerAbsolut;
+        }
+        for (auto& fahrzeug : fahrzeuge) {
+            fahrzeug->vSimulieren();
+        }
+    }
+}
+
+void vAufgabe_3 () {
+    auto pkw1 = std::make_unique<PKW>("PKW1", 100.0, 5.0, 160.0);
+    auto pkw2 = std::make_unique<PKW>("PKW2", 120.0, 6.0, 180.0);
+    auto pkw3 = std::make_unique<PKW>("PKW3", 115.0, 2.0, 280.0);
+    auto pkw4 = std::make_unique<PKW>("PKW4", 110.0, 1.2);
+    auto pkw5 = std::make_unique<PKW>("PKW5", 180.0, 3.3);
+
+    auto pkw1copy = std::make_unique<PKW>();
+    *pkw1copy = *pkw1;
+    auto pkw2copy = std::make_unique<PKW>();
+    *pkw2copy = *pkw2;
+    auto pkw3copy = std::make_unique<PKW>();
+    *pkw3copy = *pkw3;
+    auto pkw4copy = std::make_unique<PKW>();
+    *pkw4copy = *pkw4;
+    auto pkw5copy = std::make_unique<PKW>();
+    *pkw5copy = *pkw5;
+
+    std::vector<std::unique_ptr<Fahrzeug>> fahrzeuge;
+
+    fahrzeuge.push_back(std::move(pkw1));
+    fahrzeuge.push_back(std::move(pkw2));
+    fahrzeuge.push_back(std::move(pkw3));
+    fahrzeuge.push_back(std::move(pkw4));
+    fahrzeuge.push_back(std::move(pkw5));
+
+    vAktuellenStateAusgeben(fahrzeuge);
+
+    vAufgabe_3_runSimulation(fahrzeuge, 48.0, 0.3);
+
+    vAktuellenStateAusgeben(fahrzeuge);
+
+    for (auto& fahrzeug : fahrzeuge) {
+        fahrzeug->dTanken();
+    }
+    std::cout << "Alle original Fahrzeuge haben getankt.\n";
+
+    vAktuellenStateAusgeben(fahrzeuge);
+
+    fahrzeuge.push_back(std::move(pkw1copy));
+    fahrzeuge.push_back(std::move(pkw2copy));
+    fahrzeuge.push_back(std::move(pkw3copy));
+    fahrzeuge.push_back(std::move(pkw4copy));
+    fahrzeuge.push_back(std::move(pkw5copy));
+
+    std::cout << "Alle kopierten Fahrzeuge wurden hinzugefügt.\n";
+
+    vAktuellenStateAusgeben(fahrzeuge);
+
+    vAufgabe_3_runSimulation(fahrzeuge, 48.0, 0.01);
+
+    std::cout << "Simulation mit allen Fahrzeugen wurde durchgeführt.\n";
+
+    vAktuellenStateAusgeben(fahrzeuge);
+
+    std::cout << "Sortieren der Fahrzeuge nach der zurückgelegten Gesamtstrecke (absteigend):\n";
+
+    // Sortieren der Fahrzeuge nach der zurückgelegten Gesamtstrecke absteigend
+    // wollte mich hier hauptsächlich erinnern wie lambdas in cpp funktionieren
+    std::sort(fahrzeuge.begin(), fahrzeuge.end(), [](const std::unique_ptr<Fahrzeug>& a, const std::unique_ptr<Fahrzeug>& b) {
+        // hier wird der operator < von fahrzeug aufgerufen, der überladen wurde
+        return *a < *b;
+    });
+
+    vAktuellenStateAusgeben(fahrzeuge);
+
+    std::cout << "Sortieren der Fahrzeuge nach der zurückgelegten Gesamtstrecke (aufsteigend):\n";
+
+    // Sortieren der Fahrzeuge nach der zurückgelegten Gesamtstrecke aufsteigend
+    std::sort(fahrzeuge.begin(), fahrzeuge.end(), [](const std::unique_ptr<Fahrzeug>& a, const std::unique_ptr<Fahrzeug>& b) {
+        return !(*a < *b);
+    });
+
+    vAktuellenStateAusgeben(fahrzeuge);
+}
+
 int main() {
     // vAufgabe_1();
     // vAufgabe_1_test_table();
     // vAufgabe_1a();
     // vAufgabe_1b();
-    vAufgabe_2_withSimpleTestData();
+    // vAufgabe_2_withSimpleTestData();
 
-    // muss hier zurückgesetzt werden, da global
-    // vereinfachen könnte hier simulieren von allen fahrzeugen mit parameter delta zeit,
-    // anstatt die globale zeit zu erhöhen und danach zu simulieren
-    // nicht angegebene seiteneffekte etc. (aber wir machen ja cpp also who cares I guess)
-    dGlobaleZeit = 0.0;
+    // // muss hier zurückgesetzt werden, da global
+    // // vereinfachen könnte hier simulieren von allen fahrzeugen mit parameter delta zeit,
+    // // anstatt die globale zeit zu erhöhen und danach zu simulieren
+    // // nicht angegebene seiteneffekte etc. (aber wir machen ja cpp also who cares I guess)
+    // dGlobaleZeit = 0.0;
 
-    vAufgabe_2();
+    // vAufgabe_2();
+
+    vAufgabe_3();
     return 0;
 }

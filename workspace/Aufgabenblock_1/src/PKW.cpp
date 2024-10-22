@@ -23,6 +23,8 @@ PKW::PKW(
 #endif
 }
 
+PKW::PKW() : PKW("", 0.0, 0.0, 0.0) {}
+
 PKW::~PKW() {}
 
 // Implementierung von dGeschwindigkeit mit Tankberechnung

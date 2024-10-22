@@ -22,8 +22,8 @@ private:
 protected:
     const int p_iID; // ID des Fahrzeugs
 
-    const std::string p_sName; // Name des Fahrzeugs
-    const double p_dMaxGeschwindigkeit = 0.0; // Maximale Geschwindigkeit des Fahrzeugs (in km/h)
+    std::string p_sName; // Name des Fahrzeugs
+    double p_dMaxGeschwindigkeit = 0.0; // Maximale Geschwindigkeit des Fahrzeugs (in km/h)
     double p_dGeschwindigkeit = 0.0; // Aktuelle Geschwindigkeit des Fahrzeugs (in km/h)
     double p_dGesamtStrecke = 0.0; // Gesamtstrecke, die das Fahrzeug zurückgelegt hat (in km)
     double p_dGesamtZeit = 0.0; // Gesamtzeit, die das Fahrzeug unterwegs war (in h)
@@ -81,8 +81,21 @@ public:
 
     // Gibt die Daten des Fahrzeugs als formatierte Tabellenzeile aus
     virtual void vAusgeben(std::ostream& stream);
+
+    bool operator<(const Fahrzeug& f) const;
+
+    // Verhindert das Kopieren Der Copy-Konstruktor wird gelöscht (delete),
+    // weil es nicht sinnvoll ist, dass zwei verschiedene Fahrzeugobjekte dieselbe ID oder Ressource teilen.
+    // Würden wir den Copy-Konstruktor nicht löschen, könnte es passieren,
+    // dass mehrere Fahrzeuge dieselbe ID haben, was zu Verwirrung führt.
+    Fahrzeug(const Fahrzeug&) = delete;
+
+    // Ohne eigenen Zuweisungsoperator würde der Compiler einen impliziten Zuweisungsoperator generieren,
+    // der alle Membervariablen kopiert, einschließlich der ID.
+    // gleiche Begründung wie beim Copy-Konstruktor (siehe oben)
+    Fahrzeug& operator=(Fahrzeug& other);
 };
 
-std::ostream& operator<<(std::ostream& stream, const std::unique_ptr<Fahrzeug>& fahrzeug);
+std::ostream& operator<<(std::ostream& stream, Fahrzeug& fahrzeug);
 
 #endif // FAHRZEUG_H

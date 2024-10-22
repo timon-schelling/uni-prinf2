@@ -29,7 +29,13 @@ Fahrzeug::Fahrzeug(const std::string& name)
 
 // Default-Konstruktor
 Fahrzeug::Fahrzeug()
-	: p_sName(""), p_iID(++p_iMaxID) {
+    : p_iID(++p_iMaxID),
+      p_dMaxGeschwindigkeit(0.0),
+      p_dGeschwindigkeit(0.0),
+      p_dGesamtStrecke(0.0),
+      p_dGesamtZeit(0.0),
+      p_dZeit(0.0)
+{
 #if _DEBUG
 	std::cout << "Fahrzeug ohne Name mit ID " << p_iID << " wurde erstellt.\n";
 #endif
@@ -161,9 +167,9 @@ void Fahrzeug::vZeile(
 	}
 
 	if (geschwindigkeit.has_value()) {
-		stream << std::setw(MaxGeschwindigkeitLength) << geschwindigkeit.value();
+		stream << std::setw(GeschwindigkeitLength) << geschwindigkeit.value();
 	} else {
-		stream << std::setw(MaxGeschwindigkeitLength) << "";
+		stream << std::setw(GeschwindigkeitLength) << "";
 	}
 
 	if (maxGeschwindigkeit.has_value()) {
@@ -185,9 +191,32 @@ void Fahrzeug::vZeile(
 	}
 }
 
-std::ostream& operator<<(std::ostream& stream, const std::unique_ptr<Fahrzeug>& fahrzeug) {
-	fahrzeug->vAusgeben(stream);
+std::ostream& operator<<(std::ostream& stream, Fahrzeug& fahrzeug) {
+	fahrzeug.vAusgeben(stream);
 	return stream;
+}
+
+// Modelierung hier nicht wirklich sinnvoll, fahrzeuge haben keine eindeutige größe die
+// zum vergleichen logicherweise genutzt werden könnte
+// Warum zum beispiel sollte statt der gesamtstrecke z.B. die Geschwindigkeit
+// oder der Name zum vergleichen genutzt werden?
+// besser wäre es hier eine Funktion zu haben die die Fahrzeuge nach einem bestimmten Kriterium vergleicht
+bool Fahrzeug::operator<(const Fahrzeug& f) const {
+    return p_dGesamtStrecke > f.p_dGesamtStrecke;
+}
+
+Fahrzeug& Fahrzeug::operator=(Fahrzeug& other) {
+	if (this != &other) {
+		p_sName = other.p_sName + " (Kopie)";
+		p_dMaxGeschwindigkeit = other.p_dMaxGeschwindigkeit;
+
+		// je nachdem was erreicht werden soll könnten hier auch noch andere werte kopiert werden
+		// p_dGeschwindigkeit = other.p_dGeschwindigkeit;
+		// p_dGesamtStrecke = other.p_dGesamtStrecke;
+		// p_dGesamtZeit = other.p_dGesamtZeit;
+		// p_dZeit = other.p_dZeit;
+	}
+	return *this;
 }
 
 void Fahrzeug::vAusgeben(std::ostream& stream) {

@@ -21,6 +21,9 @@ public:
         double tankvolumen = 55.0
     );
 
+    // Default-Konstruktor
+    PKW();
+
     // Destruktor
     ~PKW();
 
