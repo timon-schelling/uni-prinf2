@@ -27,10 +27,13 @@ public:
     // Destruktor
     ~PKW();
 
+    // Überschreiben der Geschwindigkeitsfunktion
     virtual double dGeschwindigkeit() override;
 
+    // Überschreiben der Tanken-Funktion
     virtual double dTanken(double dMenge = std::numeric_limits<double>::infinity()) override;
 
+    // Überchreiben der Fahrzeugtypenfunktion
     virtual std::string sType() const override;
 
     // Überschreiben der Ausgabefunktion

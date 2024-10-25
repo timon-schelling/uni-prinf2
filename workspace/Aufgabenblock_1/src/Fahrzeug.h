@@ -54,6 +54,7 @@ public:
     // würde man eigentlich anders modellieren
     virtual double dTanken(double dMenge = std::numeric_limits<double>::infinity());
 
+    // Funktion soll für jeden fahrzeugtyp eine identifizierbaren Typen Beschreibung ausgeben
     // Muss in den abgeleiteten Klassen überschrieben werden, kosmetisches Feature für die Ausgabe
     virtual std::string sType() const;
 
@@ -70,18 +71,19 @@ public:
     // Hauptzweck ist, vermeidung von doppeltem code in den abgeleiteten klassen
     static void vZeile(
         std::ostream& stream,
-        std::optional<int> id,
-        std::optional<std::string> type,
-        std::optional<std::string> name,
-        std::optional<double> geschwindigkeit,
-        std::optional<double> maxGeschwindigkeit,
-        std::optional<double> gesamtstrecke,
-        std::optional<double> tankinhalt
+        std::optional<int> iId,
+        std::optional<std::string> sType,
+        std::optional<std::string> sName,
+        std::optional<double> dGeschwindigkeit,
+        std::optional<double> dMaxGeschwindigkeit,
+        std::optional<double> dGesamtstrecke,
+        std::optional<double> dTankinhalt
     );
 
-    // Gibt die Daten des Fahrzeugs als formatierte Tabellenzeile aus
+    // Gibt die Daten des Fahrzeugs als formatierte Tabellenzeile in den übergebenen Stream aus
     virtual void vAusgeben(std::ostream& stream);
 
+    // Vergleichsoperator kleiner als
     bool operator<(const Fahrzeug& f) const;
 
     // Verhindert das Kopieren Der Copy-Konstruktor wird gelöscht (delete),
@@ -96,6 +98,7 @@ public:
     Fahrzeug& operator=(Fahrzeug& other);
 };
 
+// Operator zum Ausgeben eines Fahrzeugs in einen Stream
 std::ostream& operator<<(std::ostream& stream, Fahrzeug& fahrzeug);
 
 #endif // FAHRZEUG_H

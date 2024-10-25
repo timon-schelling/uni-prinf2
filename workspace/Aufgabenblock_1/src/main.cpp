@@ -12,6 +12,19 @@
 
 #include "global.h"
 
+void vTestFahrzeug() {
+    // Teste die Fahrzeug-Klasse mit cpp assert
+    std::vector<std::unique_ptr<Fahrzeug>> fahrzeuge;
+
+    // Erzeuge Fahrzeuge
+    fahrzeuge.push_back(std::make_unique<Fahrzeug>("Auto 1", 100.0));
+
+}
+
+void vTests() {
+    vTestFahrzeug();
+}
+
 // Funktion vAufgabe1
 void vAufgabe_1() {
     std::cout << "\n\nAufgabe 1:\n";
@@ -234,6 +247,12 @@ void vAufgabe_2_runSimulation(std::vector<std::unique_ptr<Fahrzeug>>& fahrzeuge,
         for (auto& fahrzeug : fahrzeuge) {
             fahrzeug->vSimulieren();
         }
+
+        // Hier wird eine andere löung als in den Aufgaben gewählt,
+        // da eine vergleich von doubles mit fehler nur funktioniert,
+        // wenn der zeittakt der Simulation etwa 3.0 plus/minus fehler als schritt enthält
+        // hier wird stattdessen einfach getankt,
+        // wenn wir uns im Simulationsschritt befinden der das dritte Stunden Ende enthält
 
         // Tanken, wenn wir uns im Simulationsschritt befinden der das dritte Stunden Ende enthält
         // Teoretisch könnte hier auch erst ein zeitschritt bis genau 3.0 simuliert werden,

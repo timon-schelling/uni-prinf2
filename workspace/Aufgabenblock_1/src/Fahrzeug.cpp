@@ -11,17 +11,17 @@ extern double dGlobaleZeit;
 // Initialisierung der statischen Klassenvariable
 int Fahrzeug::p_iMaxID = 0;
 
-Fahrzeug::Fahrzeug(const std::string& name, double maxGeschwindigkeit)
-	: p_sName(name), p_iID(++p_iMaxID),
-		p_dMaxGeschwindigkeit(maxGeschwindigkeit > 0 ? maxGeschwindigkeit : 0.0) {
+Fahrzeug::Fahrzeug(const std::string& sName, double iMaxGeschwindigkeit)
+	: p_sName(sName), p_iID(++p_iMaxID),
+		p_dMaxGeschwindigkeit(iMaxGeschwindigkeit > 0 ? iMaxGeschwindigkeit : 0.0) {
 #ifdef _DEBUG
 	std::cout << "Fahrzeug \"" << p_sName << "\" mit ID " << p_iID
 				<< " und Maximalgeschwindigkeit " << p_dMaxGeschwindigkeit << " wurde erstellt.\n";
 #endif
 }
 
-Fahrzeug::Fahrzeug(const std::string& name)
-	: p_sName(name), p_iID(++p_iMaxID) {
+Fahrzeug::Fahrzeug(const std::string& sName)
+	: p_sName(sName), p_iID(++p_iMaxID) {
 #if _DEBUG
 	std::cout << "Fahrzeug \"" << p_sName << "\" mit ID " << p_iID << " wurde erstellt.\n";
 #endif
@@ -101,93 +101,93 @@ int Fahrzeug::getID() const {
 // daten die so nur bei manchen objekten vorkommen könnten dann für die anderen objekte einfach leer gelassen werden.
 // übersteigt aber den Rahmen dieser Aufgabe
 
-const int IDLength = 10;
-const int TypeLength = 10;
-const int NameLength = 20;
-const int GeschwindigkeitLength = 17;
-const int MaxGeschwindigkeitLength = 20;
-const int GesamtstreckeLength = 15;
-const int TankinhaltLength = 10;
+const int iIdLength = 10;
+const int iTypeLength = 10;
+const int iNameLength = 20;
+const int iGeschwindigkeitLength = 17;
+const int iMaxGeschwindigkeitLength = 20;
+const int iGesamtstreckeLength = 15;
+const int iTankinhaltLength = 10;
 // const int
 
 const int TableLength =
-	IDLength +
-	TypeLength +
-	NameLength +
-	GeschwindigkeitLength +
-	MaxGeschwindigkeitLength +
-	GesamtstreckeLength +
-	TankinhaltLength +
+	iIdLength +
+	iTypeLength +
+	iNameLength +
+	iGeschwindigkeitLength +
+	iMaxGeschwindigkeitLength +
+	iGesamtstreckeLength +
+	iTankinhaltLength +
 	0;
 
 std::string Fahrzeug::sKopf() {
 	std::ostringstream stringStream;
 	stringStream << std::resetiosflags(std::ios::left) << std::setiosflags(std::ios::left) << std::setfill(' ')
-			<< std::setw(IDLength) << "ID"
-			<< std::setw(TypeLength) << "Type"
-	    	<< std::setw(NameLength) << "Name"
-			<< std::setw(GeschwindigkeitLength) << "Geschwindigkeit"
-	    	<< std::setw(MaxGeschwindigkeitLength) << "MaxGeschwindigkeit"
-	        << std::setw(GesamtstreckeLength) << "Gesamtstrecke"
-			<< std::setw(TankinhaltLength) << "Tankinhalt"
+			<< std::setw(iIdLength) << "ID"
+			<< std::setw(iTypeLength) << "Type"
+	    	<< std::setw(iNameLength) << "Name"
+			<< std::setw(iGeschwindigkeitLength) << "Geschwindigkeit"
+	    	<< std::setw(iMaxGeschwindigkeitLength) << "MaxGeschwindigkeit"
+	        << std::setw(iGesamtstreckeLength) << "Gesamtstrecke"
+			<< std::setw(iTankinhaltLength) << "Tankinhalt"
 	        << std::endl << std::setfill('-') << std::setw(TableLength) << "" << std::endl;
 	return stringStream.str();
 }
 
 void Fahrzeug::vZeile(
 	std::ostream& stream,
-	std::optional<int> id = std::nullopt,
-	std::optional<std::string> type = std::nullopt,
-	std::optional<std::string> name = std::nullopt,
-	std::optional<double> geschwindigkeit = std::nullopt,
-	std::optional<double> maxGeschwindigkeit = std::nullopt,
-	std::optional<double> gesamtstrecke = std::nullopt,
-	std::optional<double> tankinhalt = std::nullopt
+	std::optional<int> iId = std::nullopt,
+	std::optional<std::string> sType = std::nullopt,
+	std::optional<std::string> sName = std::nullopt,
+	std::optional<double> dGeschwindigkeit = std::nullopt,
+	std::optional<double> dMaxGeschwindigkeit = std::nullopt,
+	std::optional<double> dGesamtstrecke = std::nullopt,
+	std::optional<double> dTankinhalt = std::nullopt
 ) {
 	stream << std::resetiosflags(std::ios::left);
 	stream << std::setiosflags(std::ios::left);
 	stream << std::setfill(' ');
 
-	if (id.has_value()) {
-		stream << std::setw(IDLength) << id.value();
+	if (iId.has_value()) {
+		stream << std::setw(iIdLength) << iId.value();
 	} else {
-		stream << std::setw(IDLength) << "";
+		stream << std::setw(iIdLength) << "";
 	}
 
-	if (type.has_value()) {
-		stream << std::setw(TypeLength) << type.value();
+	if (sType.has_value()) {
+		stream << std::setw(iTypeLength) << sType.value();
 	} else {
-		stream << std::setw(TypeLength) << "";
+		stream << std::setw(iTypeLength) << "";
 	}
 
-	if (name.has_value()) {
-		stream << std::setw(NameLength) << name.value();
+	if (sName.has_value()) {
+		stream << std::setw(iNameLength) << sName.value();
 	} else {
-		stream << std::setw(NameLength) << "";
+		stream << std::setw(iNameLength) << "";
 	}
 
-	if (geschwindigkeit.has_value()) {
-		stream << std::setw(GeschwindigkeitLength) << geschwindigkeit.value();
+	if (dGeschwindigkeit.has_value()) {
+		stream << std::setw(iGeschwindigkeitLength) << dGeschwindigkeit.value();
 	} else {
-		stream << std::setw(GeschwindigkeitLength) << "";
+		stream << std::setw(iGeschwindigkeitLength) << "";
 	}
 
-	if (maxGeschwindigkeit.has_value()) {
-		stream << std::setw(MaxGeschwindigkeitLength) << maxGeschwindigkeit.value();
+	if (dMaxGeschwindigkeit.has_value()) {
+		stream << std::setw(iMaxGeschwindigkeitLength) << dMaxGeschwindigkeit.value();
 	} else {
-		stream << std::setw(MaxGeschwindigkeitLength) << "";
+		stream << std::setw(iMaxGeschwindigkeitLength) << "";
 	}
 
-	if (gesamtstrecke.has_value()) {
-		stream << std::setw(GesamtstreckeLength) << gesamtstrecke.value();
+	if (dGesamtstrecke.has_value()) {
+		stream << std::setw(iGesamtstreckeLength) << dGesamtstrecke.value();
 	} else {
-		stream << std::setw(GesamtstreckeLength) << "";
+		stream << std::setw(iGesamtstreckeLength) << "";
 	}
 
-	if (tankinhalt.has_value()) {
-		stream << std::setw(TankinhaltLength) << tankinhalt.value();
+	if (dTankinhalt.has_value()) {
+		stream << std::setw(iTankinhaltLength) << dTankinhalt.value();
 	} else {
-		stream << std::setw(TankinhaltLength) << "";
+		stream << std::setw(iTankinhaltLength) << "";
 	}
 }
 
@@ -201,8 +201,8 @@ std::ostream& operator<<(std::ostream& stream, Fahrzeug& fahrzeug) {
 // Warum zum beispiel sollte statt der gesamtstrecke z.B. die Geschwindigkeit
 // oder der Name zum vergleichen genutzt werden?
 // besser wäre es hier eine Funktion zu haben die die Fahrzeuge nach einem bestimmten Kriterium vergleicht
-bool Fahrzeug::operator<(const Fahrzeug& f) const {
-    return p_dGesamtStrecke > f.p_dGesamtStrecke;
+bool Fahrzeug::operator<(const Fahrzeug& fahrzeug) const {
+    return p_dGesamtStrecke > fahrzeug.p_dGesamtStrecke;
 }
 
 Fahrzeug& Fahrzeug::operator=(Fahrzeug& other) {
