@@ -46,11 +46,16 @@ double PKW::dGeschwindigkeit() {
 
         return p_dMaxGeschwindigkeit;
     } else {
+        // Setze den Tankinhalt auf 0, da der PKW dann nicht mehr weiterfahren kann
+        p_dTankinhalt = 0.0;
+
         // Berechne, wie viel Geschwindigkeit möglich ist, basierend auf dem verbleibenden Tankinhalt
         double dMöglicheGeschwindigkeit = (dMaxFahrbareStrecke / dDeltaZeit);
 
-        // Setze den Tankinhalt auf 0, da der PKW dann nicht mehr weiterfahren kann
-        p_dTankinhalt = 0.0;
+        // Setze mögliche Geschwindigkeit als maximale Geschwindigkeit,
+        // weil Aufgabenstellung von reserve die bis zum ende des aktuellen Simulationsschrittes ausgeht
+        // eigentlich eine sehr ungenaue modelierung
+        dMöglicheGeschwindigkeit = p_dMaxGeschwindigkeit;
 
         return dMöglicheGeschwindigkeit;
     }
@@ -76,5 +81,5 @@ std::string PKW::sType() const {
 }
 
 void PKW::vAusgeben(std::ostream& stream) {
-	return Fahrzeug::vZeile(stream, p_iID, sType(), p_sName, p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke, p_dTankinhalt);
+	return Fahrzeug::vZeile(stream, p_iID, sType(), p_sName, p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke, p_dTankinhalt, p_dVerbrauch);
 }

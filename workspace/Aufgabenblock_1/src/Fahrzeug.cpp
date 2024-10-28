@@ -103,11 +103,13 @@ int Fahrzeug::getID() const {
 
 const int iIdLength = 10;
 const int iTypeLength = 10;
-const int iNameLength = 20;
+const int iNameLength = 15;
 const int iGeschwindigkeitLength = 17;
 const int iMaxGeschwindigkeitLength = 20;
 const int iGesamtstreckeLength = 15;
-const int iTankinhaltLength = 10;
+const int iTankinhaltLength = 12;
+const int iVerbrauchLength = 10;
+const int iGesamtverbrauch = 17;
 // const int
 
 const int TableLength =
@@ -118,19 +120,27 @@ const int TableLength =
 	iMaxGeschwindigkeitLength +
 	iGesamtstreckeLength +
 	iTankinhaltLength +
+	iVerbrauchLength +
+	iGesamtverbrauch +
 	0;
+
+void Fahrzeug::vKopf(std::ostream& stream) {
+	stream << std::resetiosflags(std::ios::left) << std::setiosflags(std::ios::left) << std::setfill(' ')
+		<< std::setw(iIdLength) << "ID"
+		<< std::setw(iTypeLength) << "Type"
+		<< std::setw(iNameLength) << "Name"
+		<< std::setw(iGeschwindigkeitLength) << "Geschwindigkeit"
+		<< std::setw(iMaxGeschwindigkeitLength) << "MaxGeschwindigkeit"
+		<< std::setw(iGesamtstreckeLength) << "Gesamtstrecke"
+		<< std::setw(iTankinhaltLength) << "Tankinhalt"
+		<< std::setw(iVerbrauchLength) << "Verbrauch"
+		<< std::setw(iGesamtverbrauch) << "Gesamtverbrauch"
+		<< std::endl << std::setfill('-') << std::setw(TableLength) << "" << std::endl;
+}
 
 std::string Fahrzeug::sKopf() {
 	std::ostringstream stringStream;
-	stringStream << std::resetiosflags(std::ios::left) << std::setiosflags(std::ios::left) << std::setfill(' ')
-			<< std::setw(iIdLength) << "ID"
-			<< std::setw(iTypeLength) << "Type"
-	    	<< std::setw(iNameLength) << "Name"
-			<< std::setw(iGeschwindigkeitLength) << "Geschwindigkeit"
-	    	<< std::setw(iMaxGeschwindigkeitLength) << "MaxGeschwindigkeit"
-	        << std::setw(iGesamtstreckeLength) << "Gesamtstrecke"
-			<< std::setw(iTankinhaltLength) << "Tankinhalt"
-	        << std::endl << std::setfill('-') << std::setw(TableLength) << "" << std::endl;
+	vKopf(stringStream);
 	return stringStream.str();
 }
 
@@ -142,7 +152,8 @@ void Fahrzeug::vZeile(
 	std::optional<double> dGeschwindigkeit = std::nullopt,
 	std::optional<double> dMaxGeschwindigkeit = std::nullopt,
 	std::optional<double> dGesamtstrecke = std::nullopt,
-	std::optional<double> dTankinhalt = std::nullopt
+	std::optional<double> dTankinhalt = std::nullopt,
+	std::optional<double> dVerbrauch = std::nullopt
 ) {
 	stream << std::resetiosflags(std::ios::left);
 	stream << std::setiosflags(std::ios::left);
@@ -188,6 +199,18 @@ void Fahrzeug::vZeile(
 		stream << std::setw(iTankinhaltLength) << dTankinhalt.value();
 	} else {
 		stream << std::setw(iTankinhaltLength) << "";
+	}
+
+	if(dVerbrauch.has_value()) {
+		stream << std::setw(iVerbrauchLength) << dVerbrauch.value();
+	} else {
+		stream << std::setw(iVerbrauchLength) << "";
+	}
+
+	if(dGesamtstrecke.has_value() && dVerbrauch.has_value()) {
+		stream << std::setw(iGesamtverbrauch) << (dGesamtstrecke.value() / 100) * dVerbrauch.value();
+	} else {
+		stream << std::setw(iGesamtverbrauch) << "";
 	}
 }
 

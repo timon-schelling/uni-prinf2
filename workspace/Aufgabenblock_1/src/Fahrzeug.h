@@ -14,6 +14,7 @@
 #include <string>
 #include <limits>
 #include <memory>
+#include <iostream>
 
 class Fahrzeug {
 private:
@@ -64,8 +65,11 @@ public:
     // Getter-Funktion für die ID (const, da sie nichts verändert)
     int getID() const;
 
-    // Statische Funktion, die den Tabellenkopf für die Ausgabe der Fahrzeuge erstellt
+    // geforderte von der Aufgabenstellung obwohl weniger sinnvoll als vKopf(osstream)
     static std::string sKopf();
+
+    // Statische Funktion, die den Tabellenkopf für die Ausgabe der Fahrzeuge erstellt
+    static void vKopf(std::ostream& stream = std::cout);
 
     // Statische Funktion, die die daten eines Fahrzeugs als formatierte Tabellenzeile ausgibt
     // Hauptzweck ist, vermeidung von doppeltem code in den abgeleiteten klassen
@@ -77,7 +81,8 @@ public:
         std::optional<double> dGeschwindigkeit,
         std::optional<double> dMaxGeschwindigkeit,
         std::optional<double> dGesamtstrecke,
-        std::optional<double> dTankinhalt
+        std::optional<double> dTankinhalt,
+        std::optional<double> dVerbrauch
     );
 
     // Gibt die Daten des Fahrzeugs als formatierte Tabellenzeile in den übergebenen Stream aus

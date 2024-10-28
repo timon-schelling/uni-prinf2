@@ -12,13 +12,14 @@
 
 #include "global.h"
 
+using namespace std;
+
 void vTestFahrzeug() {
     // Teste die Fahrzeug-Klasse mit cpp assert
     std::vector<std::unique_ptr<Fahrzeug>> fahrzeuge;
 
     // Erzeuge Fahrzeuge
     fahrzeuge.push_back(std::make_unique<Fahrzeug>("Auto 1", 100.0));
-
 }
 
 void vTests() {
@@ -425,6 +426,19 @@ void vAufgabe_3 () {
     vAktuellenStateAusgeben(fahrzeuge);
 }
 
+void vAufgabe_Probe() {
+    Fahrzeug* pF1 = new PKW("Audi", 150, 8);
+    dGlobaleZeit = 0.0;
+    Fahrzeug::vKopf();
+    dGlobaleZeit = 5.0;
+    cout << endl << "Globalezeit = " << dGlobaleZeit << endl;
+    pF1->vSimulieren();
+    std::cout << *pF1 << endl;
+    delete pF1;
+    char c;
+    std::cin >> c;
+}
+
 int main() {
     // vAufgabe_1();
     // vAufgabe_1_test_table();
@@ -440,6 +454,7 @@ int main() {
 
     // vAufgabe_2();
 
-    vAufgabe_3();
+    // vAufgabe_3();
+    vAufgabe_Probe();
     return 0;
 }
