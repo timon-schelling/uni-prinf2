@@ -426,15 +426,42 @@ void vAufgabe_3 () {
     vAktuellenStateAusgeben(fahrzeuge);
 }
 
+#include <iostream>
+#include <vector>
+#include <iomanip>
+#include <algorithm>
+#include <cmath>
+
 void vAufgabe_Probe() {
-    Fahrzeug* pF1 = new PKW("Audi", 150, 8);
-    dGlobaleZeit = 0.0;
-    Fahrzeug::vKopf();
-    dGlobaleZeit = 5.0;
-    cout << endl << "Globalezeit = " << dGlobaleZeit << endl;
-    pF1->vSimulieren();
-    std::cout << *pF1 << endl;
-    delete pF1;
+
+    int l = 0; // Laufindex für gezielte AUsgabe
+    vector<int> ausgabe{15};
+    double dTakt = 0.3;
+
+    std::vector<unique_ptr<Fahrzeug>> vecFahrzeuge;
+    vecFahrzeuge.push_back(make_unique <PKW>("Audi", 229, 9.6));
+    vecFahrzeuge.push_back(make_unique <Fahrrad>("BMX", 24.7));
+    for (dGlobaleZeit = 0; dGlobaleZeit < 10; dGlobaleZeit += dTakt)
+    {
+        auto itL = find(ausgabe.begin(), ausgabe.end(), l);
+        if (itL != ausgabe.end()) {
+            std::cout << std::endl << l <<  " Globalezeit = " << dGlobaleZeit << std::endl;
+            Fahrzeug::vKopf();
+        }
+
+        for (int i = 0; i < (int) vecFahrzeuge.size(); i++)
+        {
+            vecFahrzeuge[i]->vSimulieren();
+            if (fabs(dGlobaleZeit - 3.0) < dTakt/2)
+            {
+                vecFahrzeuge[i]->dTanken();
+            }
+            if (itL != ausgabe.end()) {
+                std::cout << *vecFahrzeuge[i] << endl;
+            }
+        }
+        l++;
+    }
     char c;
     std::cin >> c;
 }
