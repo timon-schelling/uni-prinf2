@@ -16,15 +16,13 @@
 #include <memory>
 #include <iostream>
 
-class Fahrzeug {
+#include "Simulationsobjekt.h"
+
+class Fahrzeug : public Simulationsobjekt {
 private:
-    static int p_iMaxID; // Statische Klassenvariable, die die höchste aktuell vergebene ID speichert
     void vInit(); // Initialisierungsfunktion, die von den Konstruktoren aufgerufen wird
 
 protected:
-    int p_iID; // ID des Fahrzeugs
-
-    std::string p_sName; // Name des Fahrzeugs
     double p_dMaxGeschwindigkeit = 0.0; // Maximale Geschwindigkeit des Fahrzeugs (in km/h)
     double p_dGeschwindigkeit = 0.0; // Aktuelle Geschwindigkeit des Fahrzeugs (in km/h)
     double p_dGesamtStrecke = 0.0; // Gesamtstrecke, die das Fahrzeug zurückgelegt hat (in km)
@@ -42,11 +40,8 @@ public:
     // Default-Konstruktor
     Fahrzeug();
 
-    // Destruktor
-    ~Fahrzeug();
-
     // Simulationsfunktion, virtuell, da sie in den abgeleiteten Klassen überschrieben wird
-    virtual void vSimulieren();
+    virtual void vSimulieren() override;
 
     // Berechnet die aktuelle Geschwindigkeit des Fahrzeugs
     virtual double dGeschwindigkeit();
@@ -58,36 +53,11 @@ public:
 
     // Funktion soll für jeden fahrzeugtyp eine identifizierbaren Typen Beschreibung ausgeben
     // Muss in den abgeleiteten Klassen überschrieben werden, kosmetisches Feature für die Ausgabe
-    virtual std::string sType() const;
+    virtual std::string sType() override;
 
-    // Getter-Funktion für den Namen (const, da sie nichts verändert)
-    std::string getName() const;
-
-    // Getter-Funktion für die ID (const, da sie nichts verändert)
-    int getID() const;
-
-    // geforderte von der Aufgabenstellung obwohl weniger sinnvoll als vKopf(osstream)
     static std::string sKopf();
-
-    // Statische Funktion, die den Tabellenkopf für die Ausgabe der Fahrzeuge erstellt
     static void vKopf(std::ostream& stream = std::cout);
-
-    // Statische Funktion, die die daten eines Fahrzeugs als formatierte Tabellenzeile ausgibt
-    // Hauptzweck ist, vermeidung von doppeltem code in den abgeleiteten klassen
-    static void vZeile(
-        std::ostream& stream,
-        std::optional<int> iId,
-        std::optional<std::string> sType,
-        std::optional<std::string> sName,
-        std::optional<double> dGeschwindigkeit,
-        std::optional<double> dMaxGeschwindigkeit,
-        std::optional<double> dGesamtstrecke,
-        std::optional<double> dTankinhalt,
-        std::optional<double> dVerbrauch
-    );
-
-    // Gibt die Daten des Fahrzeugs als formatierte Tabellenzeile in den übergebenen Stream aus
-    virtual void vAusgeben(std::ostream& stream);
+    virtual void vAusgeben(std::ostream& stream = std::cout) override;
 
     // Vergleichsoperator kleiner als
     bool operator<(const Fahrzeug& f) const;
@@ -97,14 +67,7 @@ public:
     // Würden wir den Copy-Konstruktor nicht löschen, könnte es passieren,
     // dass mehrere Fahrzeuge dieselbe ID haben, was zu Verwirrung führt.
     Fahrzeug(const Fahrzeug&) = delete;
-
-    // Ohne eigenen Zuweisungsoperator würde der Compiler einen impliziten Zuweisungsoperator generieren,
-    // der alle Membervariablen kopiert, einschließlich der ID.
-    // gleiche Begründung wie beim Copy-Konstruktor (siehe oben)
-    Fahrzeug& operator=(Fahrzeug& other);
+    Fahrzeug& operator=(const Fahrzeug& other) = delete;
 };
-
-// Operator zum Ausgeben eines Fahrzeugs in einen Stream
-std::ostream& operator<<(std::ostream& stream, Fahrzeug& fahrzeug);
 
 #endif // FAHRZEUG_H

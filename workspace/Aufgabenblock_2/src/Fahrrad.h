@@ -17,15 +17,13 @@ public:
     // Default-Konstruktor
     Fahrrad();
 
-    // Destruktor
-    ~Fahrrad();
-
     virtual double dGeschwindigkeit() override;
 
-    virtual std::string sType() const override;
+    virtual std::string sType() override;
 
-    // Überschreiben der Ausgabefunktion
-    virtual void vAusgeben(std::ostream& stream) override;
+    static std::string sKopf();
+    static void vKopf(std::ostream& stream = std::cout);
+    virtual void vAusgeben(std::ostream& stream = std::cout) override;
 };
 
 #endif // FAHRRAD_H

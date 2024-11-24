@@ -1,6 +1,9 @@
 #include <iostream>  // Für Output nach cout
 #include <string>    // Für String
 #include <iomanip>   // Für setw etc.
+#include <sstream>
+
+#include "global.h"
 
 #include "PKW.h"
 #include "Fahrzeug.h"
@@ -24,8 +27,6 @@ PKW::PKW(
 }
 
 PKW::PKW() : PKW("", 0.0, 0.0, 0.0) {}
-
-PKW::~PKW() {}
 
 // Implementierung von dGeschwindigkeit mit Tankberechnung
 double PKW::dGeschwindigkeit() {
@@ -58,10 +59,20 @@ double PKW::dTanken(double dMenge) {
     return dGetankteMenge;
 }
 
-std::string PKW::sType() const {
+std::string PKW::sType() {
     return "PKW";
 }
 
+std::string PKW::sKopf() {
+    std::ostringstream stringStream;
+    vKopfPKW(stringStream);
+    return stringStream.str();
+}
+
+void PKW::vKopf(std::ostream& stream) {
+    vKopfPKW(stream);
+}
+
 void PKW::vAusgeben(std::ostream& stream) {
-	return Fahrzeug::vZeile(stream, p_iID, sType(), p_sName, p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke, p_dTankinhalt, p_dVerbrauch);
+	vZeilePKW(stream, p_iID, p_sName, sType(), p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke, p_dTankinhalt, p_dVerbrauch);
 }

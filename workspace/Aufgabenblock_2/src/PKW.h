@@ -24,9 +24,6 @@ public:
     // Default-Konstruktor
     PKW();
 
-    // Destruktor
-    ~PKW();
-
      // Überschreiben der Simulationsfunktion
     virtual void vSimulieren() override;
 
@@ -37,10 +34,11 @@ public:
     virtual double dTanken(double dMenge = std::numeric_limits<double>::infinity()) override;
 
     // Überchreiben der Fahrzeugtypenfunktion
-    virtual std::string sType() const override;
+    virtual std::string sType() override;
 
-    // Überschreiben der Ausgabefunktion
-    virtual void vAusgeben(std::ostream& stream) override;
+    static std::string sKopf();
+    static void vKopf(std::ostream& stream = std::cout);
+    virtual void vAusgeben(std::ostream& stream = std::cout) override;
 };
 
 #endif // PKW_H

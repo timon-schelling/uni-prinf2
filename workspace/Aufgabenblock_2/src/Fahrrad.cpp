@@ -1,12 +1,13 @@
 #include <string>    // Für String
 #include <iomanip>   // Für setw etc.
+#include <sstream>
 
 #include <cmath>
 
+#include "global.h"
+
 #include "Fahrrad.h"
 #include "Fahrzeug.h"
-
-extern double dGlobaleZeit;
 
 Fahrrad::Fahrrad(const std::string& sName, double dMaxGeschwindigkeit)
     : Fahrzeug(sName, dMaxGeschwindigkeit) {
@@ -19,8 +20,6 @@ Fahrrad::Fahrrad(const std::string& sName)
 Fahrrad::Fahrrad()
     : Fahrzeug() {
 }
-
-Fahrrad::~Fahrrad(){}
 
 double Fahrrad::dGeschwindigkeit() {
     // Berechnung der aktuellen Geschwindigkeit
@@ -37,10 +36,20 @@ double Fahrrad::dGeschwindigkeit() {
     return dAktuelleGeschwindigkeit;
 }
 
-std::string Fahrrad::sType() const {
+std::string Fahrrad::sType() {
     return "Fahrrad";
 }
 
+std::string Fahrrad::sKopf() {
+    std::ostringstream stringStream;
+    vKopfFahrrad(stringStream);
+    return stringStream.str();
+}
+
+void Fahrrad::vKopf(std::ostream& stream) {
+    vKopfFahrrad(stream);
+}
+
 void Fahrrad::vAusgeben(std::ostream& stream) {
-    return Fahrzeug::vAusgeben(stream);
+    vZeileFahrrad(stream, p_iID, p_sName, sType(), p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke);
 }
