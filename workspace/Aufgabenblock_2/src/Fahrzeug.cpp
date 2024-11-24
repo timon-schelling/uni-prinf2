@@ -11,31 +11,27 @@ extern double dGlobaleZeit;
 // Initialisierung der statischen Klassenvariable
 int Fahrzeug::p_iMaxID = 0;
 
-Fahrzeug::Fahrzeug(const std::string& sName, double iMaxGeschwindigkeit)
-	: p_sName(sName), p_iID(++p_iMaxID),
-		p_dMaxGeschwindigkeit(iMaxGeschwindigkeit > 0 ? iMaxGeschwindigkeit : 0.0) {
+Fahrzeug::Fahrzeug(const std::string& sName, double iMaxGeschwindigkeit) {
+	vInit();
+	p_sName = sName;
+	p_dMaxGeschwindigkeit = iMaxGeschwindigkeit;
 #ifdef _DEBUG
 	std::cout << "Fahrzeug \"" << p_sName << "\" mit ID " << p_iID
 				<< " und Maximalgeschwindigkeit " << p_dMaxGeschwindigkeit << " wurde erstellt.\n";
 #endif
 }
 
-Fahrzeug::Fahrzeug(const std::string& sName)
-	: p_sName(sName), p_iID(++p_iMaxID) {
+Fahrzeug::Fahrzeug(const std::string& sName) {
+	vInit();
+	p_sName = sName;
 #if _DEBUG
 	std::cout << "Fahrzeug \"" << p_sName << "\" mit ID " << p_iID << " wurde erstellt.\n";
 #endif
 }
 
 // Default-Konstruktor
-Fahrzeug::Fahrzeug()
-    : p_iID(++p_iMaxID),
-      p_dMaxGeschwindigkeit(0.0),
-      p_dGeschwindigkeit(0.0),
-      p_dGesamtStrecke(0.0),
-      p_dGesamtZeit(0.0),
-      p_dZeit(0.0)
-{
+Fahrzeug::Fahrzeug() {
+	vInit();
 #if _DEBUG
 	std::cout << "Fahrzeug ohne Name mit ID " << p_iID << " wurde erstellt.\n";
 #endif
@@ -47,6 +43,17 @@ Fahrzeug::~Fahrzeug() {
 	std::cout << "Fahrzeug \"" << p_sName << "\" mit ID " << p_iID << " wurde gelöscht.\n";
 #endif
 }
+
+void Fahrzeug::vInit()
+{
+	p_iID = ++p_iMaxID;
+	p_sName = "";
+	p_dMaxGeschwindigkeit = 0;
+	p_dGesamtStrecke = 0;
+	p_dGesamtZeit = 0;
+	p_dZeit = 0;
+}
+
 
 void Fahrzeug::vSimulieren() {
 	// Überprüfen, ob es Zeit für einen neuen Simulationsschritt ist
@@ -230,6 +237,7 @@ bool Fahrzeug::operator<(const Fahrzeug& fahrzeug) const {
 
 Fahrzeug& Fahrzeug::operator=(Fahrzeug& other) {
 	if (this != &other) {
+		vInit();
 		p_sName = other.p_sName + " (Kopie)";
 		p_dMaxGeschwindigkeit = other.p_dMaxGeschwindigkeit;
 

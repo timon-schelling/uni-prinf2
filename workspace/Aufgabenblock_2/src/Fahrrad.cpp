@@ -1,6 +1,8 @@
 #include <string>    // Für String
 #include <iomanip>   // Für setw etc.
 
+#include <cmath>
+
 #include "Fahrrad.h"
 #include "Fahrzeug.h"
 
@@ -21,8 +23,9 @@ Fahrrad::Fahrrad()
 Fahrrad::~Fahrrad(){}
 
 double Fahrrad::dGeschwindigkeit() {
-    double dFaktor = 1.0 - (static_cast<int>(p_dGesamtStrecke / 20) * 0.1);  // 10% pro 20 km
-    double dAktuelleGeschwindigkeit = p_dMaxGeschwindigkeit * dFaktor;
+    // Berechnung der aktuellen Geschwindigkeit
+    int i20kmSteps = (int)(p_dGesamtStrecke / 20);
+    double dAktuelleGeschwindigkeit = pow(0.9, i20kmSteps) * p_dMaxGeschwindigkeit;
 
     // Die Geschwindigkeit darf nicht unter 12 km/h sinken
     if (dAktuelleGeschwindigkeit < 12.0) {

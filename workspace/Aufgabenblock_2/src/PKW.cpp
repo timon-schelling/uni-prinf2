@@ -29,43 +29,25 @@ PKW::~PKW() {}
 
 // Implementierung von dGeschwindigkeit mit Tankberechnung
 double PKW::dGeschwindigkeit() {
-    // Berechne die maximal mögliche Strecke, die mit dem aktuellen Tankinhalt gefahren werden kann
-    double dMaxFahrbareStrecke = (p_dTankinhalt / p_dVerbrauch) * 100.0;
+    return p_dMaxGeschwindigkeit;
+}
 
-    // Berechne die Zeitdifferenz seit der letzten Simulation
-    double dDeltaZeit = dGlobaleZeit - p_dZeit;
-
-    // Berechne die Strecke, die mit der maximalen Geschwindigkeit zurückgelegt werden würde
-    double dStreckeMitMaxGeschwindigkeit = p_dMaxGeschwindigkeit * dDeltaZeit;
-
-    // Wenn die Tankfüllung ausreicht, um mit maximaler Geschwindigkeit zu fahren
-    if (dStreckeMitMaxGeschwindigkeit <= dMaxFahrbareStrecke) {
-
-        // Setze den Tankinhalt auf den verbleibenden Wert
-        p_dTankinhalt -= (dStreckeMitMaxGeschwindigkeit / 100.0) * p_dVerbrauch;
-
-        return p_dMaxGeschwindigkeit;
-    } else {
-        // Setze den Tankinhalt auf 0, da der PKW dann nicht mehr weiterfahren kann
-        p_dTankinhalt = 0.0;
-
-        // Berechne, wie viel Geschwindigkeit möglich ist, basierend auf dem verbleibenden Tankinhalt
-        double dMöglicheGeschwindigkeit = (dMaxFahrbareStrecke / dDeltaZeit);
-
-        // Setze mögliche Geschwindigkeit als maximale Geschwindigkeit,
-        // weil Aufgabenstellung von reserve die bis zum ende des aktuellen Simulationsschrittes ausgeht
-        // eigentlich eine sehr ungenaue modelierung
-        dMöglicheGeschwindigkeit = p_dMaxGeschwindigkeit;
-
-        return dMöglicheGeschwindigkeit;
-    }
+void PKW::vSimulieren()
+{
+	if (p_dTankinhalt > 0)
+	{
+		double dGesamtStreckeVorher = p_dGesamtStrecke;
+		Fahrzeug::vSimulieren();
+		p_dTankinhalt -= (p_dGesamtStrecke - dGesamtStreckeVorher) * p_dVerbrauch / 100;
+		if (p_dTankinhalt < 0) p_dTankinhalt = 0;
+	}
 }
 
 double PKW::dTanken(double dMenge) {
     double dGetankteMenge = 0.0;
 
     // Wenn dMenge größer als das Tankvolumen ist, wird nur bis zum Tankvolumen getankt
-    if (dMenge >= p_dTankvolumen) {
+    if (dMenge >= p_dTankvolumen - p_dTankinhalt) {
         dGetankteMenge = p_dTankvolumen - p_dTankinhalt;
         p_dTankinhalt = p_dTankvolumen;
     } else {

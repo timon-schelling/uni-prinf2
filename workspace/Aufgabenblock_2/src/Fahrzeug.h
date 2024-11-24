@@ -19,9 +19,10 @@
 class Fahrzeug {
 private:
     static int p_iMaxID; // Statische Klassenvariable, die die höchste aktuell vergebene ID speichert
+    void vInit(); // Initialisierungsfunktion, die von den Konstruktoren aufgerufen wird
 
 protected:
-    const int p_iID; // ID des Fahrzeugs
+    int p_iID; // ID des Fahrzeugs
 
     std::string p_sName; // Name des Fahrzeugs
     double p_dMaxGeschwindigkeit = 0.0; // Maximale Geschwindigkeit des Fahrzeugs (in km/h)

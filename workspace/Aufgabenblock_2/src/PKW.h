@@ -27,6 +27,9 @@ public:
     // Destruktor
     ~PKW();
 
+     // Überschreiben der Simulationsfunktion
+    virtual void vSimulieren() override;
+
     // Überschreiben der Geschwindigkeitsfunktion
     virtual double dGeschwindigkeit() override;
 
