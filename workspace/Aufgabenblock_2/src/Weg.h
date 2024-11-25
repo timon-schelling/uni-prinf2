@@ -52,6 +52,8 @@ public:
     // Copy-Konstruktor und Zuweisungsoperator verhindern
     Weg(const Weg&) = delete;
     Weg& operator=(const Weg& other) = delete;
+
+    virtual std::string sType() override;
 };
 
 #endif // WEG_H

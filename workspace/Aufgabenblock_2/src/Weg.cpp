@@ -39,9 +39,9 @@ double Weg::getTempolimit() const {
         case Tempolimit::Landstrasse:
             return 100.0;
         case Tempolimit::Autobahn:
-            return std::numeric_limits<double>::max();
+            return std::numeric_limits<int>::max();
         default:
-            return std::numeric_limits<double>::max();
+            return std::numeric_limits<int>::max();
     }
 }
 
@@ -61,4 +61,8 @@ void Weg::vAusgeben(std::ostream& stream) {
 
 bool Weg::operator==(const Weg& other) const {
     return this->getID() == other.getID();
+}
+
+std::string Weg::sType() {
+    return "Weg";
 }

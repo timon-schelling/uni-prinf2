@@ -16,6 +16,8 @@ const int iGesamtstreckeLength = 15;
 const int iTankinhaltLength = 12;
 const int iVerbrauchLength = 10;
 const int iGesamtverbrauch = 17;
+const int iLaengeLength = 10;
+const int iTempolimitLength = 10;
 
 void vKopfSimulationsobjekt(std::ostream& stream = std::cout);
 void vKopfFahrzeug(std::ostream& stream = std::cout);
