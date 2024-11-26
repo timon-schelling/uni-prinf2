@@ -9,6 +9,8 @@
 
 #include "Simulationsobjekt.h"
 #include "Fahrzeug.h"
+#include "Verhalten.h"
+#include "Weg.h"
 
 extern double dGlobaleZeit;
 
@@ -33,6 +35,8 @@ Fahrzeug::Fahrzeug() : Simulationsobjekt() {
 #endif
 }
 
+Fahrzeug::~Fahrzeug() = default;
+
 void Fahrzeug::vInit()
 {
 	Simulationsobjekt::vInit();
@@ -52,14 +56,15 @@ void Fahrzeug::vSimulieren() {
 	// Berechnen der verstrichenen Zeit seit dem letzten Simulationsschritt
 	double dDeltaZeit = dGlobaleZeit - p_dZeit;
 
-	// Berechne die aktuelle Geschwindigkeit
-	p_dGeschwindigkeit = dGeschwindigkeit();
+	// Berechnung der zurückgelegten Strecke
+    double dStreckenDelta = p_pVerhalten->dStrecke(*this, dDeltaZeit);
 
-	// Erhöhe die Gesamtstrecke basierend auf der Geschwindigkeit und der verstrichenen Zeit
-	p_dGesamtStrecke += p_dGeschwindigkeit * dDeltaZeit;
+	// Aktualisieren der Gesamtstrecke
+    p_dGesamtStrecke += dStreckenDelta;
+    p_dAbschnittStrecke += dStreckenDelta;
 
-	// Aktualisiere die gesamte Fahrzeit
-	p_dGesamtZeit += dDeltaZeit;
+	// Aktualisieren der Gesamtfahrzeit
+    p_dGesamtZeit += dDeltaZeit;
 
 	// Setze die letzte Abfertigungszeit auf die aktuelle globale Zeit
 	p_dZeit = dGlobaleZeit;
@@ -98,5 +103,26 @@ void Fahrzeug::vKopf(std::ostream& stream) {
 }
 
 void Fahrzeug::vAusgeben(std::ostream& stream) {
-	vZeileFahrzeug(stream, p_iID, p_sName, sType(), p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke);
+	vZeileFahrzeug(stream, p_iID, p_sName, sType(), p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke, p_dAbschnittStrecke);
+}
+
+double Fahrzeug::getMaxGeschwindigkeit() const {
+    return p_dMaxGeschwindigkeit;
+}
+
+double Fahrzeug::getGesamtStrecke() const {
+    return p_dGesamtStrecke;
+}
+
+double Fahrzeug::getAbschnittStrecke() const {
+    return p_dAbschnittStrecke;
+}
+
+void Fahrzeug::setVerhalten(std::unique_ptr<Verhalten> verhalten) {
+    p_pVerhalten = std::move(verhalten);
+}
+
+void Fahrzeug::vNeueStrecke(Weg& weg) {
+    p_pVerhalten = std::make_unique<Verhalten>(weg);
+    p_dAbschnittStrecke = 0.0;
 }

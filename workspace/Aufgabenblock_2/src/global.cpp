@@ -30,6 +30,7 @@ void vKopfFahrzeug(std::ostream& stream) {
         << std::setw(iGeschwindigkeitLength) << "Geschwindigkeit"
         << std::setw(iMaxGeschwindigkeitLength) << "MaxGeschwindigkeit"
         << std::setw(iGesamtstreckeLength) << "Gesamtstrecke"
+        << std::setw(iAbschnittStreckeLength) << "AbschnittStrecke"
         << std::endl;
 }
 void vKopfPKW(std::ostream& stream) {
@@ -41,6 +42,7 @@ void vKopfPKW(std::ostream& stream) {
         << std::setw(iGeschwindigkeitLength) << "Geschwindigkeit"
         << std::setw(iMaxGeschwindigkeitLength) << "MaxGeschwindigkeit"
         << std::setw(iGesamtstreckeLength) << "Gesamtstrecke"
+        << std::setw(iAbschnittStreckeLength) << "AbschnittStrecke"
         << std::setw(iTankinhaltLength) << "Tankinhalt"
         << std::setw(iVerbrauchLength) << "Verbrauch"
         << std::setw(iGesamtverbrauchLength) << "Gesamtverbrauch"
@@ -95,7 +97,8 @@ void vZeileFahrzeug(
     std::optional<std::string> sType,
     std::optional<double> dGeschwindigkeit,
     std::optional<double> dMaxGeschwindigkeit,
-    std::optional<double> dGesamtstrecke
+    std::optional<double> dGesamtstrecke,
+    std::optional<double> dAbschnittStrecke
 ) {
     vSetStreamOptions(stream);
     vPrintOptional(stream, iId, iIdLength);
@@ -104,6 +107,7 @@ void vZeileFahrzeug(
     vPrintOptional(stream, dGeschwindigkeit, iGeschwindigkeitLength);
     vPrintOptional(stream, dMaxGeschwindigkeit, iMaxGeschwindigkeitLength);
     vPrintOptional(stream, dGesamtstrecke, iGesamtstreckeLength);
+    vPrintOptional(stream, dAbschnittStrecke, iAbschnittStreckeLength);
 }
 void vZeilePKW(
     std::ostream& stream,
@@ -113,6 +117,7 @@ void vZeilePKW(
     std::optional<double> dGeschwindigkeit,
     std::optional<double> dMaxGeschwindigkeit,
     std::optional<double> dGesamtstrecke,
+    std::optional<double> dAbschnittStrecke,
     std::optional<double> dTankinhalt,
     std::optional<double> dVerbrauch,
     std::optional<double> dGesamtverbrauch
@@ -124,6 +129,7 @@ void vZeilePKW(
     vPrintOptional(stream, dGeschwindigkeit, iGeschwindigkeitLength);
     vPrintOptional(stream, dMaxGeschwindigkeit, iMaxGeschwindigkeitLength);
     vPrintOptional(stream, dGesamtstrecke, iGesamtstreckeLength);
+    vPrintOptional(stream, dAbschnittStrecke, iAbschnittStreckeLength);
     vPrintOptional(stream, dTankinhalt, iTankinhaltLength);
     vPrintOptional(stream, dVerbrauch, iVerbrauchLength);
     vPrintOptional(stream, dGesamtverbrauch, iGesamtverbrauchLength);
@@ -135,7 +141,8 @@ void vZeileFahrrad(
     std::optional<std::string> sType,
     std::optional<double> dGeschwindigkeit,
     std::optional<double> dMaxGeschwindigkeit,
-    std::optional<double> dGesamtstrecke
+    std::optional<double> dGesamtstrecke,
+    std::optional<double> dAbschnittStrecke
 ) {
     vSetStreamOptions(stream);
     vPrintOptional(stream, iId, iIdLength);
@@ -144,6 +151,7 @@ void vZeileFahrrad(
     vPrintOptional(stream, dGeschwindigkeit, iGeschwindigkeitLength);
     vPrintOptional(stream, dMaxGeschwindigkeit, iMaxGeschwindigkeitLength);
     vPrintOptional(stream, dGesamtstrecke, iGesamtstreckeLength);
+    vPrintOptional(stream, dAbschnittStrecke, iAbschnittStreckeLength);
 }
 void vZeileWeg(
     std::ostream& stream,

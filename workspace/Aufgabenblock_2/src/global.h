@@ -18,6 +18,7 @@ const int iVerbrauchLength = 10;
 const int iGesamtverbrauchLength = 17;
 const int iLaengeLength = 10;
 const int iTempolimitLength = 10;
+const int iAbschnittStreckeLength = 20;
 
 void vKopfSimulationsobjekt(std::ostream& stream = std::cout);
 void vKopfFahrzeug(std::ostream& stream = std::cout);
@@ -38,7 +39,8 @@ void vZeileFahrzeug(
     std::optional<std::string> sType = std::nullopt,
     std::optional<double> dGeschwindigkeit = std::nullopt,
     std::optional<double> dMaxGeschwindigkeit = std::nullopt,
-    std::optional<double> dGesamtstrecke = std::nullopt
+    std::optional<double> dGesamtstrecke = std::nullopt,
+    std::optional<double> dAbschnittStrecke = std::nullopt
 );
 void vZeilePKW(
     std::ostream& stream,
@@ -48,6 +50,7 @@ void vZeilePKW(
     std::optional<double> dGeschwindigkeit = std::nullopt,
     std::optional<double> dMaxGeschwindigkeit = std::nullopt,
     std::optional<double> dGesamtstrecke = std::nullopt,
+    std::optional<double> dAbschnittStrecke = std::nullopt,
     std::optional<double> dTankinhalt = std::nullopt,
     std::optional<double> dVerbrauch = std::nullopt,
     std::optional<double> dGesamtverbrauch = std::nullopt
@@ -59,7 +62,8 @@ void vZeileFahrrad(
     std::optional<std::string> sType = std::nullopt,
     std::optional<double> dGeschwindigkeit = std::nullopt,
     std::optional<double> dMaxGeschwindigkeit = std::nullopt,
-    std::optional<double> dGesamtstrecke = std::nullopt
+    std::optional<double> dGesamtstrecke = std::nullopt,
+    std::optional<double> dAbschnittStrecke = std::nullopt
 );
 void vZeileWeg(
     std::ostream& stream,

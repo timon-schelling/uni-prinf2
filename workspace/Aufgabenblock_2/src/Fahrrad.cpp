@@ -51,5 +51,5 @@ void Fahrrad::vKopf(std::ostream& stream) {
 }
 
 void Fahrrad::vAusgeben(std::ostream& stream) {
-    vZeileFahrrad(stream, p_iID, p_sName, sType(), p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke);
+    vZeileFahrrad(stream, p_iID, p_sName, sType(), p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke, p_dAbschnittStrecke);
 }

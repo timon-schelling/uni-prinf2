@@ -18,9 +18,13 @@
 
 #include "Simulationsobjekt.h"
 
+class Verhalten;
+class Weg;
+
 class Fahrzeug : public Simulationsobjekt {
 private:
     void vInit(); // Initialisierungsfunktion, die von den Konstruktoren aufgerufen wird
+    std::unique_ptr<Verhalten> p_pVerhalten; // Zeiger auf Verhalten
 
 protected:
     double p_dMaxGeschwindigkeit = 0.0; // Maximale Geschwindigkeit des Fahrzeugs (in km/h)
@@ -28,6 +32,7 @@ protected:
     double p_dGesamtStrecke = 0.0; // Gesamtstrecke, die das Fahrzeug zurückgelegt hat (in km)
     double p_dGesamtZeit = 0.0; // Gesamtzeit, die das Fahrzeug unterwegs war (in h)
     double p_dZeit = 0.0; // Letzte Abfertigungszeit des Fahrzeugs (in h)
+    double p_dAbschnittStrecke = 0.0; // Strecke auf aktuellem Weg
 
 public:
 
@@ -62,12 +67,30 @@ public:
     // Vergleichsoperator kleiner als
     bool operator<(const Fahrzeug& f) const;
 
+    // Getter für p_dMaxGeschwindigkeit
+    double getMaxGeschwindigkeit() const;
+
+    // Getter für p_dGesamtStrecke
+    double getGesamtStrecke() const;
+
+    // Setter für p_pVerhalten
+    void setVerhalten(std::unique_ptr<Verhalten> verhalten);
+
+    // Neue Methode zum Setzen des Verhaltens
+    void vNeueStrecke(Weg& weg);
+
+    // Getter für p_dAbschnittStrecke
+    double getAbschnittStrecke() const;
+
     // Verhindert das Kopieren Der Copy-Konstruktor wird gelöscht (delete),
     // weil es nicht sinnvoll ist, dass zwei verschiedene Fahrzeugobjekte dieselbe ID oder Ressource teilen.
     // Würden wir den Copy-Konstruktor nicht löschen, könnte es passieren,
     // dass mehrere Fahrzeuge dieselbe ID haben, was zu Verwirrung führt.
     Fahrzeug(const Fahrzeug&) = delete;
     Fahrzeug& operator=(const Fahrzeug& other) = delete;
+
+    // Deklaration des Destruktors
+    virtual ~Fahrzeug();  // Hinzugefügt, falls noch nicht vorhanden
 };
 
 #endif // FAHRZEUG_H
