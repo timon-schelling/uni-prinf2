@@ -6,18 +6,24 @@
 #include <memory>
 #include <iostream>
 
-// Forward Declaration, um zirkuläre Abhängigkeiten zu vermeiden
-class Fahrzeug;
-
 // Einbinden der Basisklasse
 #include "Simulationsobjekt.h"
 
-// Definition des Tempolimit-Typs
-enum class Tempolimit {
-    Innerorts,
-    Landstrasse,
-    Autobahn
-};
+// Wenn zwei Klassen jeweils Variablen der anderen als Element enthalten
+// (hier enth¨alt ein Weg Instanzen der Klasse Fahrzeug), k¨onnen Sie nicht in beiden
+// Headerdateien jeweils die andere Headerdatei inkludieren, da dies zu einer Rekur-
+// sion f¨uhren w¨urde. Es reicht, in den Headerdateien jeweils die andere Klasse zu
+// deklarieren, also einfach class Fahrzeug; bzw. class Weg; einzuf¨ugen. In den cpp-
+// Dateien m¨ussen aber dann die entsprechenden Headerdateien eingebunden werden,
+// da dort die Methoden ben¨otigt werden.
+
+// Hier kann trotzdem die header Datei eingebunden werden,
+// weil ein doppeltes einbinden durch die Kombination von
+// ifndef und define verhindert wird.
+// Nennt sich Header Guard oder Include Guard.
+#include "Fahrzeug.h"
+
+#include "Tempolimit.h"
 
 class Weg : public Simulationsobjekt {
 private:

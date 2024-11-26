@@ -43,7 +43,7 @@ void vKopfPKW(std::ostream& stream) {
         << std::setw(iGesamtstreckeLength) << "Gesamtstrecke"
         << std::setw(iTankinhaltLength) << "Tankinhalt"
         << std::setw(iVerbrauchLength) << "Verbrauch"
-        << std::setw(iGesamtverbrauch) << "Gesamtverbrauch"
+        << std::setw(iGesamtverbrauchLength) << "Gesamtverbrauch"
         << std::endl;
 }
 void vKopfFahrrad(std::ostream& stream) {
@@ -114,7 +114,8 @@ void vZeilePKW(
     std::optional<double> dMaxGeschwindigkeit,
     std::optional<double> dGesamtstrecke,
     std::optional<double> dTankinhalt,
-    std::optional<double> dVerbrauch
+    std::optional<double> dVerbrauch,
+    std::optional<double> dGesamtverbrauch
 ) {
     vSetStreamOptions(stream);
     vPrintOptional(stream, iId, iIdLength);
@@ -125,6 +126,7 @@ void vZeilePKW(
     vPrintOptional(stream, dGesamtstrecke, iGesamtstreckeLength);
     vPrintOptional(stream, dTankinhalt, iTankinhaltLength);
     vPrintOptional(stream, dVerbrauch, iVerbrauchLength);
+    vPrintOptional(stream, dGesamtverbrauch, iGesamtverbrauchLength);
 }
 void vZeileFahrrad(
     std::ostream& stream,

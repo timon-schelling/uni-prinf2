@@ -15,7 +15,7 @@ const int iMaxGeschwindigkeitLength = 20;
 const int iGesamtstreckeLength = 15;
 const int iTankinhaltLength = 12;
 const int iVerbrauchLength = 10;
-const int iGesamtverbrauch = 17;
+const int iGesamtverbrauchLength = 17;
 const int iLaengeLength = 10;
 const int iTempolimitLength = 10;
 
@@ -49,7 +49,8 @@ void vZeilePKW(
     std::optional<double> dMaxGeschwindigkeit = std::nullopt,
     std::optional<double> dGesamtstrecke = std::nullopt,
     std::optional<double> dTankinhalt = std::nullopt,
-    std::optional<double> dVerbrauch = std::nullopt
+    std::optional<double> dVerbrauch = std::nullopt,
+    std::optional<double> dGesamtverbrauch = std::nullopt
 );
 void vZeileFahrrad(
     std::ostream& stream,
