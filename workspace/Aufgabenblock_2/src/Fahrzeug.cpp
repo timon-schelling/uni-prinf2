@@ -10,7 +10,8 @@
 #include "Simulationsobjekt.h"
 #include "Fahrzeug.h"
 #include "Verhalten.h"
-#include "Weg.h"
+#include "Fahren.h"
+#include "Parken.h"
 
 extern double dGlobaleZeit;
 
@@ -123,6 +124,11 @@ void Fahrzeug::setVerhalten(std::unique_ptr<Verhalten> verhalten) {
 }
 
 void Fahrzeug::vNeueStrecke(Weg& weg) {
-    p_pVerhalten = std::make_unique<Verhalten>(weg);
+    p_pVerhalten = std::make_unique<Fahren>(weg);
+    p_dAbschnittStrecke = 0.0;
+}
+
+void Fahrzeug::vNeueStrecke(Weg& weg, double dStartZeit) {
+    p_pVerhalten = std::make_unique<Parken>(weg, dStartZeit);
     p_dAbschnittStrecke = 0.0;
 }

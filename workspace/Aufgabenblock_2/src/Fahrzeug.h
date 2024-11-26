@@ -79,6 +79,9 @@ public:
     // Neue Methode zum Setzen des Verhaltens
     void vNeueStrecke(Weg& weg);
 
+    // Überladene Methode zum Setzen des Verhaltens für parkende Fahrzeuge mit Startzeit
+    void vNeueStrecke(Weg& weg, double dStartZeit);
+
     // Getter für p_dAbschnittStrecke
     double getAbschnittStrecke() const;
 

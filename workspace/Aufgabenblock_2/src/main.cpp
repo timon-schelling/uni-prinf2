@@ -15,59 +15,6 @@
 
 using namespace std;
 
-void vAktuellenStateAusgeben(const std::vector<std::unique_ptr<Fahrzeug>>& fahrzeuge) {
-    std::cout << "Zeitpunkt " << dGlobaleZeit << ": " << std::endl;
-    std::cout << PKW::sKopf();
-
-    for (auto& fahrzeug : fahrzeuge) {
-    	std::cout << *fahrzeug << std::endl;
-    }
-    std::cout << std::endl;
-}
-
-void vAufgabe_2_runSimulation(std::vector<std::unique_ptr<Fahrzeug>>& fahrzeuge, double dDauer, double zeittakt) {
-    vAktuellenStateAusgeben(fahrzeuge);
-    // Simulation über mehrere Zeitschritte
-    while (dGlobaleZeit < dDauer) {  // Simuliere bis dDauer
-        dGlobaleZeit += zeittakt;
-        if (dGlobaleZeit >= dDauer) {
-            dGlobaleZeit = dDauer;
-        }
-        // Simuliere alle Fahrzeuge
-        for (auto& fahrzeug : fahrzeuge) {
-            fahrzeug->vSimulieren();
-        }
-        // Tanken
-        if (dGlobaleZeit <= 3.0 && dGlobaleZeit + zeittakt >= 3.0) {
-            for (auto& fahrzeug : fahrzeuge) {
-                fahrzeug->dTanken();
-            }
-        }
-        vAktuellenStateAusgeben(fahrzeuge);
-    }
-}
-
-void vAufgabe_2_withSimpleTestData() {
-    std::vector<std::unique_ptr<Fahrzeug>> fahrzeuge;
-
-    // Erzeugen der PKWs
-    fahrzeuge.push_back(std::make_unique<PKW>("PKW1", 100.0, 5.0, 160.0));
-    fahrzeuge.push_back(std::make_unique<PKW>("PKW2", 120.0, 6.0, 180.0));
-    fahrzeuge.push_back(std::make_unique<PKW>("PKW3", 115.0, 2.0, 280.0));
-    fahrzeuge.push_back(std::make_unique<PKW>("PKW4", 110.0, 1.2));
-    fahrzeuge.push_back(std::make_unique<PKW>("PKW5", 180.0, 3.3));
-
-    // Erzeugen der Fahrräder
-    fahrzeuge.push_back(std::make_unique<Fahrrad>("Fahrrad1", 30.0));
-    fahrzeuge.push_back(std::make_unique<Fahrrad>("Fahrrad2", 25.0));
-    fahrzeuge.push_back(std::make_unique<Fahrrad>("Fahrrad3", 20.0));
-    fahrzeuge.push_back(std::make_unique<Fahrrad>("Fahrrad4", 15.0));
-    fahrzeuge.push_back(std::make_unique<Fahrrad>("Fahrrad5", 18.0));
-
-    vAufgabe_2_runSimulation(fahrzeuge, 10.0, 0.3);
-}
-
-
 void vAufgabe_4() {
     // Erzeugen eines Weges
     Weg weg1("Autobahn A1", 100.0, Tempolimit::Autobahn);
@@ -77,9 +24,37 @@ void vAufgabe_4() {
     std::cout << weg1 << std::endl;
 }
 
+void vAufgabe_5() {
+    // Erzeugen eines Weges
+    Weg weg1("Autobahn A1", 1000.0, Tempolimit::Autobahn);
+
+    // Erzeugen von Fahrzeugen
+    auto pkw1 = std::make_unique<PKW>("BMW", 150.0, 8.5, 60.0);
+    auto fahrrad1 = std::make_unique<Fahrrad>("Mountainbike", 30.0);
+    auto pkw2 = std::make_unique<PKW>("Audi", 130.0, 7.0, 55.0);
+    auto pkw3 = std::make_unique<PKW>("Mercedes", 140.0, 7.5, 58.0); // Parkendes Fahrzeug
+
+    // Fahrzeuge auf den Weg setzen
+    weg1.vAnnahme(std::move(pkw1));
+    weg1.vAnnahme(std::move(fahrrad1));
+    weg1.vAnnahme(std::move(pkw2));
+    weg1.vAnnahme(std::move(pkw3), 5.0); // Startzeitpunkt bei 5.0
+
+    Weg::vKopf();
+    std::cout << weg1 << std::endl;
+    // Simulation des Weges
+    for (dGlobaleZeit = 0.0; dGlobaleZeit <= 10.0; dGlobaleZeit += 1.0) {
+        weg1.vSimulieren();
+        std::cout << std::endl;
+        PKW::vKopf();
+        for (auto& fahrzeug : weg1.getFahrzeuge()) {
+            std::cout << *fahrzeug << std::endl;
+        }
+    }
+}
 
 int main() {
-    vAufgabe_2_withSimpleTestData();
-    vAufgabe_4();
+    // vAufgabe_4();
+    vAufgabe_5();
     return 0;
 }

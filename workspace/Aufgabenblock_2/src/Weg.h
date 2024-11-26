@@ -36,6 +36,9 @@ public:
     // Getter für das Tempolimit
     double getTempolimit() const;
 
+    // Getter für die Fahrzeuge auf dem Weg
+    const std::list<std::unique_ptr<Fahrzeug>>& getFahrzeuge();
+
     static std::string sKopf();
     static void vKopf(std::ostream& stream = std::cout);
     virtual void vAusgeben(std::ostream& stream = std::cout) override;
@@ -48,6 +51,11 @@ public:
     Weg& operator=(const Weg& other) = delete;
 
     virtual std::string sType() override;
+
+    void vAnnahme(std::unique_ptr<Fahrzeug> pFahrzeug);
+
+    // Überladene Methode zur Annahme von parkenden Fahrzeugen mit Startzeit
+    void vAnnahme(std::unique_ptr<Fahrzeug> pFahrzeug, double dStartZeit);
 };
 
 #endif // WEG_H

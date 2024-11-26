@@ -55,8 +55,26 @@ void Weg::vKopf(std::ostream& stream) {
     vKopfWeg(stream);
 }
 
+void Weg::vAnnahme(std::unique_ptr<Fahrzeug> pFahrzeug, double dStartZeit) {
+    pFahrzeug->vNeueStrecke(*this, dStartZeit);
+    p_pFahrzeuge.push_front(std::move(pFahrzeug));
+}
+
+void Weg::vAnnahme(std::unique_ptr<Fahrzeug> pFahrzeug) {
+    pFahrzeug->vNeueStrecke(*this);
+    p_pFahrzeuge.push_back(std::move(pFahrzeug));
+}
+
 void Weg::vAusgeben(std::ostream& stream) {
     vZeileWeg(stream, p_iID, p_sName, sType(), p_dLaenge, getTempolimit());
+    stream << " (";
+    for (auto it = p_pFahrzeuge.begin(); it != p_pFahrzeuge.end(); ++it) {
+        if (it != p_pFahrzeuge.begin()) {
+            stream << ", ";
+        }
+        stream << (*it)->getName();
+    }
+    stream << ")";
 }
 
 bool Weg::operator==(const Weg& other) const {
@@ -65,4 +83,8 @@ bool Weg::operator==(const Weg& other) const {
 
 std::string Weg::sType() {
     return "Weg";
+}
+
+const std::list<std::unique_ptr<Fahrzeug>>& Weg::getFahrzeuge() {
+    return p_pFahrzeuge;
 }

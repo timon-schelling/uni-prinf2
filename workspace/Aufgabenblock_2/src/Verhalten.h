@@ -1,18 +1,18 @@
 #ifndef VERHALTEN_H
 #define VERHALTEN_H
 
+#include "Fahrzeug.h"
 #include "Weg.h"
-
-class Fahrzeug;
+#include <iostream>
 
 class Verhalten {
 protected:
-    Weg& p_rWeg; // Referenz auf den Weg
+    Weg& p_rWeg;
 
 public:
-    Verhalten(const Weg& weg);
-
-    virtual double dStrecke(Fahrzeug& aFahrzeug, double dZeit); // Methode zur Berechnung der Strecke
+    Verhalten(Weg& weg) : p_rWeg(weg) { };
+    virtual ~Verhalten() = default;
+    virtual double dStrecke(Fahrzeug& fahrzeug, double dDeltaZeit) = 0;
 };
 
 #endif // VERHALTEN_H
