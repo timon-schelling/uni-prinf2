@@ -18,6 +18,7 @@ double Fahren::dStrecke(Fahrzeug& aFahrzeug, double dZeit) {
         std::cout << "Fahrzeug \"" << aFahrzeug.getName() << "\" steht am Ende des Weges \""
                   << p_rWeg.getName() << "\"." << std::endl;
 #endif
+        throw Streckenende(fahrzeug, fahrzeug.getAktuelleWeg());
         return 0.0;
     } else if (dMoeglicheStrecke >= dVerbleibendeStrecke) {
         // Fahrzeug erreicht das Ende des Weges

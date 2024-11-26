@@ -13,6 +13,7 @@ double Parken::dStrecke(Fahrzeug& fahrzeug, double dDeltaZeit) {
         std::cout << "Fahrzeug \"" << fahrzeug.getName() << "\" hat jetzt mit dem Parken begonnen.\n";
 #endif
         p_bStartErreicht = true;
+        throw Losfahren(fahrzeug, fahrzeug.getAktuelleWeg());
     }
     if (!p_bStartErreicht) {
         return 0.0;
