@@ -4,6 +4,7 @@
 #include <vector>    // Für den Vektor
 #include <string>    // Für String
 #include <algorithm>  // Für sorting
+#include <random>    // Für Zufallszahlen
 
 #include "Simulationsobjekt.h"
 #include "Fahrzeug.h"
@@ -13,6 +14,8 @@
 #include "SimuClient.h"
 
 #include "global.h"
+
+#include "vertagt_liste.h"
 
 using namespace std;
 
@@ -187,11 +190,79 @@ void vAufgabe_6_UI() {
     vBeendeGrafik();
 }
 
+void vAufgabe_6a()
+{
+    std::random_device seed;
+    static std::mt19937 device(seed());
+    std::uniform_int_distribution<int> dist(1, 10);
+
+    vertagt::VListe<int> liste;
+
+    for (int i = 0; i < 10; ++i)
+    {
+        int zuf = dist(device);
+        liste.push_back(zuf);
+    }
+
+    liste.vAktualisieren();
+
+    std::cout << "Initiale Liste:" << std::endl;
+    for (auto it = liste.begin(); it != liste.end(); ++it)
+    {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+
+    for (auto it = liste.begin(); it != liste.end(); ++it)
+    {
+        if (*it > 5)
+        {
+            liste.erase(it);
+        }
+    }
+
+    std::cout << "Liste nach erase() vor vAktualisieren():" << std::endl;
+    for (auto it = liste.begin(); it != liste.end(); ++it)
+    {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+
+    liste.vAktualisieren();
+
+    std::cout << "Liste nach vAktualisieren():" << std::endl;
+    for (auto it = liste.begin(); it != liste.end(); ++it)
+    {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+
+    liste.push_front(0);
+    liste.push_back(11);
+
+    std::cout << "Liste nach Einfügen von 0 und 11 vor vAktualisieren():" << std::endl;
+    for (auto it = liste.begin(); it != liste.end(); ++it)
+    {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+
+    liste.vAktualisieren();
+
+    std::cout << "Liste nach vAktualisieren()" << std::endl;
+    for (auto it = liste.begin(); it != liste.end(); ++it)
+    {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+}
+
 int main() {
     // vAufgabe_4();
     // vAufgabe_5();
     // vAufgabe_6();
     // vAufgabe_6_debugLosfahren();
-    vAufgabe_6_UI();
+    // vAufgabe_6_UI();
+    vAufgabe_6a();
     return 0;
 }
