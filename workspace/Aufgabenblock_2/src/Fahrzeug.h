@@ -96,6 +96,8 @@ public:
 
     // Deklaration des Destruktors
     virtual ~Fahrzeug();  // Hinzugefügt, falls noch nicht vorhanden
+
+    virtual void vZeichnen(const Weg& weg) const = 0;
 };
 
 #endif // FAHRZEUG_H

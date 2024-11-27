@@ -8,6 +8,8 @@
 #include "PKW.h"
 #include "Fahrzeug.h"
 
+#include "SimuClient.h"
+
 extern double dGlobaleZeit;
 
 PKW::PKW(
@@ -83,4 +85,8 @@ void PKW::vKopf(std::ostream& stream) {
 
 void PKW::vAusgeben(std::ostream& stream) {
 	vZeilePKW(stream, p_iID, p_sName, sType(), p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke, p_dAbschnittStrecke, p_dTankinhalt, p_dVerbrauch, p_dGesamtStrecke * p_dVerbrauch / 100);
+}
+
+void PKW::vZeichnen(const Weg& weg) const {
+    bZeichnePKW(p_sName, weg.getName(), p_dAbschnittStrecke / weg.getLaenge(), p_dGeschwindigkeit, p_dTankinhalt);
 }

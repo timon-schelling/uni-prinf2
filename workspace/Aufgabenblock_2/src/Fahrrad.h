@@ -21,6 +21,8 @@ public:
 
     virtual std::string sType() override;
 
+    virtual void vZeichnen(const Weg& weg) const override;
+
     static std::string sKopf();
     static void vKopf(std::ostream& stream = std::cout);
     virtual void vAusgeben(std::ostream& stream = std::cout) override;

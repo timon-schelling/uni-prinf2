@@ -9,6 +9,8 @@
 #include "Fahrrad.h"
 #include "Fahrzeug.h"
 
+#include "SimuClient.h"
+
 Fahrrad::Fahrrad(const std::string& sName, double dMaxGeschwindigkeit)
     : Fahrzeug(sName, dMaxGeschwindigkeit) {
 }
@@ -52,4 +54,8 @@ void Fahrrad::vKopf(std::ostream& stream) {
 
 void Fahrrad::vAusgeben(std::ostream& stream) {
     vZeileFahrrad(stream, p_iID, p_sName, sType(), p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke, p_dAbschnittStrecke);
+}
+
+void Fahrrad::vZeichnen(const Weg& weg) const {
+    bZeichneFahrrad(p_sName, weg.getName(), p_dAbschnittStrecke / weg.getLaenge(), p_dGeschwindigkeit);
 }

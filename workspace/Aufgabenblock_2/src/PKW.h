@@ -36,6 +36,8 @@ public:
     // Überchreiben der Fahrzeugtypenfunktion
     virtual std::string sType() override;
 
+    virtual void vZeichnen(const Weg& weg) const override;
+
     double getTankinhalt() const;
 
     static std::string sKopf();
