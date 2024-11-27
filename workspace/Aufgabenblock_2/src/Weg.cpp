@@ -27,10 +27,20 @@ Weg::~Weg() {
 
 void Weg::vSimulieren() {
 
+    // Liste der IDs der bereits simulierten Fahrzeuge
+    // Wird benötigt, um zu verhindern, dass ein Fahrzeug mehrfach simuliert wird
+    // was zu einer Endlosschleife führen würde
+    // fix weil bearbeiten der Liste während des Iterierens
+    // ein neu anfangen des Iterierens erfordert
+    // gibt schönere Lösungen die aber beheben von vielen in der
+    // Aufgabe geforderten modelierungsfehlern erfordern
+    // z.B. das Fahrzeug nicht direkt löschen sondern nur als gelöscht markieren
+    // könnte auch mit einer lazy list implementiert werden
     std::list<int> simulierteFahrzeugeIDs;
 
     auto it = p_pFahrzeuge.begin();
     while (it != p_pFahrzeuge.end()) {
+        // Prüfen, ob das Fahrzeug bereits simuliert wurde
         if (std::find(std::begin(simulierteFahrzeugeIDs), std::end(simulierteFahrzeugeIDs), (*it)->getID()) != std::end(simulierteFahrzeugeIDs)) {
             ++it;
             continue;
@@ -42,6 +52,8 @@ void Weg::vSimulieren() {
         } catch (const Fahrausnahme& e) {
             // Fahrausnahme bearbeiten
             e.vBearbeiten();
+
+            // hier kann es sein, dass das Fahrzeug gelöscht wurde, deshalb Iterator zurücksetzen
             it = p_pFahrzeuge.begin();
         }
     }
