@@ -7,6 +7,8 @@ ENV PATH="/opt/eclipse:$PATH"
 
 RUN apt-get install -y libboost-all-dev
 
+RUN apt-get install -y  xwayland-run
+
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
