@@ -63,6 +63,10 @@ double PKW::dTanken(double dMenge) {
     return dGetankteMenge;
 }
 
+double PKW::getTankinhalt() const {
+    return p_dTankinhalt;
+}
+
 std::string PKW::sType() {
     return "PKW";
 }
