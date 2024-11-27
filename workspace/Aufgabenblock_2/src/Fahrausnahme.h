@@ -7,11 +7,11 @@
 
 class Fahrausnahme : public std::exception {
 protected:
-    Fahrzeug& fahrzeug;
-    Weg& weg;
+    Fahrzeug& p_pFahrzeug;
+    Weg& p_pWeg;
 
 public:
-    Fahrausnahme(Fahrzeug& f, Weg& w) : fahrzeug(f), weg(w) {}
+    Fahrausnahme(Fahrzeug& f, Weg& w) : p_pFahrzeug(f), p_pWeg(w) {}
     virtual void vBearbeiten() const = 0;
 
     // Optional: Überschreiben der what()-Methode

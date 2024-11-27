@@ -18,15 +18,17 @@
 
 #include "Simulationsobjekt.h"
 
+#include "Verhalten.h"
+
 class Verhalten;
 class Weg;
 
 class Fahrzeug : public Simulationsobjekt {
 private:
     void vInit(); // Initialisierungsfunktion, die von den Konstruktoren aufgerufen wird
-    std::unique_ptr<Verhalten> p_pVerhalten; // Zeiger auf Verhalten
 
 protected:
+    std::unique_ptr<Verhalten> p_pVerhalten; // Zeiger auf Verhalten
     double p_dMaxGeschwindigkeit = 0.0; // Maximale Geschwindigkeit des Fahrzeugs (in km/h)
     double p_dGeschwindigkeit = 0.0; // Aktuelle Geschwindigkeit des Fahrzeugs (in km/h)
     double p_dGesamtStrecke = 0.0; // Gesamtstrecke, die das Fahrzeug zurückgelegt hat (in km)

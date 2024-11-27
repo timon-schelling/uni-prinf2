@@ -9,6 +9,8 @@
 #include "Weg.h"
 #include "Fahrzeug.h"
 
+#include "Fahrausnahme.h"
+
 Weg::Weg()
     : Simulationsobjekt(""), p_dLaenge(0.0), p_eTempolimit(Tempolimit::Autobahn) {
 }
@@ -24,7 +26,13 @@ Weg::~Weg() {
 void Weg::vSimulieren() {
     // Alle Fahrzeuge auf dem Weg simulieren
     for (auto& fahrzeug : p_pFahrzeuge) {
-        fahrzeug->vSimulieren();
+        try {
+            fahrzeug->vSimulieren();
+        } catch (const Fahrausnahme& e) {
+            // hier reicht ein catch für alle Fahrausnahmen,
+            // da Fahrausnahme eine Basisklasse für alle Fahrausnahmen ist
+            e.vBearbeiten();
+        }
     }
 }
 

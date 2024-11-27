@@ -9,7 +9,7 @@ extern double dGlobaleZeit;
 
 const int iIdLength = 10;
 const int iTypeLength = 10;
-const int iNameLength = 15;
+const int iNameLength = 20;
 const int iGeschwindigkeitLength = 17;
 const int iMaxGeschwindigkeitLength = 20;
 const int iGesamtstreckeLength = 15;

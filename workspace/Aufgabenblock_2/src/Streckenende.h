@@ -8,10 +8,7 @@ class Streckenende : public Fahrausnahme {
 public:
     Streckenende(Fahrzeug& f, Weg& w) : Fahrausnahme(f, w) {}
 
-    virtual void vBearbeiten() const override {
-        std::cout << "Fahrzeug \"" << fahrzeug.getName()
-                  << "\" hat das Streckenende auf Weg \"" << weg.getName() << "\" erreicht.\n";
-    }
+    virtual void vBearbeiten() const override;
 
     virtual const char* what() const noexcept override {
         return "Streckenende Ausnahme";

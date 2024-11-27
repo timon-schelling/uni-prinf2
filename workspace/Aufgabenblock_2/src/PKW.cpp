@@ -30,6 +30,10 @@ PKW::PKW() : PKW("", 0.0, 0.0, 0.0) {}
 
 // Implementierung von dGeschwindigkeit mit Tankberechnung
 double PKW::dGeschwindigkeit() {
+    if (p_pVerhalten) {
+        double tempolimit = p_pVerhalten->getWeg().getTempolimit();
+        return std::min(p_dMaxGeschwindigkeit, tempolimit);
+    }
     return p_dMaxGeschwindigkeit;
 }
 
