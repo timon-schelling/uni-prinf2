@@ -32,8 +32,8 @@ void vAufgabe_5() {
     // Erzeugen von Fahrzeugen
     auto pkw1 = std::make_unique<PKW>("BMW", 150.0, 8.5, 60.0);
     auto fahrrad1 = std::make_unique<Fahrrad>("Mountainbike", 30.0);
-    auto pkw2 = std::make_unique<PKW>("Audi", 130.0, 7.0, 55.0);
-    auto pkw3 = std::make_unique<PKW>("Mercedes", 140.0, 7.5, 58.0); // Parkendes Fahrzeug
+    auto pkw2 = std::make_unique<PKW>("Audi", 130.0, 7.0, 40.0);
+    auto pkw3 = std::make_unique<PKW>("Mercedes", 140.0, 7.5, 70.0); // Parkendes Fahrzeug
 
     // Fahrzeuge auf den Weg setzen
     weg1.vAnnahme(std::move(pkw1));
@@ -62,8 +62,8 @@ void vAufgabe_6() {
     // Erzeugen von Fahrzeugen
     auto pkw1 = std::make_unique<PKW>("BMW", 500.0, 1, 100.0);
     auto fahrrad1 = std::make_unique<Fahrrad>("Mountainbike", 30.0);
-    auto pkw2 = std::make_unique<PKW>("Audi", 130.0, 7.0, 55.0);
-    auto pkw3 = std::make_unique<PKW>("Mercedes", 140.0, 7.5, 58.0); // Parkendes Fahrzeug
+    auto pkw2 = std::make_unique<PKW>("Audi", 130.0, 7.0, 35.0);
+    auto pkw3 = std::make_unique<PKW>("Mercedes", 140.0, 7.5, 88.0); // Parkendes Fahrzeug
 
     // Fahrzeuge auf die Wege setzen
     weg1.vAnnahme(std::move(pkw1));
@@ -99,8 +99,8 @@ void vAufgabe_6_debugLosfahren(double timeStep) {
     // Erzeugen von Fahrzeugen
     auto pkw1 = std::make_unique<PKW>("BMW", 500.0, 1, 100.0);
     auto fahrrad1 = std::make_unique<Fahrrad>("Mountainbike", 30.0);
-    auto pkw2 = std::make_unique<PKW>("Audi", 130.0, 7.0, 55.0);
-    auto pkw3 = std::make_unique<PKW>("Mercedes", 140.0, 7.5, 58.0); // Parkendes Fahrzeug
+    auto pkw2 = std::make_unique<PKW>("Audi", 130.0, 7.0, 35.0);
+    auto pkw3 = std::make_unique<PKW>("Mercedes", 140.0, 7.5, 80.0); // Parkendes Fahrzeug
 
     // Fahrzeuge auf die Wege setzen
     weg1.vAnnahme(std::move(pkw1));
@@ -138,34 +138,34 @@ void vAufgabe_6_debugLosfahren() {
 
 void vAufgabe_6_UI() {
     // Initialisiere Grafik
-    bInitialisiereGrafik(800, 600);
+    bInitialisiereGrafik(900, 600);
 
     // Erzeugen von Wegen
-    Weg weg1("Hinweg", 1500.0, Tempolimit::Autobahn);
-    Weg weg2("Rueckweg", 1500.0, Tempolimit::Landstrasse);
+    Weg weg1("Hinweg", 500.0, Tempolimit::Autobahn);
+    Weg weg2("Rueckweg", 500.0, Tempolimit::Landstrasse);
 
     // Erzeugen von Fahrzeugen
-    auto pkw1 = std::make_unique<PKW>("BMW", 200.0, 1, 100.0);
+    auto pkw1 = std::make_unique<PKW>("BMW", 120.0, 1, 100.0);
     auto fahrrad1 = std::make_unique<Fahrrad>("Mountainbike", 30.0);
-    auto pkw2 = std::make_unique<PKW>("Audi", 130.0, 7.0, 55.0);
-    auto pkw3 = std::make_unique<PKW>("Mercedes", 140.0, 7.5, 58.0); // Parkendes Fahrzeug
+    auto pkw2 = std::make_unique<PKW>("Audi", 130.0, 7.0, 35.0);
+    auto pkw3 = std::make_unique<PKW>("Mercedes", 140.0, 7.5, 80.0); // Parkendes Fahrzeug
 
     // Fahrzeuge auf die Wege setzen
     weg1.vAnnahme(std::move(pkw1));
     weg1.vAnnahme(std::move(fahrrad1));
     weg2.vAnnahme(std::move(pkw2));
-    weg2.vAnnahme(std::move(pkw3), 5.0); // Startzeitpunkt bei 5.0
+    weg2.vAnnahme(std::move(pkw3), 2.0); // Startzeitpunkt bei 5.0
 
     // Zeichne die Straße
-    int koordinaten[] = { 100, 200, 700, 400 };
-    bZeichneStrasse("Hinweg", "Rueckweg", 500, 2, koordinaten);
+    int koordinaten[] = { 100, 400, 800, 400 };
+    bZeichneStrasse("Hinweg", "Rueckweg", 700, 2, koordinaten);
 
     Weg::vKopf();
     std::cout << weg1 << std::endl;
     std::cout << weg2 << std::endl;
 
     // Simulation der Wege
-    for (dGlobaleZeit = 0.0; dGlobaleZeit <= 12.0; dGlobaleZeit += 0.1) {
+    for (dGlobaleZeit = 0.0; dGlobaleZeit <= 8.0; dGlobaleZeit += 0.1) {
         std::cout << std::endl;
         std::cout << "Zeit: " << dGlobaleZeit << std::endl;
         weg1.vSimulieren();

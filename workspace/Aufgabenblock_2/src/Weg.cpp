@@ -3,6 +3,8 @@
 #include <iomanip>   // Für setw etc.
 #include <sstream>
 #include <limits>
+#include <list>
+#include <algorithm>
 
 #include "global.h"
 
@@ -24,14 +26,23 @@ Weg::~Weg() {
 }
 
 void Weg::vSimulieren() {
-    // Alle Fahrzeuge auf dem Weg simulieren
-    for (auto& fahrzeug : p_pFahrzeuge) {
+
+    std::list<int> simulierteFahrzeugeIDs;
+
+    auto it = p_pFahrzeuge.begin();
+    while (it != p_pFahrzeuge.end()) {
+        if (std::find(std::begin(simulierteFahrzeugeIDs), std::end(simulierteFahrzeugeIDs), (*it)->getID()) != std::end(simulierteFahrzeugeIDs)) {
+            ++it;
+            continue;
+        }
+        simulierteFahrzeugeIDs.push_back((*it)->getID());
         try {
-            fahrzeug->vSimulieren();
+            (*it)->vSimulieren();
+            ++it;
         } catch (const Fahrausnahme& e) {
-            // hier reicht ein catch für alle Fahrausnahmen,
-            // da Fahrausnahme eine Basisklasse für alle Fahrausnahmen ist
+            // Fahrausnahme bearbeiten
             e.vBearbeiten();
+            it = p_pFahrzeuge.begin();
         }
     }
 }
@@ -95,4 +106,16 @@ std::string Weg::sType() {
 
 const std::list<std::unique_ptr<Fahrzeug>>& Weg::getFahrzeuge() {
     return p_pFahrzeuge;
+}
+
+std::unique_ptr<Fahrzeug> Weg::pAbgabe(const Fahrzeug& fahrzeug) {
+    for (auto it = p_pFahrzeuge.begin(); it != p_pFahrzeuge.end(); ++it) {
+        if (*(*it) == fahrzeug) {
+            std::unique_ptr<Fahrzeug> pFahrzeug = std::move(*it);
+            p_pFahrzeuge.erase(it);
+            return pFahrzeug;
+        }
+    }
+    // Sonderfall: Nullpointer zurückgeben, wenn Fahrzeug nicht gefunden
+    return nullptr;
 }

@@ -56,6 +56,8 @@ public:
 
     // Überladene Methode zur Annahme von parkenden Fahrzeugen mit Startzeit
     void vAnnahme(std::unique_ptr<Fahrzeug> pFahrzeug, double dStartZeit);
+
+    std::unique_ptr<Fahrzeug> pAbgabe(const Fahrzeug& fahrzeug);
 };
 
 #endif // WEG_H

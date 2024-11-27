@@ -60,6 +60,9 @@ void Fahrzeug::vSimulieren() {
 	// Berechnung der zurückgelegten Strecke
     double dStreckenDelta = p_pVerhalten->dStrecke(*this, dDeltaZeit);
 
+	// Berechnung der Geschwindigkeit
+	p_dGeschwindigkeit = dStreckenDelta / dDeltaZeit;
+
 	// Aktualisieren der Gesamtstrecke
     p_dGesamtStrecke += dStreckenDelta;
     p_dAbschnittStrecke += dStreckenDelta;

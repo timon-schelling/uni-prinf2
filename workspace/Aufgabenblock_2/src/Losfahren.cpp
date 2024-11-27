@@ -7,5 +7,8 @@ void Losfahren::vBearbeiten() const {
     std::cout << "Fahrzeug \"" << p_pFahrzeug.getName()
               << "\" hat das Parken auf Weg \"" << p_pWeg.getName() << "\" beendet und fährt los.\n";
 #endif
-    // fahrzeug.setVerhalten(std::make_unique<Fahren>(p_peg));
+    auto pFahrzeugPtr = p_pWeg.pAbgabe(p_pFahrzeug);
+    if (pFahrzeugPtr) {
+        p_pWeg.vAnnahme(std::move(pFahrzeugPtr));
+    }
 }
