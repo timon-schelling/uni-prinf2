@@ -20,11 +20,13 @@ private:
     double p_dLaenge;                              // Länge des Weges in km
     Tempolimit p_eTempolimit;                      // Tempolimit des Weges
     vertagt::VListe<std::unique_ptr<Fahrzeug>> p_pFahrzeuge; // Liste der Fahrzeuge auf dem Weg
+    std::weak_ptr<Kreuzung> p_pZielKreuzung;      // Zielkreuzung
+    std::weak_ptr<Weg> p_pRueckWeg;          // Rückweg
 
 public:
     // Konstruktoren
     Weg();
-    Weg(const std::string& sName, double dLaenge, Tempolimit eTempolimit = Tempolimit::Autobahn);
+    Weg(const std::string& sName, double dLaenge, Tempolimit eTempolimit = Tempolimit::Autobahn, std::shared_ptr<Kreuzung> pZielKreuzung = nullptr);
 
     // Destruktor
     virtual ~Weg();
@@ -60,6 +62,11 @@ public:
     void vAnnahme(std::unique_ptr<Fahrzeug> pFahrzeug, double dStartZeit);
 
     std::unique_ptr<Fahrzeug> pAbgabe(const Fahrzeug& fahrzeug);
+
+    void setRueckWeg(const std::shared_ptr<Weg>& pRueckWeg);
+
+    std::shared_ptr<Kreuzung> getZielKreuzung() const;
+    std::shared_ptr<Weg> getRueckWeg() const;
 };
 
 #endif // WEG_H

@@ -17,8 +17,8 @@ Weg::Weg()
     : Simulationsobjekt(""), p_dLaenge(0.0), p_eTempolimit(Tempolimit::Autobahn) {
 }
 
-Weg::Weg(const std::string& sName, double dLaenge, Tempolimit eTempolimit)
-    : Simulationsobjekt(sName), p_dLaenge(dLaenge), p_eTempolimit(eTempolimit) {
+Weg::Weg(const std::string& sName, double dLaenge, Tempolimit eTempolimit, std::shared_ptr<Kreuzung> pZielKreuzung)
+    : Simulationsobjekt(sName), p_dLaenge(dLaenge), p_eTempolimit(eTempolimit), p_pZielKreuzung(pZielKreuzung) {
 }
 
 Weg::~Weg() {
@@ -144,4 +144,16 @@ std::unique_ptr<Fahrzeug> Weg::pAbgabe(const Fahrzeug& fahrzeug) {
     }
     // Sonderfall: Nullpointer zurückgeben, wenn Fahrzeug nicht gefunden
     return nullptr;
+}
+
+void Weg::setRueckWeg(const std::shared_ptr<Weg>& pRueckWeg) {
+    p_pRueckWeg = pRueckWeg;
+}
+
+std::shared_ptr<Kreuzung> Weg::getZielKreuzung() const {
+    return p_pZielKreuzung.lock();
+}
+
+std::shared_ptr<Weg> Weg::getRueckWeg() const {
+    return p_pRueckWeg.lock();
 }
