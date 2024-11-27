@@ -190,10 +190,11 @@ void vAufgabe_6_UI() {
     vBeendeGrafik();
 }
 
-void vAufgabe_6a()
-{
+void vAufgabe_6a() {
     std::random_device seed;
     static std::mt19937 device(seed());
+    // oder seed mit festem Wert
+    // std::mt19937 device(0);
     std::uniform_int_distribution<int> dist(1, 10);
 
     vertagt::VListe<int> liste;
@@ -262,7 +263,7 @@ int main() {
     // vAufgabe_5();
     // vAufgabe_6();
     // vAufgabe_6_debugLosfahren();
-    // vAufgabe_6_UI();
-    vAufgabe_6a();
+    vAufgabe_6_UI();
+    // vAufgabe_6a();
     return 0;
 }

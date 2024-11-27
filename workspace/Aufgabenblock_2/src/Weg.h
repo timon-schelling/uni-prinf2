@@ -6,6 +6,8 @@
 #include <memory>
 #include <iostream>
 
+#include "vertagt_liste.h"
+
 // Einbinden der Basisklasse
 #include "Simulationsobjekt.h"
 
@@ -17,7 +19,7 @@ class Weg : public Simulationsobjekt {
 private:
     double p_dLaenge;                              // Länge des Weges in km
     Tempolimit p_eTempolimit;                      // Tempolimit des Weges
-    std::list<std::unique_ptr<Fahrzeug>> p_pFahrzeuge; // Liste der Fahrzeuge auf dem Weg
+    vertagt::VListe<std::unique_ptr<Fahrzeug>> p_pFahrzeuge; // Liste der Fahrzeuge auf dem Weg
 
 public:
     // Konstruktoren
@@ -37,7 +39,7 @@ public:
     double getTempolimit() const;
 
     // Getter für die Fahrzeuge auf dem Weg
-    const std::list<std::unique_ptr<Fahrzeug>>& getFahrzeuge();
+    const vertagt::VListe<std::unique_ptr<Fahrzeug>>& getFahrzeuge();
 
     static std::string sKopf();
     static void vKopf(std::ostream& stream = std::cout);
