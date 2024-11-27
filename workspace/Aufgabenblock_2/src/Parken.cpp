@@ -10,7 +10,7 @@
 extern double dGlobaleZeit;
 
 double Parken::dStrecke(Fahrzeug& fahrzeug, double dDeltaZeit) {
-    if (!p_bStartErreicht && dGlobaleZeit >= p_dStartZeit) {
+    if (!p_bStartErreicht && dGlobaleZeit >= p_dStartZeit - 1e-6) {
         p_bStartErreicht = true;
         throw Losfahren(fahrzeug, p_rWeg);
     }
