@@ -53,20 +53,22 @@ void Kreuzung::vVerbinde(
 }
 
 std::shared_ptr<Weg> Kreuzung::pZufaelligerWeg(const Weg& herkunftsWeg) {
+
     std::vector<std::shared_ptr<Weg>> moeglicheWege;
     for (const auto& weg : p_pWege) {
-        if (!(*weg.get() == *herkunftsWeg.getRueckWeg())) {
+        if (!(weg == herkunftsWeg.getRueckWeg())) {
             moeglicheWege.push_back(weg);
         }
     }
+
     if (moeglicheWege.empty()) {
         return herkunftsWeg.getRueckWeg();
-    } else {
-        static std::random_device rd;
-        static std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(0, moeglicheWege.size() - 1);
-        return moeglicheWege[dis(gen)];
     }
+
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, moeglicheWege.size() - 1);
+    return moeglicheWege[dis(gen)];
 }
 
 double Kreuzung::dGetTankstelle() const {

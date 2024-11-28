@@ -294,11 +294,14 @@ void vAufgabe7() {
     bZeichneKreuzung(320, 300);
 
     auto pkw1 = std::make_unique<PKW>("Auto1", 180.0, 5.0, 50.0);
-    auto pkw2 = std::make_unique<PKW>("Auto2", 80.0, 4.0, 60.0);
+    auto pkw2 = std::make_unique<PKW>("Auto2", 280.0, 4.0, 60.0);
     auto pkw3 = std::make_unique<PKW>("Auto3", 120.0, 6.0, 70.0);
-    auto pkw4 = std::make_unique<PKW>("Auto4", 110.0, 5.5, 80.0);
-    auto pkw5 = std::make_unique<PKW>("Auto5", 90.0, 4.5, 90.0);
+    auto pkw4 = std::make_unique<PKW>("Auto4", 170.0, 5.5, 80.0);
+    auto pkw5 = std::make_unique<PKW>("Auto5", 80.0, 4.5, 90.0);
     auto pkw6 = std::make_unique<PKW>("Auto6", 130.0, 6.5, 100.0);
+    auto fahrrad1 = std::make_unique<Fahrrad>("Fahrrad1", 30.0);
+    auto fahrrad2 = std::make_unique<Fahrrad>("Fahrrad2", 40.0);
+    auto fahrrad3 = std::make_unique<Fahrrad>("Fahrrad3", 50.0);
 
     kr1->vAnnahme(std::move(pkw1), 0.0);
     kr1->vAnnahme(std::move(pkw2), 1.0);
@@ -306,17 +309,20 @@ void vAufgabe7() {
     kr1->vAnnahme(std::move(pkw4), 3.0);
     kr1->vAnnahme(std::move(pkw5), 4.0);
     kr1->vAnnahme(std::move(pkw6), 5.0);
+    kr3->vAnnahme(std::move(fahrrad1), 0.0);
+    kr3->vAnnahme(std::move(fahrrad2), 1.0);
+    kr3->vAnnahme(std::move(fahrrad3), 6.0);
 
     std::vector<std::shared_ptr<Kreuzung>> kreuzungen = { kr1, kr2, kr3, kr4 };
 
-    for (dGlobaleZeit = 0.0; dGlobaleZeit <= 100.0; dGlobaleZeit += 0.02) {
+    for (dGlobaleZeit = 0.0; dGlobaleZeit <= 100.0; dGlobaleZeit += 0.1) {
         for (auto& kreuzung : kreuzungen) {
             kreuzung->vSimulieren();
             kreuzung->vZeichnen();
         }
 
         vSetzeZeit(dGlobaleZeit);
-        vSleep(100);
+        // vSleep(100);
     }
 
     vBeendeGrafik();

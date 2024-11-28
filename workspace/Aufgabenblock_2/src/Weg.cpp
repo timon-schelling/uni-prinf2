@@ -138,7 +138,7 @@ const vertagt::VListe<std::unique_ptr<Fahrzeug>>& Weg::getFahrzeuge() {
 
 std::unique_ptr<Fahrzeug> Weg::pAbgabe(const Fahrzeug& fahrzeug) {
     for (auto it = p_pFahrzeuge.begin(); it != p_pFahrzeuge.end(); ++it) {
-        if (*(*it) == fahrzeug) {
+        if (*it && *(*it) == fahrzeug) {
             std::unique_ptr<Fahrzeug> pFahrzeug = std::move(*it);
             p_pFahrzeuge.erase(it);
             return pFahrzeug;
