@@ -1,3 +1,4 @@
+
 #ifndef KREUZUNG_H
 #define KREUZUNG_H
 
@@ -5,6 +6,7 @@
 #include "Weg.h"
 #include <list>
 #include <memory>
+#include "Tempolimit.h"
 
 class Kreuzung : public Simulationsobjekt {
 private:
@@ -25,8 +27,14 @@ public:
         double dLaenge,
         std::shared_ptr<Kreuzung> kStart,
         std::shared_ptr<Kreuzung> kZiel,
-        Begrenzung eLimit = Begrenzung::Innerorts
+        Tempolimit eLimit = Tempolimit::Autobahn
     );
+
+    std::shared_ptr<Weg> pZufaelligerWeg(const Weg& herkunftsWeg);
+    double dGetTankstelle() const;
+    const std::list<std::shared_ptr<Weg>>& getWege() const;
+
+    void vZeichnen() const;
 };
 
 #endif // KREUZUNG_H

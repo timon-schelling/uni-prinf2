@@ -1,6 +1,8 @@
 #include "Kreuzung.h"
 #include "Fahrzeug.h"
 #include "Weg.h"
+#include <random>
+#include "Tempolimit.h"
 
 Kreuzung::Kreuzung(const std::string& sName, double dTankstelle)
     : Simulationsobjekt(sName), p_dTankstelle(dTankstelle) {
@@ -21,10 +23,10 @@ void Kreuzung::vTanken(Fahrzeug& fahrzeug) {
     }
 }
 
-void Kreuzung::vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug, double dZeit) {
-    vTanken(*fahrzeug);
+void Kreuzung::vAnnahme(std::unique_ptr<Fahrzeug> pFahrzeug, double dZeit) {
+    vTanken(*pFahrzeug);
     if (!p_pWege.empty()) {
-        p_pWege.front()->vAnnahme(std::move(fahrzeug), dZeit);
+        p_pWege.front()->vAnnahme(std::move(pFahrzeug), dZeit);
     }
 }
 
@@ -38,19 +40,48 @@ void Kreuzung::vVerbinde(
     const std::string& sNameHin,
     const std::string& sNameRueck,
     double dLaenge,
-    std::shared_ptr<Kreuzung> kStart,
-    std::shared_ptr<Kreuzung> kZiel,
-    Begrenzung eLimit
+    std::shared_ptr<Kreuzung> pStartKreuzung,
+    std::shared_ptr<Kreuzung> pZielKreuzung,
+    Tempolimit eLimit
 ) {
-    auto hinWeg = std::make_shared<Weg>(sNameHin, dLaenge, eLimit);
-    auto rueckWeg = std::make_shared<Weg>(sNameRueck, dLaenge, eLimit);
-
-    hinWeg->setZielKreuzung(kZiel);
+    auto hinWeg = std::make_shared<Weg>(sNameHin, dLaenge, eLimit, pZielKreuzung);
+    auto rueckWeg = std::make_shared<Weg>(sNameRueck, dLaenge, eLimit, pStartKreuzung);
     hinWeg->setRueckWeg(rueckWeg);
-
-    rueckWeg->setZielKreuzung(kStart);
     rueckWeg->setRueckWeg(hinWeg);
+    pStartKreuzung->p_pWege.push_back(hinWeg);
+    pZielKreuzung->p_pWege.push_back(rueckWeg);
+}
 
-    kStart->p_pWege.push_back(hinWeg);
-    kZiel->p_pWege.push_back(rueckWeg);
+std::shared_ptr<Weg> Kreuzung::pZufaelligerWeg(const Weg& herkunftsWeg) {
+    std::vector<std::shared_ptr<Weg>> moeglicheWege;
+    for (const auto& weg : p_pWege) {
+        if (!(*weg.get() == *herkunftsWeg.getRueckWeg())) {
+            moeglicheWege.push_back(weg);
+        }
+    }
+    if (moeglicheWege.empty()) {
+        return herkunftsWeg.getRueckWeg();
+    } else {
+        static std::random_device rd;
+        static std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(0, moeglicheWege.size() - 1);
+        return moeglicheWege[dis(gen)];
+    }
+}
+
+double Kreuzung::dGetTankstelle() const {
+    return p_dTankstelle;
+}
+
+const std::list<std::shared_ptr<Weg>>& Kreuzung::getWege() const {
+    return p_pWege;
+}
+
+void Kreuzung::vZeichnen() const {
+    for (const auto& weg : p_pWege) {
+        weg->getFahrzeuge();
+        for (const auto& fahrzeug : weg->getFahrzeuge()) {
+            fahrzeug->vZeichnen(*weg);
+        }
+    }
 }

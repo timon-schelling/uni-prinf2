@@ -12,6 +12,7 @@
 #include "Simulationsobjekt.h"
 
 class Fahrzeug;
+class Kreuzung;
 
 #include "Tempolimit.h"
 
@@ -20,8 +21,8 @@ private:
     double p_dLaenge;                              // Länge des Weges in km
     Tempolimit p_eTempolimit;                      // Tempolimit des Weges
     vertagt::VListe<std::unique_ptr<Fahrzeug>> p_pFahrzeuge; // Liste der Fahrzeuge auf dem Weg
-    std::weak_ptr<Kreuzung> p_pZielKreuzung;      // Zielkreuzung
-    std::weak_ptr<Weg> p_pRueckWeg;          // Rückweg
+    const std::shared_ptr<Kreuzung> p_pZielKreuzung;      // Zielkreuzung
+    std::shared_ptr<Weg> p_pRueckWeg;          // Rückweg
 
 public:
     // Konstruktoren

@@ -13,6 +13,8 @@
 
 #include "Fahrausnahme.h"
 
+#include "Kreuzung.h"
+
 Weg::Weg()
     : Simulationsobjekt(""), p_dLaenge(0.0), p_eTempolimit(Tempolimit::Autobahn) {
 }
@@ -151,9 +153,9 @@ void Weg::setRueckWeg(const std::shared_ptr<Weg>& pRueckWeg) {
 }
 
 std::shared_ptr<Kreuzung> Weg::getZielKreuzung() const {
-    return p_pZielKreuzung.lock();
+    return p_pZielKreuzung;
 }
 
 std::shared_ptr<Weg> Weg::getRueckWeg() const {
-    return p_pRueckWeg.lock();
+    return p_pRueckWeg;
 }
