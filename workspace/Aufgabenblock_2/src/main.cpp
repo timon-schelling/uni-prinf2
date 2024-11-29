@@ -133,11 +133,11 @@ void vAufgabe_6_debugLosfahren(double timeStep) {
 }
 
 void vAufgabe_6_debugLosfahren() {
-	std::cout << std::endl << "Simulation mit Zeittakt 0.25" << std::endl;
-	vAufgabe_6_debugLosfahren(0.25);
-	dGlobaleZeit = 0.0; // Reset global time
-	std::cout << std::endl << "Simulation mit Zeittakt 0.3" << std::endl;
-	vAufgabe_6_debugLosfahren(0.3);
+    std::cout << std::endl << "Simulation mit Zeittakt 0.25" << std::endl;
+    vAufgabe_6_debugLosfahren(0.25);
+    dGlobaleZeit = 0.0; // Reset global time
+    std::cout << std::endl << "Simulation mit Zeittakt 0.3" << std::endl;
+    vAufgabe_6_debugLosfahren(0.3);
 }
 
 void vAufgabe_6_UI() {

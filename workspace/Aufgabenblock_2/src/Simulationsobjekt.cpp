@@ -35,8 +35,8 @@ Simulationsobjekt::~Simulationsobjekt() {
 
 std::string Simulationsobjekt::sKopf() {
     std::ostringstream stringStream;
-	vKopfSimulationsobjekt(stringStream);
-	return stringStream.str();
+    vKopfSimulationsobjekt(stringStream);
+    return stringStream.str();
 }
 
 void Simulationsobjekt::vKopf(std::ostream& stream) {
@@ -77,6 +77,6 @@ std::string Simulationsobjekt::sType() {
 }
 
 std::ostream& operator<<(std::ostream& stream, Simulationsobjekt& obj) {
-	obj.vAusgeben(stream);
-	return stream;
+    obj.vAusgeben(stream);
+    return stream;
 }

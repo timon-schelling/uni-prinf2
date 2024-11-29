@@ -81,14 +81,14 @@ double Weg::getLaenge() const {
 
 double Weg::getTempolimit() const {
     switch (p_eTempolimit) {
-        case Tempolimit::Innerorts:
-            return 50.0;
-        case Tempolimit::Landstrasse:
-            return 100.0;
-        case Tempolimit::Autobahn:
-            return std::numeric_limits<int>::max();
-        default:
-            return std::numeric_limits<int>::max();
+    case Tempolimit::Innerorts:
+        return 50.0;
+    case Tempolimit::Landstrasse:
+        return 100.0;
+    case Tempolimit::Autobahn:
+        return std::numeric_limits<int>::max();
+    default:
+        return std::numeric_limits<int>::max();
     }
 }
 

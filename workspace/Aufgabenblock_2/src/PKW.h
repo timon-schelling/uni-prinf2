@@ -24,7 +24,7 @@ public:
     // Default-Konstruktor
     PKW();
 
-     // Überschreiben der Simulationsfunktion
+    // Überschreiben der Simulationsfunktion
     virtual void vSimulieren() override;
 
     // Überschreiben der Geschwindigkeitsfunktion

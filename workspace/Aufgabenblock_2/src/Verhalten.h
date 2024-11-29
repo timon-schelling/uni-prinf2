@@ -13,7 +13,9 @@ public:
     Verhalten(Weg& weg) : p_rWeg(weg) { };
     virtual ~Verhalten() = default;
     virtual double dStrecke(Fahrzeug& fahrzeug, double dDeltaZeit) = 0;
-    Weg& getWeg() { return p_rWeg; }
+    Weg& getWeg() {
+        return p_rWeg;
+    }
 };
 
 #endif // VERHALTEN_H

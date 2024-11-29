@@ -16,58 +16,58 @@ void vSetStreamOptions(std::ostream& stream) {
 void vKopfSimulationsobjekt(std::ostream& stream) {
     vSetStreamOptions(stream);
     stream
-        << std::setw(iIdLength) << "ID"
-        << std::setw(iNameLength) << "Name"
-        << std::setw(iTypeLength) << "Type"
-        << std::endl;
+            << std::setw(iIdLength) << "ID"
+            << std::setw(iNameLength) << "Name"
+            << std::setw(iTypeLength) << "Type"
+            << std::endl;
 }
 void vKopfFahrzeug(std::ostream& stream) {
     vSetStreamOptions(stream);
     stream
-        << std::setw(iIdLength) << "ID"
-        << std::setw(iNameLength) << "Name"
-        << std::setw(iTypeLength) << "Type"
-        << std::setw(iGeschwindigkeitLength) << "Geschwindigkeit"
-        << std::setw(iMaxGeschwindigkeitLength) << "MaxGeschwindigkeit"
-        << std::setw(iGesamtstreckeLength) << "Gesamtstrecke"
-        << std::setw(iAbschnittStreckeLength) << "AbschnittStrecke"
-        << std::endl;
+            << std::setw(iIdLength) << "ID"
+            << std::setw(iNameLength) << "Name"
+            << std::setw(iTypeLength) << "Type"
+            << std::setw(iGeschwindigkeitLength) << "Geschwindigkeit"
+            << std::setw(iMaxGeschwindigkeitLength) << "MaxGeschwindigkeit"
+            << std::setw(iGesamtstreckeLength) << "Gesamtstrecke"
+            << std::setw(iAbschnittStreckeLength) << "AbschnittStrecke"
+            << std::endl;
 }
 void vKopfPKW(std::ostream& stream) {
     vSetStreamOptions(stream);
     stream
-        << std::setw(iIdLength) << "ID"
-        << std::setw(iNameLength) << "Name"
-        << std::setw(iTypeLength) << "Type"
-        << std::setw(iGeschwindigkeitLength) << "Geschwindigkeit"
-        << std::setw(iMaxGeschwindigkeitLength) << "MaxGeschwindigkeit"
-        << std::setw(iGesamtstreckeLength) << "Gesamtstrecke"
-        << std::setw(iAbschnittStreckeLength) << "AbschnittStrecke"
-        << std::setw(iTankinhaltLength) << "Tankinhalt"
-        << std::setw(iVerbrauchLength) << "Verbrauch"
-        << std::setw(iGesamtverbrauchLength) << "Gesamtverbrauch"
-        << std::endl;
+            << std::setw(iIdLength) << "ID"
+            << std::setw(iNameLength) << "Name"
+            << std::setw(iTypeLength) << "Type"
+            << std::setw(iGeschwindigkeitLength) << "Geschwindigkeit"
+            << std::setw(iMaxGeschwindigkeitLength) << "MaxGeschwindigkeit"
+            << std::setw(iGesamtstreckeLength) << "Gesamtstrecke"
+            << std::setw(iAbschnittStreckeLength) << "AbschnittStrecke"
+            << std::setw(iTankinhaltLength) << "Tankinhalt"
+            << std::setw(iVerbrauchLength) << "Verbrauch"
+            << std::setw(iGesamtverbrauchLength) << "Gesamtverbrauch"
+            << std::endl;
 }
 void vKopfFahrrad(std::ostream& stream) {
     vSetStreamOptions(stream);
     stream
-        << std::setw(iIdLength) << "ID"
-        << std::setw(iNameLength) << "Name"
-        << std::setw(iTypeLength) << "Type"
-        << std::setw(iGeschwindigkeitLength) << "Geschwindigkeit"
-        << std::setw(iMaxGeschwindigkeitLength) << "MaxGeschwindigkeit"
-        << std::setw(iGesamtstreckeLength) << "Gesamtstrecke"
-        << std::endl;
+            << std::setw(iIdLength) << "ID"
+            << std::setw(iNameLength) << "Name"
+            << std::setw(iTypeLength) << "Type"
+            << std::setw(iGeschwindigkeitLength) << "Geschwindigkeit"
+            << std::setw(iMaxGeschwindigkeitLength) << "MaxGeschwindigkeit"
+            << std::setw(iGesamtstreckeLength) << "Gesamtstrecke"
+            << std::endl;
 }
 void vKopfWeg(std::ostream& stream) {
     vSetStreamOptions(stream);
     stream
-        << std::setw(iIdLength) << "ID"
-        << std::setw(iNameLength) << "Name"
-        << std::setw(iTypeLength) << "Type"
-        << std::setw(iLaengeLength) << "Laenge"
-        << std::setw(iTempolimitLength) << "Tempolimit"
-        << std::endl;
+            << std::setw(iIdLength) << "ID"
+            << std::setw(iNameLength) << "Name"
+            << std::setw(iTypeLength) << "Type"
+            << std::setw(iLaengeLength) << "Laenge"
+            << std::setw(iTempolimitLength) << "Tempolimit"
+            << std::endl;
 }
 
 template<typename Type>

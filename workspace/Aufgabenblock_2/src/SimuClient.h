@@ -2,12 +2,12 @@
 #pragma warning (disable:4786)
 #include <string>
 
-#define SIMUCLIENT_API 
+#define SIMUCLIENT_API
 //#define _WIN32_WINNT 0x0502
 #define USE_GENERIC_BUT_CPU_INTENSIVE_SLEEP 1
 
 // NUTZBARE FUNKTIONEN (offizielle Schnittstelle)
-/* 
+/*
 Verbindung zum Grafikserver wird mit Hilfe der Adresse hergestellt und die Groesse des Fensters wird mit Hilfe der Fenstergroesse X und Y bestimmt.
 Beispiel: bInitialisiereGrafik(800,500);
 */
@@ -18,8 +18,8 @@ Es wird eine Kreuzung an den Koordinaten X und Y gezeichnet
 */
 SIMUCLIENT_API bool bZeichneKreuzung(int koordinateX, int koordinateY);
 
-/* 
-Eine Strasse wird mit dem Hin- und Rueckweg der angegebenen Laenge gezeichnet. Die Strasse wird mit einer Reihe von Punkten erzeugt. 
+/*
+Eine Strasse wird mit dem Hin- und Rueckweg der angegebenen Laenge gezeichnet. Die Strasse wird mit einer Reihe von Punkten erzeugt.
 Mindestens werden 2 Punkte (Gerade) benoetigt. Die Anzahl der Koordinaten ist immer ein X/Y-Paar.
 Beispiel:	int feld[] = { 100 , 200 , 300 , 400 }; int anzahl = 2;
 			bZeichneStrasse("Hin", "Rueck", 40, anzahl, feld);

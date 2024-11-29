@@ -12,13 +12,13 @@ using boost::asio::ip::tcp;
 
 class SimuClientSocket {
 public:
-  SimuClientSocket();
-  virtual ~SimuClientSocket() = default;
-  bool Create();
-  bool Connect(std::string address, std::string port);
-  void Send(std::stringstream& msg);
-  void Close();
+    SimuClientSocket();
+    virtual ~SimuClientSocket() = default;
+    bool Create();
+    bool Connect(std::string address, std::string port);
+    void Send(std::stringstream& msg);
+    void Close();
 private:
-  boost::asio::io_context io_context;
-  tcp::socket socket;
+    boost::asio::io_context io_context;
+    tcp::socket socket;
 };
