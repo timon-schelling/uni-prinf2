@@ -41,8 +41,8 @@ double Fahrrad::dGeschwindigkeit() {
 
 void Fahrrad::vZeichnen(const Weg& weg) const {
     // bZeichneFahrrad(p_sName, weg.getName(), p_dAbschnittStrecke / weg.getLaenge(), p_dGeschwindigkeit);
-    // hier als maximalen Wert 1, da die Funktion bZeichneFahrrad sonst in nicht immer korrekt zeichnet (bei aufgabe 7 bei Kreuzung 7)
-    bZeichneFahrrad(p_sName, weg.getName(), min(p_dAbschnittStrecke / weg.getLaenge(), 1.0), p_dGeschwindigkeit);
+    // hier relative Strecke kleiner 1, da die Funktion bZeichneFahrrad sonst in nicht immer korrekt zeichnet (bei aufgabe 7 bei Kreuzung 4)
+    bZeichneFahrrad(p_sName, weg.getName(), min(p_dAbschnittStrecke / weg.getLaenge(), 1.0 - 1e-4), p_dGeschwindigkeit);
 }
 
 std::string Fahrrad::sType() const {

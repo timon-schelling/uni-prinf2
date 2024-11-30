@@ -64,12 +64,15 @@ bool Fahrzeug::operator<(const Fahrzeug& fahrzeug) const {
 
 void Fahrzeug::vSimulieren() {
     // Überprüfen, ob es Zeit für einen neuen Simulationsschritt ist
-    if (p_dZeit >= dGlobaleZeit) {
+    if (p_dZeit + 1e-6 >= dGlobaleZeit) {
         return;
     }
 
     // Berechnen der verstrichenen Zeit seit dem letzten Simulationsschritt
     double dDeltaZeit = dGlobaleZeit - p_dZeit;
+
+    // Aktualisieren der Gesamtfahrzeit
+    p_dGesamtZeit += dDeltaZeit;
 
     // Setze die letzte Abfertigungszeit auf die aktuelle globale Zeit
     p_dZeit = dGlobaleZeit;
@@ -83,9 +86,6 @@ void Fahrzeug::vSimulieren() {
     // Aktualisieren der Gesamtstrecke
     p_dGesamtStrecke += dStreckenDelta;
     p_dAbschnittStrecke += dStreckenDelta;
-
-    // Aktualisieren der Gesamtfahrzeit
-    p_dGesamtZeit += dDeltaZeit;
 
 }
 

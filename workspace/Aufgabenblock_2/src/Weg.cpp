@@ -61,6 +61,12 @@ bool Weg::operator==(const Weg& other) const {
 
 void Weg::vSimulieren() {
 
+    if (p_dZeit + 1e-6 >= dGlobaleZeit) {
+        return;
+    }
+
+    p_dZeit = dGlobaleZeit;
+
     p_pFahrzeuge.vAktualisieren();
 
     auto it = p_pFahrzeuge.begin();

@@ -347,10 +347,10 @@ void vAufgabe7() {
     bZeichneStrasse("Kr3_Kr4", "Kr4_Kr3", 85, 5, koordinatenStrasse5);
     bZeichneStrasse("Kr4_Kr4a", "Kr4_Kr4b", 130, 7, koordinatenStrasse6);
 
-    // bZeichneKreuzung(680, 40);
-    // bZeichneKreuzung(680, 300);
-    // bZeichneKreuzung(680, 570);
-    // bZeichneKreuzung(320, 300);
+    bZeichneKreuzung(680, 40);
+    bZeichneKreuzung(680, 300);
+    bZeichneKreuzung(680, 570);
+    bZeichneKreuzung(320, 300);
 
     auto pkw1 = std::make_unique<PKW>("Auto1", 180.0, 5.0, 30.0);
     auto pkw2 = std::make_unique<PKW>("Auto2", 80.0, 4.0, 40.0);
