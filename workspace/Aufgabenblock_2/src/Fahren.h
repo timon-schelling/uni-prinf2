@@ -8,4 +8,5 @@ public:
     Fahren(Weg& weg) : Verhalten(weg) { }
     virtual double dStrecke(Fahrzeug& fahrzeug, double dDeltaZeit) override;
 };
+
 #endif // FAHREN_H

@@ -1,8 +1,10 @@
 #ifndef STRECKENENDE_H
 #define STRECKENENDE_H
 
-#include "Fahrausnahme.h"
 #include <iostream>
+using namespace std;
+
+#include "Fahrausnahme.h"
 
 class Streckenende : public Fahrausnahme {
 public:

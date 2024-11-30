@@ -1,14 +1,17 @@
-#include <iostream>  // Für Output nach cout
-#include <string>    // Für String
-#include <iomanip>   // Für setw etc.
+#include <iomanip>
+#include <iostream>
 #include <sstream>
+#include <string>
+using namespace std;
+
+#include "SimuClient.h"
 
 #include "global.h"
 
-#include "PKW.h"
 #include "Fahrzeug.h"
-
-#include "SimuClient.h"
+#include "PKW.h"
+#include "Verhalten.h"
+#include "Weg.h"
 
 extern double dGlobaleZeit;
 

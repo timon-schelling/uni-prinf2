@@ -1,7 +1,9 @@
 #pragma once
 
-#include "vertagt_aktion.h"
 #include <list>
+using namespace std;
+
+#include "vertagt_aktion.h"
 
 namespace vertagt
 {

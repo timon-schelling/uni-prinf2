@@ -1,6 +1,7 @@
+#include <iomanip>
 #include <iostream>
 #include <optional>
-#include <iomanip>  // Für setw etc.
+using namespace std;
 
 #include "global.h"
 

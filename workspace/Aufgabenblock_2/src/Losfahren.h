@@ -1,8 +1,10 @@
 #ifndef LOSFAHREN_H
 #define LOSFAHREN_H
 
-#include "Fahrausnahme.h"
 #include <iostream>
+using namespace std;
+
+#include "Fahrausnahme.h"
 
 class Losfahren : public Fahrausnahme {
 public:

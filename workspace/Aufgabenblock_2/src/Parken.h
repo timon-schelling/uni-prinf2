@@ -1,6 +1,8 @@
 #ifndef PARKEN_H
 #define PARKEN_H
 
+#include "Verhalten.h"
+
 class Parken : public Verhalten {
 private:
     double p_dStartZeit;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+using namespace std;
 
 namespace vertagt
 {

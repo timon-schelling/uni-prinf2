@@ -2,6 +2,8 @@
 #define FAHRAUSNAHME_H
 
 #include <exception>
+using namespace std;
+
 #include "Fahrzeug.h"
 #include "Weg.h"
 

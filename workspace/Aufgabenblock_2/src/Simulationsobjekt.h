@@ -1,8 +1,9 @@
 #ifndef SIMULATIONSOBJEKT_H
 #define SIMULATIONSOBJEKT_H
 
-#include <string>
 #include <iostream>
+#include <string>
+using namespace std;
 
 class Simulationsobjekt {
 private:

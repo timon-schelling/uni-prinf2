@@ -1,14 +1,14 @@
 #ifndef WEG_H
 #define WEG_H
 
-#include <string>
+#include <iostream>
 #include <list>
 #include <memory>
-#include <iostream>
+#include <string>
+using namespace std;
 
 #include "vertagt_liste.h"
 
-// Einbinden der Basisklasse
 #include "Simulationsobjekt.h"
 #include "Tempolimit.h"
 

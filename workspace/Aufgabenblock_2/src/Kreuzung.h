@@ -1,11 +1,12 @@
-
 #ifndef KREUZUNG_H
 #define KREUZUNG_H
 
-#include "Simulationsobjekt.h"
-#include "Weg.h"
 #include <list>
 #include <memory>
+using namespace std;
+
+#include "Simulationsobjekt.h"
+#include "Weg.h"
 #include "Tempolimit.h"
 
 class Kreuzung : public Simulationsobjekt {

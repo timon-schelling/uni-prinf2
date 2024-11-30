@@ -2,6 +2,7 @@
 #define PKW_H
 
 #include <string>
+using namespace std;
 
 #include "Fahrzeug.h"
 

@@ -1,15 +1,16 @@
-#include <string>    // Für String
-#include <iomanip>   // Für setw etc.
-#include <sstream>
-
 #include <cmath>
+#include <iomanip>
+#include <sstream>
+#include <string>
+using namespace std;
+
+#include "SimuClient.h"
 
 #include "global.h"
 
-#include "Fahrrad.h"
 #include "Fahrzeug.h"
-
-#include "SimuClient.h"
+#include "Fahrrad.h"
+#include "Weg.h"
 
 Fahrrad::Fahrrad(const std::string& sName, double dMaxGeschwindigkeit)
     : Fahrzeug(sName, dMaxGeschwindigkeit) {

@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <optional>
+using namespace std;
 
 // Hier alle globalen simulations variabeln
 extern double dGlobaleZeit;

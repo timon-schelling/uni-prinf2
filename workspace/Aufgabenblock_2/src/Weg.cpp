@@ -1,19 +1,18 @@
-#include <iostream>  // Für Output nach cout
-#include <string>    // Für String
-#include <iomanip>   // Für setw etc.
-#include <sstream>
+#include <algorithm>
+#include <iomanip>
+#include <iostream>
 #include <limits>
 #include <list>
-#include <algorithm>
+#include <sstream>
+#include <string>
+using namespace std;
 
 #include "global.h"
 
-#include "Weg.h"
 #include "Fahrzeug.h"
-
-#include "Fahrausnahme.h"
-
+#include "Weg.h"
 #include "Kreuzung.h"
+#include "Fahrausnahme.h"
 
 Weg::Weg()
     : Simulationsobjekt(""), p_dLaenge(0.0), p_eTempolimit(Tempolimit::Autobahn) {

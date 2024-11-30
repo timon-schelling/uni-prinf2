@@ -1,10 +1,12 @@
-#include "Fahren.h"
-#include "Fahrzeug.h"
-#include "Weg.h"
 #include <iostream>
-#include "Parken.h"
+using namespace std;
+
 #include "global.h"
 
+#include "Fahrzeug.h"
+#include "Weg.h"
+#include "Fahren.h"
+#include "Parken.h"
 #include "Losfahren.h"
 
 extern double dGlobaleZeit;

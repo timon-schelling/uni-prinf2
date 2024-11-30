@@ -1,7 +1,8 @@
-#include <iostream>  // Für Output nach cout
-#include <string>    // Für String
-#include <iomanip>   // Für setw etc.
+#include <iomanip>
+#include <iostream>
 #include <sstream>
+#include <string>
+using namespace std;
 
 #include "global.h"
 

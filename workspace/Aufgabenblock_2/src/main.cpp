@@ -1,24 +1,23 @@
-#include <iostream>  // Für Output nach cout
-#include <iomanip>   // Für setw etc.
-#include <memory>    // Für Smartpointer
-#include <vector>    // Für den Vektor
-#include <string>    // Für String
-#include <algorithm>  // Für sorting
-#include <random>    // Für Zufallszahlen
+#include <algorithm>
+#include <iomanip>
+#include <iostream>
+#include <memory>
+#include <random>
+#include <string>
+#include <vector>
+using namespace std;
+
+#include "SimuClient.h"
+
+#include "vertagt_liste.h"
+#include "global.h"
 
 #include "Simulationsobjekt.h"
 #include "Fahrzeug.h"
 #include "PKW.h"
 #include "Fahrrad.h"
 #include "Weg.h"
-#include "SimuClient.h"
 #include "Kreuzung.h"
-
-#include "global.h"
-
-#include "vertagt_liste.h"
-
-using namespace std;
 
 void vAufgabe_4() {
     // Erzeugen eines Weges
