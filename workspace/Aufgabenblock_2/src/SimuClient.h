@@ -57,7 +57,7 @@ SIMUCLIENT_API void vSetzeZeit(const double globaleZeit);
 */
 SIMUCLIENT_API void vSleep(int anzahlMillisekunden);
 
-// Zusätzliche Schnittstellen (wegen Konvertierungsproblemen bei char*/string)
+// Zusï¿½tzliche Schnittstellen (wegen Konvertierungsproblemen bei char*/string)
 
 SIMUCLIENT_API bool bZeichneStrasse(const char* nameHinweg, const char* nameRueckweg, int iLaenge, int iAnzahlKoordinaten, int* pFeldKoordinaten);
 SIMUCLIENT_API bool bZeichneStrasse(const std::string& nameHinweg, const char* nameRueckweg, int iLaenge, int iAnzahlKoordinaten, int* pFeldKoordinaten);

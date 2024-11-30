@@ -1,0 +1,33 @@
+#include <algorithm>
+#include <cmath>
+#include <exception>
+#include <iomanip>
+#include <iostream>
+#include <limits>
+#include <list>
+#include <memory>
+#include <optional>
+#include <random>
+#include <sstream>
+#include <string>
+#include <vector>
+using namespace std;
+
+#include "SimuClient.h"
+
+#include "vertagt_liste.h"
+#include "global.h"
+
+#include "Simulationsobjekt.h"
+#include "Fahrzeug.h"
+#include "PKW.h"
+#include "Fahrrad.h"
+#include "Weg.h"
+#include "Kreuzung.h"
+#include "Tempolimit.h"
+#include "Verhalten.h"
+#include "Fahren.h"
+#include "Parken.h"
+#include "Fahrausnahme.h"
+#include "Losfahren.h"
+#include "Streckenende.h"

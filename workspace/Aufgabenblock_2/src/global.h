@@ -1,4 +1,13 @@
-#ifndef GLOBAL_H // Siehe Kommentar Zeile 1 in Fahrzeug.h
+// Prüfen, ob die Header-Datei bereits eingebunden wurde, Wenn nicht, dann einbinden und
+// hier die Definitionen vornehmen, damit sie nicht doppelt eingebunden wird.
+// Dies ermöglicht es, die Header-Datei in mehreren Dateien zu verwenden, ohne dass es zu
+// Konflikten kommt.
+// Funktionsweise:
+// `#ifndef` steht für "if not defined" und fügt den folgenden Code nur ein, wenn die Konstante
+// noch nicht definiert ist.
+// `#define` definiert die Konstante, die in ifndef verwendet wird.
+// zusammen bedeuten sie, dass der folgende Code nur einmal vom Präprozessor eingefügt wird.
+#ifndef GLOBAL_H
 #define GLOBAL_H
 
 #include <iostream>
@@ -7,6 +16,7 @@
 // Hier alle globalen simulations variabeln
 extern double dGlobaleZeit;
 
+// Hier sind die Längen der einzelnen Spalten definiert
 const int iIdLength = 10;
 const int iTypeLength = 10;
 const int iNameLength = 20;

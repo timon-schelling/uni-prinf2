@@ -1,7 +1,6 @@
 #include "Losfahren.h"
 #include "Fahren.h"
 
-
 void Losfahren::vBearbeiten() const {
 #ifdef _DEBUG
     std::cout << "Fahrzeug \"" << p_pFahrzeug.getName()
