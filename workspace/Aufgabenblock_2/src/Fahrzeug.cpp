@@ -71,6 +71,9 @@ void Fahrzeug::vSimulieren() {
     // Berechnen der verstrichenen Zeit seit dem letzten Simulationsschritt
     double dDeltaZeit = dGlobaleZeit - p_dZeit;
 
+    // Setze die letzte Abfertigungszeit auf die aktuelle globale Zeit
+    p_dZeit = dGlobaleZeit;
+
     // Berechnung der zurückgelegten Strecke
     double dStreckenDelta = p_pVerhalten->dStrecke(*this, dDeltaZeit);
 
@@ -83,9 +86,6 @@ void Fahrzeug::vSimulieren() {
 
     // Aktualisieren der Gesamtfahrzeit
     p_dGesamtZeit += dDeltaZeit;
-
-    // Setze die letzte Abfertigungszeit auf die aktuelle globale Zeit
-    p_dZeit = dGlobaleZeit;
 
 }
 

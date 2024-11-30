@@ -61,6 +61,8 @@ bool Weg::operator==(const Weg& other) const {
 
 void Weg::vSimulieren() {
 
+    p_pFahrzeuge.vAktualisieren();
+
     auto it = p_pFahrzeuge.begin();
     while (it != p_pFahrzeuge.end()) {
         try {

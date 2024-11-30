@@ -20,6 +20,5 @@ void Streckenende::vBearbeiten() const {
     std::cout << "FAHRZEUG : " << pFahrzeugPtr->getName() << std::endl;
     std::cout << std::endl;
 
-    pFahrzeugPtr->vNeueStrecke(*pNeuerWeg);
     pNeuerWeg->vAnnahme(std::move(pFahrzeugPtr));
 }

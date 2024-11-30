@@ -72,7 +72,7 @@ double PKW::dTanken(double dMenge) {
 }
 
 void PKW::vZeichnen(const Weg& weg) const {
-    bZeichnePKW(p_sName, weg.getName(), p_dAbschnittStrecke / weg.getLaenge(), p_dGeschwindigkeit, p_dTankinhalt);
+    bZeichnePKW(p_sName, weg.getName(), min(p_dAbschnittStrecke / weg.getLaenge(), 1.0), p_dGeschwindigkeit, p_dTankinhalt);
 }
 
 std::string PKW::sType() const {

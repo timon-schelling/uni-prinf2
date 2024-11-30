@@ -19,4 +19,4 @@ ENV VNC_PASSWORD="passwd"
 ENV AUTO_START_BROWSER="false"
 ENV AUTO_START_XTERM="false"
 ENV VNC_RESOLUTION="1035x850"
-# ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT ["/custom/entrypoint.sh"]

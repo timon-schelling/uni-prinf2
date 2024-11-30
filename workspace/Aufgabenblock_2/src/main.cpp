@@ -258,75 +258,6 @@ void vAufgabe_6a() {
     std::cout << std::endl;
 }
 
-void vAufgabe7() {
-    bInitialisiereGrafik(1000, 600);
-
-    auto kr1 = std::make_shared<Kreuzung>("Kr1");
-    auto kr2 = std::make_shared<Kreuzung>("Kr2", 1000.0);
-    auto kr3 = std::make_shared<Kreuzung>("Kr3");
-    auto kr4 = std::make_shared<Kreuzung>("Kr4");
-
-    Kreuzung::vVerbinde("Kr1_Kr2", "Kr2_Kr1", 40.0, kr1, kr2, Tempolimit::Innerorts);
-    Kreuzung::vVerbinde("Kr2_Kr3a", "Kr3_Kr2a", 115.0, kr2, kr3, Tempolimit::Autobahn);
-    Kreuzung::vVerbinde("Kr2_Kr3b", "Kr3_Kr2b", 40.0, kr2, kr3, Tempolimit::Innerorts);
-    Kreuzung::vVerbinde("Kr2_Kr4", "Kr4_Kr2", 55.0, kr2, kr4, Tempolimit::Innerorts);
-    Kreuzung::vVerbinde("Kr3_Kr4", "Kr4_Kr3", 85.0, kr3, kr4, Tempolimit::Autobahn);
-    Kreuzung::vVerbinde("Kr4_Kr4a", "Kr4_Kr4b", 130.0, kr4, kr4, Tempolimit::Landstrasse);
-
-    int koordinatenStrasse1[] = { 680, 40, 680, 300 };
-    int koordinatenStrasse2[] = { 680, 300, 850, 300, 970, 390, 970, 500, 850, 570, 680, 570 };
-    int koordinatenStrasse3[] = { 680, 300, 680, 570 };
-    int koordinatenStrasse4[] = { 680, 300, 320, 300 };
-    int koordinatenStrasse5[] = { 680, 570, 500, 570, 350, 510, 320, 400, 320, 300 };
-    int koordinatenStrasse6[] = { 320, 300, 170, 300, 70, 250, 80, 90, 200, 60, 320, 150, 320, 300 };
-
-    bZeichneStrasse("Kr1_Kr2", "Kr2_Kr1", 40, 2, koordinatenStrasse1);
-    bZeichneStrasse("Kr2_Kr3a", "Kr3_Kr2a", 115, 6, koordinatenStrasse2);
-    bZeichneStrasse("Kr2_Kr3b", "Kr3_Kr2b", 40, 2, koordinatenStrasse3);
-    bZeichneStrasse("Kr2_Kr4", "Kr4_Kr2", 55, 2, koordinatenStrasse4);
-    bZeichneStrasse("Kr3_Kr4", "Kr4_Kr3", 85, 5, koordinatenStrasse5);
-    bZeichneStrasse("Kr4_Kr4a", "Kr4_Kr4b", 130, 7, koordinatenStrasse6);
-
-    bZeichneKreuzung(680, 40);
-    bZeichneKreuzung(680, 300);
-    bZeichneKreuzung(680, 570);
-    bZeichneKreuzung(320, 300);
-
-    auto pkw1 = std::make_unique<PKW>("Auto1", 180.0, 5.0, 50.0);
-    auto pkw2 = std::make_unique<PKW>("Auto2", 280.0, 4.0, 60.0);
-    auto pkw3 = std::make_unique<PKW>("Auto3", 120.0, 6.0, 70.0);
-    auto pkw4 = std::make_unique<PKW>("Auto4", 170.0, 5.5, 80.0);
-    auto pkw5 = std::make_unique<PKW>("Auto5", 80.0, 4.5, 90.0);
-    auto pkw6 = std::make_unique<PKW>("Auto6", 130.0, 6.5, 100.0);
-    auto fahrrad1 = std::make_unique<Fahrrad>("Fahrrad1", 30.0);
-    auto fahrrad2 = std::make_unique<Fahrrad>("Fahrrad2", 40.0);
-    auto fahrrad3 = std::make_unique<Fahrrad>("Fahrrad3", 50.0);
-
-    kr1->vAnnahme(std::move(pkw1), 0.0);
-    kr1->vAnnahme(std::move(pkw2), 1.0);
-    kr1->vAnnahme(std::move(pkw3), 2.0);
-    kr1->vAnnahme(std::move(pkw4), 3.0);
-    kr1->vAnnahme(std::move(pkw5), 4.0);
-    kr1->vAnnahme(std::move(pkw6), 5.0);
-    kr3->vAnnahme(std::move(fahrrad1), 0.0);
-    kr3->vAnnahme(std::move(fahrrad2), 1.0);
-    kr3->vAnnahme(std::move(fahrrad3), 6.0);
-
-    std::vector<std::shared_ptr<Kreuzung>> kreuzungen = { kr1, kr2, kr3, kr4 };
-
-    for (dGlobaleZeit = 0.0; dGlobaleZeit <= 100.0; dGlobaleZeit += 0.01) {
-        for (auto& kreuzung : kreuzungen) {
-            kreuzung->vSimulieren();
-            kreuzung->vZeichnen();
-        }
-
-        vSetzeZeit(dGlobaleZeit);
-        // vSleep(500);
-    }
-
-    vBeendeGrafik();
-}
-
 void vAufgabe7_performance() {
     bInitialisiereGrafik(1000, 600);
 
@@ -365,7 +296,6 @@ void vAufgabe7_performance() {
     auto pkw2 = std::make_unique<PKW>("Auto2", 280.0, 4.0, 60.0);
     auto fahrrad1 = std::make_unique<Fahrrad>("Fahrrad1", 30.0);
 
-
     kr1->vAnnahme(std::move(pkw1), 0.0);
     kr1->vAnnahme(std::move(pkw2), 1.0);
     kr3->vAnnahme(std::move(fahrrad1), 0.0);
@@ -375,11 +305,84 @@ void vAufgabe7_performance() {
     for (dGlobaleZeit = 0.0; dGlobaleZeit <= 100.0; dGlobaleZeit += 0.01) {
         for (auto& kreuzung : kreuzungen) {
             kreuzung->vSimulieren();
+        }
+        for (auto& kreuzung : kreuzungen) {
             kreuzung->vZeichnen();
         }
 
         vSetzeZeit(dGlobaleZeit);
         vSleep(100);
+    }
+
+    vBeendeGrafik();
+}
+
+
+void vAufgabe7() {
+    bInitialisiereGrafik(1000, 600);
+
+    auto kr1 = std::make_shared<Kreuzung>("Kr1");
+    auto kr2 = std::make_shared<Kreuzung>("Kr2", 1000.0);
+    auto kr3 = std::make_shared<Kreuzung>("Kr3");
+    auto kr4 = std::make_shared<Kreuzung>("Kr4");
+
+    Kreuzung::vVerbinde("Kr1_Kr2", "Kr2_Kr1", 40.0, kr1, kr2, Tempolimit::Innerorts);
+    Kreuzung::vVerbinde("Kr2_Kr3a", "Kr3_Kr2a", 115.0, kr2, kr3, Tempolimit::Autobahn);
+    Kreuzung::vVerbinde("Kr2_Kr3b", "Kr3_Kr2b", 40.0, kr2, kr3, Tempolimit::Innerorts);
+    Kreuzung::vVerbinde("Kr2_Kr4", "Kr4_Kr2", 55.0, kr2, kr4, Tempolimit::Innerorts);
+    Kreuzung::vVerbinde("Kr3_Kr4", "Kr4_Kr3", 85.0, kr3, kr4, Tempolimit::Autobahn);
+    Kreuzung::vVerbinde("Kr4_Kr4a", "Kr4_Kr4b", 130.0, kr4, kr4, Tempolimit::Landstrasse);
+
+    int koordinatenStrasse1[] = { 680, 40, 680, 300 };
+    int koordinatenStrasse2[] = { 680, 300, 850, 300, 970, 390, 970, 500, 850, 570, 680, 570 };
+    int koordinatenStrasse3[] = { 680, 300, 680, 570 };
+    int koordinatenStrasse4[] = { 680, 300, 320, 300 };
+    int koordinatenStrasse5[] = { 680, 570, 500, 570, 350, 510, 320, 400, 320, 300 };
+    int koordinatenStrasse6[] = { 320, 300, 170, 300, 70, 250, 80, 90, 200, 60, 320, 150, 320, 300 };
+
+    bZeichneStrasse("Kr1_Kr2", "Kr2_Kr1", 40, 2, koordinatenStrasse1);
+    bZeichneStrasse("Kr2_Kr3a", "Kr3_Kr2a", 115, 6, koordinatenStrasse2);
+    bZeichneStrasse("Kr2_Kr3b", "Kr3_Kr2b", 40, 2, koordinatenStrasse3);
+    bZeichneStrasse("Kr2_Kr4", "Kr4_Kr2", 55, 2, koordinatenStrasse4);
+    bZeichneStrasse("Kr3_Kr4", "Kr4_Kr3", 85, 5, koordinatenStrasse5);
+    bZeichneStrasse("Kr4_Kr4a", "Kr4_Kr4b", 130, 7, koordinatenStrasse6);
+
+    // bZeichneKreuzung(680, 40);
+    // bZeichneKreuzung(680, 300);
+    // bZeichneKreuzung(680, 570);
+    // bZeichneKreuzung(320, 300);
+
+    auto pkw1 = std::make_unique<PKW>("Auto1", 180.0, 5.0, 30.0);
+    auto pkw2 = std::make_unique<PKW>("Auto2", 80.0, 4.0, 40.0);
+    auto pkw3 = std::make_unique<PKW>("Auto3", 120.0, 6.0, 70.0);
+    auto pkw4 = std::make_unique<PKW>("Auto4", 170.0, 5.5, 50.0);
+    auto pkw5 = std::make_unique<PKW>("Auto5", 80.0, 4.5, 90.0);
+    auto pkw6 = std::make_unique<PKW>("Auto6", 130.0, 6.5, 60.0);
+    auto fahrrad1 = std::make_unique<Fahrrad>("Fahrrad1", 30.0);
+    auto fahrrad2 = std::make_unique<Fahrrad>("Fahrrad2", 40.0);
+    auto fahrrad3 = std::make_unique<Fahrrad>("Fahrrad3", 50.0);
+
+    kr1->vAnnahme(std::move(pkw1), 0.0);
+    kr1->vAnnahme(std::move(pkw2), 1.0);
+    kr1->vAnnahme(std::move(pkw3), 2.0);
+    kr1->vAnnahme(std::move(pkw4), 3.0);
+    kr1->vAnnahme(std::move(pkw5), 4.0);
+    kr1->vAnnahme(std::move(pkw6), 5.0);
+    kr3->vAnnahme(std::move(fahrrad1), 0.0);
+    kr3->vAnnahme(std::move(fahrrad2), 1.0);
+    kr3->vAnnahme(std::move(fahrrad3), 6.0);
+
+    std::vector<std::shared_ptr<Kreuzung>> kreuzungen = { kr1, kr2, kr3, kr4 };
+
+    for (dGlobaleZeit = 0.0; dGlobaleZeit <= 100.0; dGlobaleZeit += 0.1) {
+        for (auto& kreuzung : kreuzungen) {
+            kreuzung->vSimulieren();
+        }
+        for (auto& kreuzung : kreuzungen) {
+            kreuzung->vZeichnen();
+        }
+        vSetzeZeit(dGlobaleZeit);
+        vSleep(500);
     }
 
     vBeendeGrafik();
@@ -392,7 +395,7 @@ int main() {
     // vAufgabe_6_debugLosfahren();
     // vAufgabe_6_UI();
     // vAufgabe_6a();
-    // vAufgabe7();
-    vAufgabe7_performance();
+    vAufgabe7();
+    // vAufgabe7_performance();
     return 0;
 }
