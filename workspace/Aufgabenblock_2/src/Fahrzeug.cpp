@@ -37,17 +37,30 @@ Fahrzeug::Fahrzeug() : Simulationsobjekt() {
 #endif
 }
 
-Fahrzeug::~Fahrzeug() = default;
-
-void Fahrzeug::vInit()
-{
-    Simulationsobjekt::vInit();
-    p_dMaxGeschwindigkeit = 0;
-    p_dGesamtStrecke = 0;
-    p_dGesamtZeit = 0;
-    p_dZeit = 0;
+double Fahrzeug::getMaxGeschwindigkeit() const {
+    return p_dMaxGeschwindigkeit;
 }
 
+double Fahrzeug::getGesamtStrecke() const {
+    return p_dGesamtStrecke;
+}
+
+double Fahrzeug::getAbschnittStrecke() const {
+    return p_dAbschnittStrecke;
+}
+
+void Fahrzeug::setVerhalten(std::unique_ptr<Verhalten> verhalten) {
+    p_pVerhalten = std::move(verhalten);
+}
+
+// Modelierung hier nicht wirklich sinnvoll, fahrzeuge haben keine eindeutige größe die
+// zum vergleichen logicherweise genutzt werden könnte
+// Warum zum beispiel sollte statt der gesamtstrecke z.B. die Geschwindigkeit
+// oder der Name zum vergleichen genutzt werden?
+// besser wäre es hier eine Funktion zu haben die die Fahrzeuge nach einem bestimmten Kriterium vergleicht
+bool Fahrzeug::operator<(const Fahrzeug& fahrzeug) const {
+    return p_dGesamtStrecke > fahrzeug.p_dGesamtStrecke;
+}
 
 void Fahrzeug::vSimulieren() {
     // Überprüfen, ob es Zeit für einen neuen Simulationsschritt ist
@@ -84,17 +97,18 @@ double Fahrzeug::dTanken(double dMenge) {
     return 0.0;  // Standardmäßig für Fahrzeuge ohne Tank (z.B. Fahrrad)
 }
 
-std::string Fahrzeug::sType() {
-    return "Fahrzeug";
+void Fahrzeug::vNeueStrecke(Weg& weg) {
+    p_pVerhalten = std::make_unique<Fahren>(weg);
+    p_dAbschnittStrecke = 0.0;
 }
 
-// Modelierung hier nicht wirklich sinnvoll, fahrzeuge haben keine eindeutige größe die
-// zum vergleichen logicherweise genutzt werden könnte
-// Warum zum beispiel sollte statt der gesamtstrecke z.B. die Geschwindigkeit
-// oder der Name zum vergleichen genutzt werden?
-// besser wäre es hier eine Funktion zu haben die die Fahrzeuge nach einem bestimmten Kriterium vergleicht
-bool Fahrzeug::operator<(const Fahrzeug& fahrzeug) const {
-    return p_dGesamtStrecke > fahrzeug.p_dGesamtStrecke;
+void Fahrzeug::vNeueStrecke(Weg& weg, double dStartZeit) {
+    p_pVerhalten = std::make_unique<Parken>(weg, dStartZeit);
+    p_dAbschnittStrecke = 0.0;
+}
+
+std::string Fahrzeug::sType() const {
+    return "Fahrzeug";
 }
 
 std::string Fahrzeug::sKopf() {
@@ -107,32 +121,6 @@ void Fahrzeug::vKopf(std::ostream& stream) {
     vKopfFahrzeug(stream);
 }
 
-void Fahrzeug::vAusgeben(std::ostream& stream) {
+void Fahrzeug::vAusgeben(std::ostream& stream) const {
     vZeileFahrzeug(stream, p_iID, p_sName, sType(), p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke, p_dAbschnittStrecke);
-}
-
-double Fahrzeug::getMaxGeschwindigkeit() const {
-    return p_dMaxGeschwindigkeit;
-}
-
-double Fahrzeug::getGesamtStrecke() const {
-    return p_dGesamtStrecke;
-}
-
-double Fahrzeug::getAbschnittStrecke() const {
-    return p_dAbschnittStrecke;
-}
-
-void Fahrzeug::setVerhalten(std::unique_ptr<Verhalten> verhalten) {
-    p_pVerhalten = std::move(verhalten);
-}
-
-void Fahrzeug::vNeueStrecke(Weg& weg) {
-    p_pVerhalten = std::make_unique<Fahren>(weg);
-    p_dAbschnittStrecke = 0.0;
-}
-
-void Fahrzeug::vNeueStrecke(Weg& weg, double dStartZeit) {
-    p_pVerhalten = std::make_unique<Parken>(weg, dStartZeit);
-    p_dAbschnittStrecke = 0.0;
 }

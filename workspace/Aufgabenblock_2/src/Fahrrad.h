@@ -20,13 +20,13 @@ public:
 
     virtual double dGeschwindigkeit() override;
 
-    virtual std::string sType() override;
-
     virtual void vZeichnen(const Weg& weg) const override;
+
+    virtual std::string sType() const override;
 
     static std::string sKopf();
     static void vKopf(std::ostream& stream = std::cout);
-    virtual void vAusgeben(std::ostream& stream = std::cout) override;
+    virtual void vAusgeben(std::ostream& stream = std::cout) const override;
 };
 
 #endif // FAHRRAD_H

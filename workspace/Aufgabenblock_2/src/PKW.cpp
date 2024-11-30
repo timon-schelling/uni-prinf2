@@ -33,17 +33,11 @@ PKW::PKW(
 
 PKW::PKW() : PKW("", 0.0, 0.0, 0.0) {}
 
-// Implementierung von dGeschwindigkeit mit Tankberechnung
-double PKW::dGeschwindigkeit() {
-    if (p_pVerhalten) {
-        double tempolimit = p_pVerhalten->getWeg().getTempolimit();
-        return std::min(p_dMaxGeschwindigkeit, tempolimit);
-    }
-    return p_dMaxGeschwindigkeit;
+double PKW::getTankinhalt() const {
+    return p_dTankinhalt;
 }
 
-void PKW::vSimulieren()
-{
+void PKW::vSimulieren() {
     if (p_dTankinhalt > 0)
     {
         double dGesamtStreckeVorher = p_dGesamtStrecke;
@@ -51,6 +45,15 @@ void PKW::vSimulieren()
         p_dTankinhalt -= (p_dGesamtStrecke - dGesamtStreckeVorher) * p_dVerbrauch / 100;
         if (p_dTankinhalt < 0) p_dTankinhalt = 0;
     }
+}
+
+// Implementierung von dGeschwindigkeit mit Tankberechnung
+double PKW::dGeschwindigkeit() {
+    if (p_pVerhalten) {
+        double tempolimit = p_pVerhalten->getWeg().getTempolimit();
+        return std::min(p_dMaxGeschwindigkeit, tempolimit);
+    }
+    return p_dMaxGeschwindigkeit;
 }
 
 double PKW::dTanken(double dMenge) {
@@ -68,11 +71,11 @@ double PKW::dTanken(double dMenge) {
     return dGetankteMenge;
 }
 
-double PKW::getTankinhalt() const {
-    return p_dTankinhalt;
+void PKW::vZeichnen(const Weg& weg) const {
+    bZeichnePKW(p_sName, weg.getName(), p_dAbschnittStrecke / weg.getLaenge(), p_dGeschwindigkeit, p_dTankinhalt);
 }
 
-std::string PKW::sType() {
+std::string PKW::sType() const {
     return "PKW";
 }
 
@@ -86,10 +89,6 @@ void PKW::vKopf(std::ostream& stream) {
     vKopfPKW(stream);
 }
 
-void PKW::vAusgeben(std::ostream& stream) {
+void PKW::vAusgeben(std::ostream& stream) const {
     vZeilePKW(stream, p_iID, p_sName, sType(), p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke, p_dAbschnittStrecke, p_dTankinhalt, p_dVerbrauch, p_dGesamtStrecke * p_dVerbrauch / 100);
-}
-
-void PKW::vZeichnen(const Weg& weg) const {
-    bZeichnePKW(p_sName, weg.getName(), p_dAbschnittStrecke / weg.getLaenge(), p_dGeschwindigkeit, p_dTankinhalt);
 }

@@ -18,23 +18,14 @@ public:
     // Konstruktoren
     Simulationsobjekt(const std::string& sName);
     Simulationsobjekt();
-    virtual ~Simulationsobjekt();
+    ~Simulationsobjekt() = default;
 
-    virtual void vInit();
+    // Getter für ID und Name
+    int getID() const;
+    std::string getName() const;
 
     // Rein virtuelle Methode vSimulieren()
     virtual void vSimulieren();
-
-    static std::string sKopf();
-    static void vKopf(std::ostream& stream = std::cout);
-    virtual void vAusgeben(std::ostream& stream = std::cout);
-
-    // Funktion soll für jeden objekttyp eine identifizierbaren Typen Beschreibung ausgeben
-    // Muss in den abgeleiteten Klassen überschrieben werden, kosmetisches Feature für die Ausgabe
-    virtual std::string sType();
-
-    // Vergleichsoperator ==
-    bool operator==(const Simulationsobjekt& obj) const;
 
     // Verhindern des Copy-Konstruktors
     Simulationsobjekt(const Simulationsobjekt&) = delete;
@@ -42,9 +33,16 @@ public:
     // Zuweisungsoperator anpassen
     Simulationsobjekt& operator=(const Simulationsobjekt& other) = delete;
 
-    // Getter für ID und Name
-    int getID() const;
-    std::string getName() const;
+    // Vergleichsoperator ==
+    bool operator==(const Simulationsobjekt& obj) const;
+
+    // Funktion soll für jeden objekttyp eine identifizierbaren Typen Beschreibung ausgeben
+    // Muss in den abgeleiteten Klassen überschrieben werden, kosmetisches Feature für die Ausgabe
+    virtual std::string sType() const;
+
+    static std::string sKopf();
+    static void vKopf(std::ostream& stream = std::cout);
+    virtual void vAusgeben(std::ostream& stream = std::cout) const;
 };
 
 // Operator zum Ausgeben eines Simulationsobjekt in einen Stream

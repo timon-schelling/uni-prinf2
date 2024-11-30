@@ -15,13 +15,6 @@ private:
     std::list<std::shared_ptr<Weg>> p_pWege;
 
 public:
-    Kreuzung(const std::string& sName, double dTankstelle = 0.0);
-    virtual ~Kreuzung();
-
-    void vTanken(Fahrzeug& fahrzeug);
-    void vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug, double dZeit);
-    virtual void vSimulieren() override;
-
     static void vVerbinde(
         const std::string& sNameHin,
         const std::string& sNameRueck,
@@ -31,9 +24,15 @@ public:
         Tempolimit eLimit = Tempolimit::Autobahn
     );
 
-    std::shared_ptr<Weg> pZufaelligerWeg(const Weg& herkunftsWeg);
-    double dGetTankstelle() const;
+    Kreuzung(const std::string& sName, double dTankstelle = 0.0);
+
+    double getTankstelle() const;
     const std::list<std::shared_ptr<Weg>>& getWege() const;
+
+    virtual void vSimulieren() override;
+    void vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug, double dZeit);
+    void vTanken(Fahrzeug& fahrzeug);
+    std::shared_ptr<Weg> pZufaelligerWeg(const Weg& herkunftsWeg) const;
 
     void vZeichnen() const;
 };

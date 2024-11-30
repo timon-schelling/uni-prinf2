@@ -6,38 +6,7 @@ using namespace std;
 #include "Kreuzung.h"
 #include "Tempolimit.h"
 
-Kreuzung::Kreuzung(const std::string& sName, double dTankstelle)
-    : Simulationsobjekt(sName), p_dTankstelle(dTankstelle) {
-
-}
-
-Kreuzung::~Kreuzung() {
-
-}
-
-void Kreuzung::vTanken(Fahrzeug& fahrzeug) {
-    double dMenge = fahrzeug.dTanken();
-    if (p_dTankstelle >= dMenge) {
-        p_dTankstelle -= dMenge;
-    } else {
-        fahrzeug.dTanken(p_dTankstelle);
-        p_dTankstelle = 0.0;
-    }
-}
-
-void Kreuzung::vAnnahme(std::unique_ptr<Fahrzeug> pFahrzeug, double dZeit) {
-    vTanken(*pFahrzeug);
-    if (!p_pWege.empty()) {
-        p_pWege.front()->vAnnahme(std::move(pFahrzeug), dZeit);
-    }
-}
-
-void Kreuzung::vSimulieren() {
-    for (auto& weg : p_pWege) {
-        weg->vSimulieren();
-    }
-}
-
+// static
 void Kreuzung::vVerbinde(
     const std::string& sNameHin,
     const std::string& sNameRueck,
@@ -54,8 +23,42 @@ void Kreuzung::vVerbinde(
     pZielKreuzung->p_pWege.push_back(rueckWeg);
 }
 
-std::shared_ptr<Weg> Kreuzung::pZufaelligerWeg(const Weg& herkunftsWeg) {
+Kreuzung::Kreuzung(const std::string& sName, double dTankstelle)
+    : Simulationsobjekt(sName), p_dTankstelle(dTankstelle) {
+}
 
+double Kreuzung::getTankstelle() const {
+    return p_dTankstelle;
+}
+
+const std::list<std::shared_ptr<Weg>>& Kreuzung::getWege() const {
+    return p_pWege;
+}
+
+void Kreuzung::vSimulieren() {
+    for (auto& weg : p_pWege) {
+        weg->vSimulieren();
+    }
+}
+
+void Kreuzung::vAnnahme(std::unique_ptr<Fahrzeug> pFahrzeug, double dZeit) {
+    vTanken(*pFahrzeug);
+    if (!p_pWege.empty()) {
+        p_pWege.front()->vAnnahme(std::move(pFahrzeug), dZeit);
+    }
+}
+
+void Kreuzung::vTanken(Fahrzeug& fahrzeug) {
+    double dMenge = fahrzeug.dTanken();
+    if (p_dTankstelle >= dMenge) {
+        p_dTankstelle -= dMenge;
+    } else {
+        fahrzeug.dTanken(p_dTankstelle);
+        p_dTankstelle = 0.0;
+    }
+}
+
+std::shared_ptr<Weg> Kreuzung::pZufaelligerWeg(const Weg& herkunftsWeg) const {
     std::vector<std::shared_ptr<Weg>> moeglicheWege;
     for (const auto& weg : p_pWege) {
         if (!(weg == herkunftsWeg.getRueckWeg())) {
@@ -71,14 +74,6 @@ std::shared_ptr<Weg> Kreuzung::pZufaelligerWeg(const Weg& herkunftsWeg) {
     static std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, moeglicheWege.size() - 1);
     return moeglicheWege[dis(gen)];
-}
-
-double Kreuzung::dGetTankstelle() const {
-    return p_dTankstelle;
-}
-
-const std::list<std::shared_ptr<Weg>>& Kreuzung::getWege() const {
-    return p_pWege;
 }
 
 void Kreuzung::vZeichnen() const {

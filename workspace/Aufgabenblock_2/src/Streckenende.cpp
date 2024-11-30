@@ -15,7 +15,7 @@ void Streckenende::vBearbeiten() const {
     auto pNeuerWeg = pKreuzung->pZufaelligerWeg(p_pWeg);
 
     std::cout << "ZEIT : " << dGlobaleZeit << std::endl;
-    std::cout << "KREUZUNG : " << pKreuzung->getName() << " " << pKreuzung->dGetTankstelle() << std::endl;
+    std::cout << "KREUZUNG : " << pKreuzung->getName() << " " << pKreuzung->getTankstelle() << std::endl;
     std::cout << "WECHSEL : " << p_pWeg.getName() << " → " << pNeuerWeg->getName() << std::endl;
     std::cout << "FAHRZEUG : " << pFahrzeugPtr->getName() << std::endl;
     std::cout << std::endl;

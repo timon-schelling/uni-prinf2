@@ -22,58 +22,6 @@ Weg::Weg(const std::string& sName, double dLaenge, Tempolimit eTempolimit, std::
     : Simulationsobjekt(sName), p_dLaenge(dLaenge), p_eTempolimit(eTempolimit), p_pZielKreuzung(pZielKreuzung) {
 }
 
-Weg::~Weg() {
-    // Fahrzeuge werden automatisch durch unique_ptr gelöscht
-}
-
-void Weg::vSimulieren() {
-
-    // // Liste der IDs der bereits simulierten Fahrzeuge
-    // // Wird benötigt, um zu verhindern, dass ein Fahrzeug mehrfach simuliert wird
-    // // was zu einer Endlosschleife führen würde
-    // // fix weil bearbeiten der Liste während des Iterierens
-    // // ein neu anfangen des Iterierens erfordert
-    // // gibt schönere Lösungen die aber beheben von vielen in der
-    // // Aufgabe geforderten modelierungsfehlern erfordern
-    // // z.B. das Fahrzeug nicht direkt löschen sondern nur als gelöscht markieren
-    // // könnte auch mit einer lazy list implementiert werden
-    // std::list<int> simulierteFahrzeugeIDs;
-
-    // auto it = p_pFahrzeuge.begin();
-    // while (it != p_pFahrzeuge.end()) {
-    //     // Prüfen, ob das Fahrzeug bereits simuliert wurde
-    //     if (std::find(std::begin(simulierteFahrzeugeIDs), std::end(simulierteFahrzeugeIDs), (*it)->getID()) != std::end(simulierteFahrzeugeIDs)) {
-    //         ++it;
-    //         continue;
-    //     }
-    //     simulierteFahrzeugeIDs.push_back((*it)->getID());
-    //     try {
-    //         (*it)->vSimulieren();
-    //         ++it;
-    //     } catch (const Fahrausnahme& e) {
-    //         // Fahrausnahme bearbeiten
-    //         e.vBearbeiten();
-
-    //         // hier kann es sein, dass das Fahrzeug gelöscht wurde, deshalb Iterator zurücksetzen
-    //         it = p_pFahrzeuge.begin();
-    //     }
-    // }
-
-    auto it = p_pFahrzeuge.begin();
-    while (it != p_pFahrzeuge.end()) {
-        try {
-            (*it)->vSimulieren();
-        } catch (const Fahrausnahme& e) {
-            // Fahrausnahme bearbeiten
-            e.vBearbeiten();
-        }
-        ++it;
-    }
-
-    // Nach der Simulation die Liste aktualisieren
-    p_pFahrzeuge.vAktualisieren();
-}
-
 double Weg::getLaenge() const {
     return p_dLaenge;
 }
@@ -91,14 +39,70 @@ double Weg::getTempolimit() const {
     }
 }
 
-std::string Weg::sKopf() {
-    std::ostringstream stringStream;
-    vKopfWeg(stringStream);
-    return stringStream.str();
+const vertagt::VListe<std::unique_ptr<Fahrzeug>>& Weg::getFahrzeuge() const {
+    return p_pFahrzeuge;
 }
 
-void Weg::vKopf(std::ostream& stream) {
-    vKopfWeg(stream);
+std::shared_ptr<Kreuzung> Weg::getZielKreuzung() const {
+    return p_pZielKreuzung;
+}
+
+std::shared_ptr<Weg> Weg::getRueckWeg() const {
+    return p_pRueckWeg;
+}
+
+void Weg::setRueckWeg(const std::shared_ptr<Weg>& pRueckWeg) {
+    p_pRueckWeg = pRueckWeg;
+}
+
+bool Weg::operator==(const Weg& other) const {
+    return this->getID() == other.getID();
+}
+
+void Weg::vSimulieren() {
+
+    auto it = p_pFahrzeuge.begin();
+    while (it != p_pFahrzeuge.end()) {
+        try {
+            (*it)->vSimulieren();
+        } catch (const Fahrausnahme& e) {
+            // Fahrausnahme bearbeiten
+            e.vBearbeiten();
+        }
+        ++it;
+    }
+
+    // Nach der Simulation die Liste aktualisieren
+    p_pFahrzeuge.vAktualisieren();
+
+    // // Liste der IDs der bereits simulierten Fahrzeuge
+    // // Wird benötigt, um zu verhindern, dass ein Fahrzeug mehrfach simuliert wird
+    // // was zu einer Endlosschleife führen würde
+    // // fix weil bearbeiten der Liste während des Iterierens
+    // // ein neu anfangen des Iterierens erfordert
+    // // gibt schönere Lösungen die aber beheben von vielen in der
+    // // Aufgabe geforderten modelierungsfehlern erfordern
+    // // z.B. das Fahrzeug nicht direkt löschen sondern nur als gelöscht markieren
+    // // könnte auch mit einer lazy list implementiert werden
+    // std::list<int> simulierteFahrzeugeIDs;
+    // auto it = p_pFahrzeuge.begin();
+    // while (it != p_pFahrzeuge.end()) {
+    //     // Prüfen, ob das Fahrzeug bereits simuliert wurde
+    //     if (std::find(std::begin(simulierteFahrzeugeIDs), std::end(simulierteFahrzeugeIDs), (*it)->getID()) != std::end(simulierteFahrzeugeIDs)) {
+    //         ++it;
+    //         continue;
+    //     }
+    //     simulierteFahrzeugeIDs.push_back((*it)->getID());
+    //     try {
+    //         (*it)->vSimulieren();
+    //         ++it;
+    //     } catch (const Fahrausnahme& e) {
+    //         // Fahrausnahme bearbeiten
+    //         e.vBearbeiten();
+    //         // hier kann es sein, dass das Fahrzeug gelöscht wurde, deshalb Iterator zurücksetzen
+    //         it = p_pFahrzeuge.begin();
+    //     }
+    // }
 }
 
 void Weg::vAnnahme(std::unique_ptr<Fahrzeug> pFahrzeug, double dStartZeit) {
@@ -109,30 +113,6 @@ void Weg::vAnnahme(std::unique_ptr<Fahrzeug> pFahrzeug, double dStartZeit) {
 void Weg::vAnnahme(std::unique_ptr<Fahrzeug> pFahrzeug) {
     pFahrzeug->vNeueStrecke(*this);
     p_pFahrzeuge.push_back(std::move(pFahrzeug));
-}
-
-void Weg::vAusgeben(std::ostream& stream) {
-    vZeileWeg(stream, p_iID, p_sName, sType(), p_dLaenge, getTempolimit());
-    stream << " (";
-    for (auto it = p_pFahrzeuge.begin(); it != p_pFahrzeuge.end(); ++it) {
-        if (it != p_pFahrzeuge.begin()) {
-            stream << ", ";
-        }
-        stream << (*it)->getName();
-    }
-    stream << ")";
-}
-
-bool Weg::operator==(const Weg& other) const {
-    return this->getID() == other.getID();
-}
-
-std::string Weg::sType() {
-    return "Weg";
-}
-
-const vertagt::VListe<std::unique_ptr<Fahrzeug>>& Weg::getFahrzeuge() {
-    return p_pFahrzeuge;
 }
 
 std::unique_ptr<Fahrzeug> Weg::pAbgabe(const Fahrzeug& fahrzeug) {
@@ -147,14 +127,28 @@ std::unique_ptr<Fahrzeug> Weg::pAbgabe(const Fahrzeug& fahrzeug) {
     return nullptr;
 }
 
-void Weg::setRueckWeg(const std::shared_ptr<Weg>& pRueckWeg) {
-    p_pRueckWeg = pRueckWeg;
+std::string Weg::sType() const {
+    return "Weg";
 }
 
-std::shared_ptr<Kreuzung> Weg::getZielKreuzung() const {
-    return p_pZielKreuzung;
+std::string Weg::sKopf() {
+    std::ostringstream stringStream;
+    vKopfWeg(stringStream);
+    return stringStream.str();
 }
 
-std::shared_ptr<Weg> Weg::getRueckWeg() const {
-    return p_pRueckWeg;
+void Weg::vKopf(std::ostream& stream) {
+    vKopfWeg(stream);
+}
+
+void Weg::vAusgeben(std::ostream& stream) const {
+    vZeileWeg(stream, p_iID, p_sName, sType(), p_dLaenge, getTempolimit());
+    stream << " (";
+    for (auto it = p_pFahrzeuge.begin(); it != p_pFahrzeuge.end(); ++it) {
+        if (it != p_pFahrzeuge.begin()) {
+            stream << ", ";
+        }
+        stream << (*it)->getName();
+    }
+    stream << ")";
 }

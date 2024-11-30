@@ -25,6 +25,8 @@ public:
     // Default-Konstruktor
     PKW();
 
+    double getTankinhalt() const;
+
     // Überschreiben der Simulationsfunktion
     virtual void vSimulieren() override;
 
@@ -34,16 +36,14 @@ public:
     // Überschreiben der Tanken-Funktion
     virtual double dTanken(double dMenge = std::numeric_limits<double>::infinity()) override;
 
-    // Überchreiben der Fahrzeugtypenfunktion
-    virtual std::string sType() override;
-
     virtual void vZeichnen(const Weg& weg) const override;
 
-    double getTankinhalt() const;
+    // Überchreiben der Fahrzeugtypenfunktion
+    virtual std::string sType() const override;
 
     static std::string sKopf();
     static void vKopf(std::ostream& stream = std::cout);
-    virtual void vAusgeben(std::ostream& stream = std::cout) override;
+    virtual void vAusgeben(std::ostream& stream = std::cout) const override;
 };
 
 #endif // PKW_H

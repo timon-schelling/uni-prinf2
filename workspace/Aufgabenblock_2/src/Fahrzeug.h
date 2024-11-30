@@ -9,14 +9,12 @@
 using namespace std;
 
 #include "Simulationsobjekt.h"
-// #include "Verhalten.h"
+#include "Verhalten.h"
 
 class Verhalten;
 class Weg;
 
 class Fahrzeug : public Simulationsobjekt {
-private:
-    void vInit(); // Initialisierungsfunktion, die von den Konstruktoren aufgerufen wird
 
 protected:
     std::unique_ptr<Verhalten> p_pVerhalten; // Zeiger auf Verhalten
@@ -38,6 +36,21 @@ public:
     // Default-Konstruktor
     Fahrzeug();
 
+    // Getter für p_dMaxGeschwindigkeit
+    double getMaxGeschwindigkeit() const;
+
+    // Getter für p_dGesamtStrecke
+    double getGesamtStrecke() const;
+
+    // Getter für p_dAbschnittStrecke
+    double getAbschnittStrecke() const;
+
+    // Setter für p_pVerhalten
+    void setVerhalten(std::unique_ptr<Verhalten> verhalten);
+
+    // Vergleichsoperator kleiner als
+    bool operator<(const Fahrzeug& f) const;
+
     // Simulationsfunktion, virtuell, da sie in den abgeleiteten Klassen überschrieben wird
     virtual void vSimulieren() override;
 
@@ -49,34 +62,11 @@ public:
     // würde man eigentlich anders modellieren
     virtual double dTanken(double dMenge = std::numeric_limits<double>::infinity());
 
-    // Funktion soll für jeden fahrzeugtyp eine identifizierbaren Typen Beschreibung ausgeben
-    // Muss in den abgeleiteten Klassen überschrieben werden, kosmetisches Feature für die Ausgabe
-    virtual std::string sType() override;
-
-    static std::string sKopf();
-    static void vKopf(std::ostream& stream = std::cout);
-    virtual void vAusgeben(std::ostream& stream = std::cout) override;
-
-    // Vergleichsoperator kleiner als
-    bool operator<(const Fahrzeug& f) const;
-
-    // Getter für p_dMaxGeschwindigkeit
-    double getMaxGeschwindigkeit() const;
-
-    // Getter für p_dGesamtStrecke
-    double getGesamtStrecke() const;
-
-    // Setter für p_pVerhalten
-    void setVerhalten(std::unique_ptr<Verhalten> verhalten);
-
     // Neue Methode zum Setzen des Verhaltens
     void vNeueStrecke(Weg& weg);
 
     // Überladene Methode zum Setzen des Verhaltens für parkende Fahrzeuge mit Startzeit
     void vNeueStrecke(Weg& weg, double dStartZeit);
-
-    // Getter für p_dAbschnittStrecke
-    double getAbschnittStrecke() const;
 
     // Verhindert das Kopieren Der Copy-Konstruktor wird gelöscht (delete),
     // weil es nicht sinnvoll ist, dass zwei verschiedene Fahrzeugobjekte dieselbe ID oder Ressource teilen.
@@ -85,10 +75,15 @@ public:
     Fahrzeug(const Fahrzeug&) = delete;
     Fahrzeug& operator=(const Fahrzeug& other) = delete;
 
-    // Deklaration des Destruktors
-    virtual ~Fahrzeug();  // Hinzugefügt, falls noch nicht vorhanden
-
     virtual void vZeichnen(const Weg& weg) const = 0;
+
+    // Funktion soll für jeden fahrzeugtyp eine identifizierbaren Typen Beschreibung ausgeben
+    // Muss in den abgeleiteten Klassen überschrieben werden, kosmetisches Feature für die Ausgabe
+    virtual std::string sType() const override;
+
+    static std::string sKopf();
+    static void vKopf(std::ostream& stream = std::cout);
+    virtual void vAusgeben(std::ostream& stream = std::cout) const override;
 };
 
 #endif // FAHRZEUG_H

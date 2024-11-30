@@ -14,10 +14,10 @@ protected:
 public:
     Verhalten(Weg& weg) : p_rWeg(weg) { };
     virtual ~Verhalten() = default;
-    virtual double dStrecke(Fahrzeug& fahrzeug, double dDeltaZeit) = 0;
-    Weg& getWeg() {
+    Weg& getWeg() const {
         return p_rWeg;
     }
+    virtual double dStrecke(Fahrzeug& fahrzeug, double dDeltaZeit) = 0;
 };
 
 #endif // VERHALTEN_H

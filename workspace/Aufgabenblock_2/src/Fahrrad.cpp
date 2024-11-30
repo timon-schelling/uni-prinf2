@@ -39,7 +39,11 @@ double Fahrrad::dGeschwindigkeit() {
     return dAktuelleGeschwindigkeit;
 }
 
-std::string Fahrrad::sType() {
+void Fahrrad::vZeichnen(const Weg& weg) const {
+    bZeichneFahrrad(p_sName, weg.getName(), p_dAbschnittStrecke / weg.getLaenge(), p_dGeschwindigkeit);
+}
+
+std::string Fahrrad::sType() const {
     return "Fahrrad";
 }
 
@@ -53,10 +57,6 @@ void Fahrrad::vKopf(std::ostream& stream) {
     vKopfFahrrad(stream);
 }
 
-void Fahrrad::vAusgeben(std::ostream& stream) {
+void Fahrrad::vAusgeben(std::ostream& stream) const {
     vZeileFahrrad(stream, p_iID, p_sName, sType(), p_dGeschwindigkeit, p_dMaxGeschwindigkeit, p_dGesamtStrecke, p_dAbschnittStrecke);
-}
-
-void Fahrrad::vZeichnen(const Weg& weg) const {
-    bZeichneFahrrad(p_sName, weg.getName(), p_dAbschnittStrecke / weg.getLaenge(), p_dGeschwindigkeit);
 }
