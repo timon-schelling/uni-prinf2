@@ -1,22 +1,56 @@
-FROM mrcolorrain/vnc-browser:debian
-RUN apt-get update && apt-get install -y default-jre build-essential gdb
+FROM ubuntu AS sommelier
+RUN apt-get update && apt-get install -y \
+    pkg-config \
+    build-essential \
+    curl \
+    git \
+    make \
+    xwayland \
+    libwayland-dev \
+    libgbm-dev \
+    gcc \
+    libx11-xcb-dev \
+    libsystemd-dev \
+    libxcb-composite0-dev \
+    libxkbcommon-dev \
+    libxrender-dev \
+    libxtst-dev \
+    libpixman-1-dev \
+    meson \
+    ninja-build \
+    python3 \
+    python3-jinja2 \
+    libdrm-dev \
+    libgtest-dev
+
+RUN curl -L -o /tmp/sommelier.tar.gz https://chromium.googlesource.com/chromiumos/platform2/+archive/refs/heads/main/vm_tools/sommelier.tar.gz && \
+    mkdir -p /tmp/build-sommelier && \
+    tar -xzf /tmp/sommelier.tar.gz -C /tmp/build-sommelier && \
+    cd /tmp/build-sommelier && \
+    meson build && \
+    ninja -C build && \
+    ninja -C build install
+
+FROM ubuntu AS eclipse
 COPY eclipse-cpp.tar.gz /tmp/eclipse-cpp.tar.gz
 RUN tar --no-same-owner -xzf /tmp/eclipse-cpp.tar.gz -C /opt && chmod +x /opt/eclipse/eclipse
+
+FROM ubuntu AS final
+COPY --from=eclipse /opt/eclipse /opt/eclipse
 ENV PATH="/opt/eclipse:$PATH"
+RUN apt-get update && apt-get install -y \
+    default-jre \
+    build-essential \
+    gdb \
+    curl \
+    libxcb-composite0 \
+    xwayland \
+    libboost-all-dev
 
-RUN apt-get install -y libboost-all-dev
+COPY --from=sommelier /usr/local/bin/sommelier /usr/local/bin/sommelier
 
-RUN mkdir -p /.eclipse && chmod 777 /.eclipse
-
-RUN apt-get install -y sudo
-RUN echo 'ALL ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
-COPY entrypoint.sh /custom/entrypoint.sh
-RUN chmod +x /custom/entrypoint.sh
-ENV CUSTOMIZE="true"
-ENV CUSTOM_ENTRYPOINTS_DIR="/custom"
-ENV VNC_PASSWORD="passwd"
-ENV AUTO_START_BROWSER="false"
-ENV AUTO_START_XTERM="false"
-ENV VNC_RESOLUTION="1035x850"
-# ENTRYPOINT ["/custom/entrypoint.sh"]
+COPY entrypoint.sh wrap-entrypoint.sh /
+RUN chmod +x /entrypoint.sh && chmod +x /wrap-entrypoint.sh
+ENV DISPLAY=:0
+ENV WAYLAND_DISPLAY=/tmp/wayland-0
+ENTRYPOINT ["/wrap-entrypoint.sh"]

@@ -23,12 +23,6 @@ mkdir workspace
 (
     podman run
     --volume $"($env.XDG_RUNTIME_DIR)/($env.WAYLAND_DISPLAY):/tmp/wayland-0"
-    # --volume /tmp/.X11-unix:/tmp/.X11-unix
-    # -e DISPLAY=:0
-    -p 6080:6080
-    -p 5900:5900
-    # --device /dev/dri
-    # --userns keep-id
     -it
     --replace
     -v $"(pwd)/workspace:/workspace"
