@@ -382,7 +382,7 @@ void vAufgabe7() {
             kreuzung->vZeichnen();
         }
         vSetzeZeit(dGlobaleZeit);
-        vSleep(500);
+        vSleep(200);
     }
 
     vBeendeGrafik();
